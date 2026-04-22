@@ -586,35 +586,46 @@
         .empty-sub { font-size: 13px; line-height: 1.5; }
 
         /* ── ADD CLIENT FORM ── */
-        .form-card {
+        /* ── ONBOARD SECTION ── */
+        .onboard-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            align-items: start;
+            max-width: 900px;
+        }
+
+        .onboard-card {
             background: var(--surface);
             border: 1px solid var(--border);
-            border-radius: 16px;
+            border-radius: 18px;
             overflow: hidden;
-            max-width: 560px;
         }
 
-        .form-header {
-            padding: 20px 24px 16px;
+        .onboard-header {
+            padding: 24px 28px 20px;
             border-bottom: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
         }
 
-        .form-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 15px; }
-        .form-sub { font-size: 12px; color: var(--text3); margin-top: 2px; }
+        .onboard-title {
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: 16px;
+            letter-spacing: -0.3px;
+        }
 
-        .form-body { padding: 24px; display: flex; flex-direction: column; gap: 18px; }
+        .onboard-sub { font-size: 12.5px; color: var(--text3); margin-top: 4px; }
+
+        .onboard-body { padding: 24px 28px; display: flex; flex-direction: column; gap: 18px; }
 
         .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
 
         .field label {
-            font-size: 11px;
+            font-size: 10.5px;
             color: var(--text3);
-            font-weight: 500;
+            font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: 0.07em;
+            letter-spacing: 0.08em;
             display: block;
             margin-bottom: 7px;
         }
@@ -624,7 +635,7 @@
             background: var(--surface2);
             border: 1px solid var(--border2);
             border-radius: 9px;
-            padding: 10px 13px;
+            padding: 11px 13px;
             color: var(--text);
             font-size: 13.5px;
             font-family: 'DM Sans', sans-serif;
@@ -635,36 +646,164 @@
         .field input:focus, .field select:focus { border-color: var(--accent); }
         .field select option { background: var(--surface2); }
 
-        .invite-btn {
-            padding: 12px 24px;
-            border-radius: 10px;
+        .send-btn {
+            width: 100%;
+            padding: 14px;
+            border-radius: 11px;
             background: var(--accent);
             color: #fff;
-            font-size: 14px;
-            font-weight: 600;
+            font-size: 14.5px;
+            font-weight: 700;
             font-family: 'DM Sans', sans-serif;
             border: none;
             cursor: pointer;
             transition: background 0.15s;
-            align-self: flex-start;
             display: flex;
             align-items: center;
+            justify-content: center;
+            gap: 9px;
+            letter-spacing: 0.01em;
+        }
+
+        .send-btn:hover { background: #d63578; }
+        .send-btn:disabled { opacity: 0.55; cursor: not-allowed; }
+
+        /* Success state */
+        .onboard-success {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 48px 28px;
+            gap: 12px;
+        }
+
+        .success-icon {
+            width: 64px; height: 64px;
+            border-radius: 50%;
+            background: rgba(61,255,160,0.1);
+            border: 1.5px solid rgba(61,255,160,0.3);
+            display: grid;
+            place-items: center;
+            font-size: 28px;
+            margin-bottom: 4px;
+        }
+
+        .success-title {
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: 18px;
+            letter-spacing: -0.4px;
+            color: var(--green);
+        }
+
+        .success-sub { font-size: 13px; color: var(--text2); line-height: 1.5; }
+
+        .success-actions { display: flex; gap: 10px; margin-top: 8px; flex-wrap: wrap; justify-content: center; }
+
+        /* Email preview card */
+        .email-preview {
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            overflow: hidden;
+        }
+
+        .email-preview-bar {
+            background: var(--accent);
+            padding: 18px 22px 14px;
+            text-align: center;
+        }
+
+        .email-preview-brand {
+            font-family: 'Syne', sans-serif;
+            font-weight: 900;
+            font-size: 18px;
+            color: #fff;
+            letter-spacing: -0.5px;
+        }
+
+        .email-preview-tag {
+            font-size: 9px;
+            color: rgba(255,255,255,0.75);
+            letter-spacing: 0.12em;
+            margin-top: 2px;
+        }
+
+        .email-preview-body { padding: 22px; }
+
+        .email-preview-subject {
+            font-size: 11px;
+            color: var(--text3);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.07em;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .email-preview-heading {
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: 16px;
+            color: var(--text);
+            margin-bottom: 8px;
+        }
+
+        .email-preview-copy {
+            font-size: 12.5px;
+            color: var(--text2);
+            line-height: 1.6;
+            margin-bottom: 18px;
+        }
+
+        .email-preview-btn {
+            display: inline-block;
+            background: var(--accent);
+            color: #fff;
+            padding: 10px 22px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .email-preview-footer {
+            padding: 12px 22px;
+            border-top: 1px solid var(--border);
+            font-size: 10.5px;
+            color: var(--text3);
+            text-align: center;
+        }
+
+        .what-they-get {
+            margin-top: 16px;
+            display: flex;
+            flex-direction: column;
             gap: 8px;
         }
 
-        .invite-btn:hover { background: #d63578; }
-        .invite-btn:disabled { opacity: 0.6; cursor: not-allowed; }
-
-        .form-message {
-            display: none;
-            padding: 12px 15px;
-            border-radius: 9px;
-            font-size: 13px;
-            line-height: 1.5;
+        .get-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 12.5px;
+            color: var(--text2);
         }
 
-        .form-message.success { background: rgba(61,255,160,0.08); border: 1px solid rgba(61,255,160,0.2); color: var(--green); display: block; }
-        .form-message.error { background: rgba(255,77,106,0.08); border: 1px solid rgba(255,77,106,0.2); color: var(--red); display: block; }
+        .get-dot {
+            width: 6px; height: 6px;
+            border-radius: 50%;
+            background: var(--accent);
+            flex-shrink: 0;
+        }
+
+        @media (max-width: 750px) {
+            .onboard-layout { grid-template-columns: 1fr; }
+        }
 
         /* ── PREVIEW OVERLAY ── */
         .preview-overlay {
@@ -878,7 +1017,7 @@
                 </div>
                 <div class="nav-item" onclick="showSection('add-client', this)">
                     <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
-                    Add Client
+                    Onboard Client
                 </div>
             </nav>
 
@@ -904,7 +1043,7 @@
                 </div>
                 <div class="topbar-right">
                     <button class="theme-toggle" id="theme-toggle" onclick="toggleTheme()">🌙</button>
-                    <div class="topbar-pill accent" onclick="showSection('add-client', document.querySelector('[onclick*=add-client]'))">+ Add Client</div>
+                    <div class="topbar-pill accent" onclick="showSection('add-client', document.querySelector('[onclick*=add-client]'))">+ Onboard Client</div>
                 </div>
             </div>
 
@@ -960,7 +1099,7 @@
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--text3);flex-shrink:0;"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
                             <input type="text" id="search-input" placeholder="Search clients..." oninput="filterClients(this.value)" />
                         </div>
-                        <div class="topbar-pill accent" onclick="showSection('add-client', document.querySelector('[onclick*=add-client]'))">+ Add Client</div>
+                        <div class="topbar-pill accent" onclick="showSection('add-client', document.querySelector('[onclick*=add-client]'))">+ Onboard Client</div>
                     </div>
 
                     <div class="client-table">
@@ -980,46 +1119,93 @@
                     </div>
                 </div>
 
-                <!-- ADD CLIENT -->
+                <!-- ONBOARD CLIENT -->
                 <div class="section" id="section-add-client">
-                    <div class="form-card">
-                        <div class="form-header">
-                            <div>
-                                <div class="form-title">Add New Client</div>
-                                <div class="form-sub">They'll receive an email invite to access their portal</div>
+                    <div class="onboard-layout">
+
+                        <!-- Left: form -->
+                        <div class="onboard-card">
+                            <div class="onboard-header">
+                                <div class="onboard-title">Onboard a New Client</div>
+                                <div class="onboard-sub">Fill in their details and hit send — one click and they're in.</div>
+                            </div>
+
+                            <!-- Form state -->
+                            <div class="onboard-body" id="onboard-form">
+                                <div class="form-row">
+                                    <div class="field">
+                                        <label>Full Name</label>
+                                        <input type="text" id="client-name" placeholder="Jane Smith" oninput="autoInitials()" />
+                                    </div>
+                                    <div class="field">
+                                        <label>Email Address</label>
+                                        <input type="email" id="client-email" placeholder="jane@example.com" />
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="field">
+                                        <label>Plan</label>
+                                        <select id="client-plan">
+                                            <option value="Core Plan">Core Plan</option>
+                                            <option value="Growth Plan">Growth Plan</option>
+                                            <option value="Premium Plan">Premium Plan</option>
+                                        </select>
+                                    </div>
+                                    <div class="field">
+                                        <label>Initials</label>
+                                        <input type="text" id="client-initials" placeholder="JS" maxlength="2" style="text-transform:uppercase;" />
+                                    </div>
+                                </div>
+                                <div class="form-message" id="form-message" style="display:none;padding:12px 15px;border-radius:9px;font-size:13px;line-height:1.5;"></div>
+                                <button class="send-btn" id="invite-btn" onclick="inviteClient()">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                                    Send Onboarding Email
+                                </button>
+                            </div>
+
+                            <!-- Success state -->
+                            <div class="onboard-success" id="onboard-success">
+                                <div class="success-icon">✓</div>
+                                <div class="success-title">They're in!</div>
+                                <div class="success-sub" id="success-sub">Invite sent. They'll receive an email with a link to access their portal.</div>
+                                <div class="success-actions">
+                                    <button class="btn btn-ghost" onclick="resetOnboardForm()">Onboard another</button>
+                                    <button class="btn" style="background:var(--accent);color:#fff;border:none;" onclick="showSection('clients', document.querySelector('[onclick*=\'clients\']'))">View all clients →</button>
+                                </div>
                             </div>
                         </div>
-                        <div class="form-body">
-                            <div class="form-row">
-                                <div class="field">
-                                    <label>Full Name</label>
-                                    <input type="text" id="client-name" placeholder="Jane Smith" oninput="autoInitials()" />
+
+                        <!-- Right: preview -->
+                        <div style="display:flex;flex-direction:column;gap:16px;">
+                            <div class="email-preview">
+                                <div class="email-preview-bar">
+                                    <div class="email-preview-brand">HATCH STUDIOS</div>
+                                    <div class="email-preview-tag">CLIENT PORTAL</div>
                                 </div>
-                                <div class="field">
-                                    <label>Email Address</label>
-                                    <input type="email" id="client-email" placeholder="jane@example.com" />
+                                <div class="email-preview-body">
+                                    <div class="email-preview-subject">
+                                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                                        Subject: You're in — your Hatch Studios portal is ready
+                                    </div>
+                                    <div class="email-preview-heading">You're in ✨</div>
+                                    <div class="email-preview-copy">Your Hatch Studios client portal is ready. Click below to access your dashboard — track your episode pipeline, review and approve clips, download finished files, and manage your content schedule.</div>
+                                    <div class="email-preview-btn">Access My Portal →</div>
+                                </div>
+                                <div class="email-preview-footer">Hatch Studios · Your podcast production team</div>
+                            </div>
+
+                            <div class="onboard-card" style="padding:20px 22px;">
+                                <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--text3);margin-bottom:12px;">What they get access to</div>
+                                <div class="what-they-get">
+                                    <div class="get-item"><div class="get-dot"></div>Episode pipeline tracker</div>
+                                    <div class="get-item"><div class="get-dot"></div>Clip review & approval</div>
+                                    <div class="get-item"><div class="get-dot"></div>File uploads & downloads</div>
+                                    <div class="get-item"><div class="get-dot"></div>Content scheduling calendar</div>
+                                    <div class="get-item"><div class="get-dot"></div>Analytics dashboard</div>
                                 </div>
                             </div>
-                            <div class="form-row">
-                                <div class="field">
-                                    <label>Plan</label>
-                                    <select id="client-plan">
-                                        <option value="Core Plan">Core Plan</option>
-                                        <option value="Growth Plan">Growth Plan</option>
-                                        <option value="Premium Plan">Premium Plan</option>
-                                    </select>
-                                </div>
-                                <div class="field">
-                                    <label>Avatar Initials</label>
-                                    <input type="text" id="client-initials" placeholder="JS" maxlength="2" style="text-transform:uppercase;" />
-                                </div>
-                            </div>
-                            <div class="form-message" id="form-message"></div>
-                            <button class="invite-btn" id="invite-btn" onclick="inviteClient()">
-                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-                                Send Invite
-                            </button>
                         </div>
+
                     </div>
                 </div>
 
@@ -1242,14 +1428,13 @@
             const msg = document.getElementById('form-message');
 
             if (!name || !email) {
-                msg.className = 'form-message error';
+                msg.style.cssText = 'display:block;padding:12px 15px;border-radius:9px;font-size:13px;line-height:1.5;background:rgba(255,77,106,0.08);border:1px solid rgba(255,77,106,0.2);color:var(--red);';
                 msg.textContent = 'Please fill in the client\'s name and email.';
                 return;
             }
 
             btn.disabled = true;
-            btn.innerHTML = '⏳ Sending invite…';
-            msg.className = 'form-message';
+            btn.innerHTML = '⏳ Sending…';
             msg.style.display = 'none';
 
             const { data: { session } } = await _supabase.auth.getSession();
@@ -1266,19 +1451,27 @@
 
             const result = await res.json();
             btn.disabled = false;
-            btn.innerHTML = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg> Send Invite';
+            btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg> Send Onboarding Email';
 
             if (result.success) {
-                msg.className = 'form-message success';
-                msg.textContent = `✓ Invite sent to ${email}. They'll receive an email to access their portal.`;
-                document.getElementById('client-name').value = '';
-                document.getElementById('client-email').value = '';
-                document.getElementById('client-initials').value = '';
+                document.getElementById('success-sub').textContent = `Email sent to ${email}. They'll receive a branded invite to access their portal.`;
+                document.getElementById('onboard-form').style.display = 'none';
+                document.getElementById('onboard-success').style.display = 'flex';
                 loadClients();
             } else {
-                msg.className = 'form-message error';
+                msg.style.cssText = 'display:block;padding:12px 15px;border-radius:9px;font-size:13px;line-height:1.5;background:rgba(255,77,106,0.08);border:1px solid rgba(255,77,106,0.2);color:var(--red);';
                 msg.textContent = result.error || 'Something went wrong. Please try again.';
             }
+        }
+
+        function resetOnboardForm() {
+            document.getElementById('client-name').value = '';
+            document.getElementById('client-email').value = '';
+            document.getElementById('client-initials').value = '';
+            document.getElementById('client-plan').selectedIndex = 0;
+            document.getElementById('form-message').style.display = 'none';
+            document.getElementById('onboard-form').style.display = 'flex';
+            document.getElementById('onboard-success').style.display = 'none';
         }
 
         // ── REVOKE ──
@@ -1342,12 +1535,8 @@
                 navEl.classList.add('active');
             }
             if (window.innerWidth <= 900) closeSidebar();
-            // Clear form message when switching to add-client
-            if (id === 'add-client') {
-                const msg = document.getElementById('form-message');
-                msg.className = 'form-message';
-                msg.style.display = 'none';
-            }
+            // Reset onboard form when switching to it
+            if (id === 'add-client') resetOnboardForm();
         }
 
         function toggleTheme() {
