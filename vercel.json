@@ -1,0 +1,6 @@
+{
+  "rewrites": [
+    { "source": "/admin", "destination": "/hatch-admin.html" },
+    { "source": "/", "destination": "/hatch-client-portal.html" }
+  ]
+}

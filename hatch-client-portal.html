@@ -1,0 +1,3096 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hatch Studios — Client Portal</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap"
+        rel="stylesheet">
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --bg: #0a0a0b;
+            --surface: #111113;
+            --surface2: #16161a;
+            --surface3: #1d1d23;
+            --border: rgba(255, 255, 255, 0.06);
+            --border2: rgba(255, 255, 255, 0.11);
+            --accent: #f0448a;
+            --accent-dim: rgba(240, 68, 138, 0.12);
+            --accent-glow: rgba(240, 68, 138, 0.06);
+            --orange: #ff6b35;
+            --purple: #8b6dfa;
+            --green: #3dffa0;
+            --red: #ff4d6a;
+            --blue: #47b8ff;
+            --text: #f0f0f2;
+            --text2: #9a9aaa;
+            --text3: #6e6e82;
+            --sidebar-w: 228px;
+            --topbar-bg: rgba(10, 10, 11, 0.85);
+            --modal-overlay-bg: rgba(0, 0, 0, 0.7);
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        #portal {
+            display: flex;
+            min-height: 100vh;
+            width: 100%;
+        }
+
+        /* ── SIDEBAR ── */
+        .sidebar {
+            width: var(--sidebar-w);
+            min-height: 100vh;
+            background: var(--surface);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            padding: 0;
+            flex-shrink: 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            z-index: 100;
+        }
+
+        .sidebar-logo {
+            padding: 28px 24px 24px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 11px;
+        }
+
+        .logo-mark {
+            width: 34px;
+            height: 34px;
+            background: var(--accent);
+            border-radius: 9px;
+            display: grid;
+            place-items: center;
+            flex-shrink: 0;
+        }
+
+        .logo-mark svg {
+            width: 17px;
+            height: 17px;
+        }
+
+        .logo-name {
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: 16px;
+            letter-spacing: -0.3px;
+            line-height: 1.1;
+        }
+
+        .logo-name span {
+            color: var(--accent);
+        }
+
+        .logo-sub {
+            font-size: 10px;
+            color: var(--text3);
+            font-weight: 400;
+            letter-spacing: 0.05em;
+            margin-top: 1px;
+        }
+
+        .nav {
+            padding: 16px 12px;
+            flex: 1;
+        }
+
+        .nav-group-label {
+            font-size: 9.5px;
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--text3);
+            padding: 0 12px;
+            margin: 18px 0 6px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 9px 12px;
+            border-radius: 8px;
+            font-size: 13.5px;
+            color: var(--text2);
+            cursor: pointer;
+            transition: all 0.15s ease;
+            font-weight: 400;
+            user-select: none;
+            position: relative;
+        }
+
+        .nav-item:hover {
+            background: var(--surface2);
+            color: var(--text);
+        }
+
+        .nav-item.active {
+            background: var(--accent-dim);
+            color: var(--accent);
+            font-weight: 500;
+        }
+
+        .nav-item.active::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 3px;
+            height: 18px;
+            background: var(--accent);
+            border-radius: 0 3px 3px 0;
+        }
+
+        .nav-icon {
+            width: 16px;
+            height: 16px;
+            flex-shrink: 0;
+            opacity: 0.8;
+        }
+
+        .nav-item.active .nav-icon {
+            opacity: 1;
+        }
+
+        .nav-badge {
+            margin-left: auto;
+            background: var(--accent);
+            color: #fff;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 1px 6px;
+            border-radius: 20px;
+            line-height: 1.5;
+            font-family: 'Syne', sans-serif;
+        }
+
+        .nav-badge.orange {
+            background: var(--orange);
+            color: #fff;
+        }
+
+        .nav-badge.blue {
+            background: var(--blue);
+            color: #000;
+        }
+
+        .sidebar-foot {
+            padding: 16px;
+            border-top: 1px solid var(--border);
+        }
+
+        .client-chip {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            background: var(--surface2);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+
+        .client-chip:hover {
+            background: var(--surface3);
+        }
+
+        .client-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent), var(--orange));
+            display: grid;
+            place-items: center;
+            font-family: 'Syne', sans-serif;
+            font-weight: 700;
+            font-size: 12px;
+            color: #fff;
+            flex-shrink: 0;
+        }
+
+        .client-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .client-name {
+            font-size: 12.5px;
+            font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .client-plan {
+            font-size: 10.5px;
+            color: var(--text3);
+            margin-top: 1px;
+        }
+
+        /* ── MAIN ── */
+        .main {
+            margin-left: var(--sidebar-w);
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* ── TOPBAR ── */
+        .topbar {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: var(--topbar-bg);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border);
+            padding: 0 32px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .topbar-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .page-title {
+            font-family: 'Syne', sans-serif;
+            font-weight: 700;
+            font-size: 17px;
+            letter-spacing: -0.3px;
+        }
+
+        .breadcrumb {
+            font-size: 12px;
+            color: var(--text3);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .topbar-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .topbar-pill {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 7px 13px;
+            border-radius: 8px;
+            font-size: 12.5px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.15s;
+            border: 1px solid var(--border2);
+            color: var(--text2);
+            background: var(--surface);
+        }
+
+        .topbar-pill:hover {
+            border-color: var(--border2);
+            background: var(--surface2);
+            color: var(--text);
+        }
+
+        .topbar-pill.accent {
+            background: var(--accent);
+            color: #fff;
+            border-color: var(--accent);
+            font-weight: 600;
+        }
+
+        .topbar-pill.accent:hover {
+            background: #d63578;
+        }
+
+        .notif-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--orange);
+        }
+
+        /* ── PAGE CONTENT ── */
+        .page-content {
+            padding: 32px;
+            flex: 1;
+        }
+
+        /* ── TABS ── */
+        .tabs {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 28px;
+            background: var(--surface);
+            padding: 4px;
+            border-radius: 12px;
+            width: fit-content;
+            border: 1px solid var(--border);
+        }
+
+        .tab {
+            padding: 8px 18px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            color: var(--text2);
+            transition: all 0.15s;
+            font-family: 'DM Sans', sans-serif;
+            white-space: nowrap;
+        }
+
+        .tab:hover {
+            color: var(--text);
+        }
+
+        .tab.active {
+            background: var(--surface3);
+            color: var(--text);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+        }
+
+        /* ── STATS ROW ── */
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 28px;
+        }
+
+        .stat-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 20px 22px;
+            position: relative;
+            overflow: hidden;
+            transition: border-color 0.2s;
+        }
+
+        .stat-card:hover {
+            border-color: var(--border2);
+        }
+
+        .stat-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--accent-glow);
+            transform: translate(20px, -20px);
+        }
+
+        .stat-label {
+            font-size: 11px;
+            color: var(--text3);
+            font-weight: 500;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .stat-value {
+            font-family: 'Syne', sans-serif;
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: -1px;
+            line-height: 1;
+            margin-bottom: 6px;
+        }
+
+        .stat-change {
+            font-size: 11.5px;
+            color: var(--text3);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .stat-change.up {
+            color: var(--green);
+        }
+
+        .stat-change.down {
+            color: var(--red);
+        }
+
+        .stat-icon {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 36px;
+            height: 36px;
+            border-radius: 9px;
+            display: grid;
+            place-items: center;
+            font-size: 16px;
+        }
+
+        /* ── TWO COL ── */
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .three-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 16px;
+        }
+
+        /* ── CARD ── */
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        .card-header {
+            padding: 20px 24px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .card-title {
+            font-family: 'Syne', sans-serif;
+            font-weight: 700;
+            font-size: 14px;
+            letter-spacing: -0.2px;
+        }
+
+        .card-sub {
+            font-size: 11.5px;
+            color: var(--text3);
+            margin-top: 2px;
+        }
+
+        .card-action {
+            font-size: 12px;
+            color: var(--accent);
+            cursor: pointer;
+            font-weight: 500;
+            padding: 5px 12px;
+            border-radius: 6px;
+            border: 1px solid rgba(232, 255, 71, 0.2);
+            transition: all 0.15s;
+        }
+
+        .card-action:hover {
+            background: var(--accent-dim);
+        }
+
+        .card-body {
+            padding: 20px 24px;
+        }
+
+        /* ── UPLOAD ZONE ── */
+        .upload-zone {
+            border: 1.5px dashed rgba(232, 255, 71, 0.25);
+            border-radius: 14px;
+            padding: 40px 24px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: var(--accent-glow);
+            position: relative;
+        }
+
+        .upload-zone:hover {
+            border-color: rgba(232, 255, 71, 0.5);
+            background: rgba(232, 255, 71, 0.05);
+        }
+
+        .upload-icon {
+            width: 52px;
+            height: 52px;
+            margin: 0 auto 14px;
+            background: var(--accent-dim);
+            border-radius: 14px;
+            display: grid;
+            place-items: center;
+            font-size: 22px;
+        }
+
+        .upload-title {
+            font-family: 'Syne', sans-serif;
+            font-weight: 700;
+            font-size: 15px;
+            margin-bottom: 6px;
+        }
+
+        .upload-sub {
+            font-size: 12.5px;
+            color: var(--text2);
+            line-height: 1.5;
+        }
+
+        .upload-formats {
+            display: flex;
+            gap: 6px;
+            justify-content: center;
+            margin-top: 14px;
+            flex-wrap: wrap;
+        }
+
+        .fmt-pill {
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 10.5px;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            background: var(--surface3);
+            color: var(--text2);
+            border: 1px solid var(--border2);
+        }
+
+        /* ── EPISODE LIST ── */
+        .episode-list {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .episode-row {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 14px 16px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+
+        .episode-row:hover {
+            background: var(--surface2);
+        }
+
+        .ep-num {
+            width: 36px;
+            height: 36px;
+            border-radius: 9px;
+            background: var(--surface3);
+            display: grid;
+            place-items: center;
+            font-family: 'Syne', sans-serif;
+            font-weight: 700;
+            font-size: 12px;
+            color: var(--text2);
+            flex-shrink: 0;
+        }
+
+        .ep-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .ep-title {
+            font-size: 13.5px;
+            font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .ep-meta {
+            font-size: 11px;
+            color: var(--text3);
+            margin-top: 2px;
+        }
+
+        .ep-status {
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 10.5px;
+            font-weight: 600;
+            white-space: nowrap;
+            letter-spacing: 0.03em;
+        }
+
+        .ep-status.done {
+            background: rgba(61, 255, 160, 0.12);
+            color: var(--green);
+        }
+
+        .ep-status.editing {
+            background: rgba(232, 255, 71, 0.12);
+            color: var(--accent);
+        }
+
+        .ep-status.review {
+            background: rgba(139, 109, 250, 0.15);
+            color: var(--purple);
+        }
+
+        .ep-status.upload {
+            background: rgba(255, 107, 53, 0.12);
+            color: var(--orange);
+        }
+
+        .ep-clips {
+            font-size: 11px;
+            color: var(--text3);
+            white-space: nowrap;
+            text-align: right;
+        }
+
+        .ep-clips strong {
+            color: var(--text2);
+            font-weight: 600;
+        }
+
+        /* ── CLIP GRID ── */
+        .clip-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+
+        .clip-card {
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .clip-card:hover {
+            border-color: var(--border2);
+            transform: translateY(-1px);
+        }
+
+        .clip-thumb {
+            aspect-ratio: 9/16;
+            background: var(--surface3);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .clip-thumb-bg {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(160deg, rgba(139, 109, 250, 0.2) 0%, rgba(232, 255, 71, 0.05) 100%);
+        }
+
+        .clip-play {
+            width: 36px;
+            height: 36px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(8px);
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            position: relative;
+            z-index: 1;
+            font-size: 13px;
+            transition: all 0.2s;
+        }
+
+        .clip-card:hover .clip-play {
+            background: var(--accent);
+            color: #000;
+            transform: scale(1.1);
+        }
+
+        .clip-duration {
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(4px);
+            border-radius: 4px;
+            font-size: 10px;
+            padding: 2px 6px;
+            font-weight: 600;
+            color: #fff;
+            z-index: 1;
+        }
+
+        .clip-scheduled-badge {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            background: var(--green);
+            color: #000;
+            border-radius: 4px;
+            font-size: 9px;
+            padding: 2px 6px;
+            font-weight: 700;
+            z-index: 1;
+            letter-spacing: 0.05em;
+        }
+
+        .clip-info {
+            padding: 10px 12px 12px;
+        }
+
+        .clip-title {
+            font-size: 12px;
+            font-weight: 500;
+            margin-bottom: 6px;
+            line-height: 1.3;
+        }
+
+        .clip-platforms {
+            display: flex;
+            gap: 5px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .plat-dot {
+            width: 22px;
+            height: 22px;
+            border-radius: 6px;
+            display: grid;
+            place-items: center;
+            font-size: 10px;
+            font-weight: 700;
+            font-family: 'Syne', sans-serif;
+        }
+
+        .plat-ig {
+            background: rgba(255, 107, 53, 0.15);
+            color: var(--orange);
+        }
+
+        .plat-yt {
+            background: rgba(255, 77, 106, 0.15);
+            color: var(--red);
+        }
+
+        .plat-tt {
+            background: rgba(71, 184, 255, 0.12);
+            color: var(--blue);
+        }
+
+        .plat-li {
+            background: rgba(139, 109, 250, 0.15);
+            color: var(--purple);
+        }
+
+        .clip-schedule-btn {
+            margin-top: 8px;
+            width: 100%;
+            padding: 7px;
+            border-radius: 7px;
+            border: 1px solid var(--border2);
+            background: transparent;
+            color: var(--text2);
+            font-size: 11.5px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.15s;
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        .clip-schedule-btn:hover {
+            background: var(--accent-dim);
+            border-color: rgba(232, 255, 71, 0.3);
+            color: var(--accent);
+        }
+
+        .clip-schedule-btn.scheduled {
+            background: rgba(61, 255, 160, 0.08);
+            border-color: rgba(61, 255, 160, 0.2);
+            color: var(--green);
+        }
+
+        /* ── SCHEDULE CALENDAR ── */
+        .schedule-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+
+        .week-nav {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .week-nav button {
+            width: 30px;
+            height: 30px;
+            border-radius: 7px;
+            border: 1px solid var(--border2);
+            background: var(--surface2);
+            color: var(--text2);
+            cursor: pointer;
+            display: grid;
+            place-items: center;
+            font-size: 13px;
+            transition: all 0.15s;
+        }
+
+        .week-nav button:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .week-label {
+            font-family: 'Syne', sans-serif;
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 8px;
+        }
+
+        .cal-day {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .cal-day-header {
+            text-align: center;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .cal-day-name {
+            font-size: 10px;
+            color: var(--text3);
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+
+        .cal-day-num {
+            font-family: 'Syne', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            margin-top: 2px;
+        }
+
+        .cal-day-num.today {
+            color: var(--accent);
+        }
+
+        .cal-event {
+            padding: 7px 9px;
+            border-radius: 8px;
+            font-size: 10.5px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.15s;
+            line-height: 1.3;
+            border: 1px solid transparent;
+        }
+
+        .cal-event.ig {
+            background: rgba(255, 107, 53, 0.1);
+            color: var(--orange);
+            border-color: rgba(255, 107, 53, 0.2);
+        }
+
+        .cal-event.tt {
+            background: rgba(71, 184, 255, 0.08);
+            color: var(--blue);
+            border-color: rgba(71, 184, 255, 0.2);
+        }
+
+        .cal-event.yt {
+            background: rgba(255, 77, 106, 0.1);
+            color: var(--red);
+            border-color: rgba(255, 77, 106, 0.2);
+        }
+
+        .cal-event.li {
+            background: rgba(139, 109, 250, 0.1);
+            color: var(--purple);
+            border-color: rgba(139, 109, 250, 0.2);
+        }
+
+        .cal-event .cal-plat {
+            font-size: 9px;
+            opacity: 0.8;
+            margin-bottom: 2px;
+            letter-spacing: 0.04em;
+        }
+
+        .cal-event .cal-title {
+            font-size: 10px;
+            line-height: 1.3;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+
+        .cal-event .cal-time {
+            font-size: 9.5px;
+            opacity: 0.7;
+            margin-top: 2px;
+        }
+
+        .cal-add {
+            width: 100%;
+            padding: 6px;
+            border-radius: 7px;
+            border: 1px dashed var(--border2);
+            background: transparent;
+            color: var(--text3);
+            font-size: 11px;
+            cursor: pointer;
+            transition: all 0.15s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        .cal-add:hover {
+            border-color: rgba(232, 255, 71, 0.3);
+            color: var(--accent);
+        }
+
+        /* ── ANALYTICS ── */
+        .chart-container {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 24px;
+        }
+
+        .chart-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .chart-title {
+            font-family: 'Syne', sans-serif;
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .chart-sub {
+            font-size: 11.5px;
+            color: var(--text3);
+            margin-top: 3px;
+        }
+
+        .chart-legend {
+            display: flex;
+            gap: 14px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11px;
+            color: var(--text2);
+        }
+
+        .legend-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .bar-chart {
+            display: flex;
+            align-items: flex-end;
+            gap: 8px;
+            height: 120px;
+        }
+
+        .bar-group {
+            display: flex;
+            gap: 3px;
+            align-items: flex-end;
+            flex: 1;
+        }
+
+        .bar {
+            flex: 1;
+            border-radius: 4px 4px 0 0;
+            transition: opacity 0.15s;
+            position: relative;
+            min-height: 4px;
+        }
+
+        .bar:hover {
+            opacity: 0.8;
+        }
+
+        .bar-tooltip {
+            display: none;
+            position: absolute;
+            bottom: calc(100% + 6px);
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--surface3);
+            border: 1px solid var(--border2);
+            border-radius: 6px;
+            padding: 4px 8px;
+            font-size: 10px;
+            white-space: nowrap;
+            color: var(--text);
+        }
+
+        .bar:hover .bar-tooltip {
+            display: block;
+        }
+
+        .bar-labels {
+            display: flex;
+            gap: 8px;
+            margin-top: 8px;
+            padding-top: 8px;
+            border-top: 1px solid var(--border);
+        }
+
+        .bar-label {
+            flex: 1;
+            text-align: center;
+            font-size: 10px;
+            color: var(--text3);
+        }
+
+        .platform-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+        }
+
+        .platform-stat {
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+            transition: border-color 0.2s;
+            cursor: pointer;
+        }
+
+        .platform-stat:hover {
+            border-color: var(--border2);
+        }
+
+        .platform-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            display: grid;
+            place-items: center;
+            margin: 0 auto 10px;
+            font-weight: 700;
+            font-size: 13px;
+            font-family: 'Syne', sans-serif;
+        }
+
+        .plat-stat-val {
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: 22px;
+            letter-spacing: -0.5px;
+        }
+
+        .plat-stat-label {
+            font-size: 11px;
+            color: var(--text3);
+            margin-top: 3px;
+        }
+
+        .plat-stat-change {
+            font-size: 10.5px;
+            margin-top: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 3px;
+        }
+
+        .up-arrow::before {
+            content: '↑';
+        }
+
+        .down-arrow::before {
+            content: '↓';
+        }
+
+        /* ── DOWNLOAD SECTION ── */
+        .download-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .download-row {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 14px 18px;
+            background: var(--surface2);
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            cursor: pointer;
+            transition: border-color 0.15s;
+        }
+
+        .download-row:hover {
+            border-color: var(--border2);
+        }
+
+        .dl-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: grid;
+            place-items: center;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .dl-video {
+            background: rgba(255, 77, 106, 0.12);
+        }
+
+        .dl-audio {
+            background: rgba(61, 255, 160, 0.1);
+        }
+
+        .dl-clips {
+            background: rgba(232, 255, 71, 0.1);
+        }
+
+        .dl-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .dl-name {
+            font-size: 13.5px;
+            font-weight: 500;
+        }
+
+        .dl-meta {
+            font-size: 11px;
+            color: var(--text3);
+            margin-top: 2px;
+        }
+
+        .dl-size {
+            font-size: 11.5px;
+            color: var(--text2);
+            white-space: nowrap;
+        }
+
+        .dl-btn {
+            padding: 7px 14px;
+            border-radius: 7px;
+            border: 1px solid var(--border2);
+            background: transparent;
+            color: var(--text2);
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.15s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-family: 'DM Sans', sans-serif;
+            white-space: nowrap;
+        }
+
+        .dl-btn:hover {
+            background: var(--accent-dim);
+            border-color: rgba(232, 255, 71, 0.3);
+            color: var(--accent);
+        }
+
+        .dl-btn.new {
+            background: var(--accent-dim);
+            border-color: rgba(232, 255, 71, 0.3);
+            color: var(--accent);
+        }
+
+        /* ── PIPELINE ── */
+        .pipeline {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 14px;
+        }
+
+        .pipe-col {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .pipe-col-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 4px 8px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 4px;
+        }
+
+        .pipe-col-title {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text3);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .pipe-col-title::before {
+            content: '';
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+        }
+
+        .pipe-col.uploaded .pipe-col-title::before {
+            background: var(--orange);
+        }
+
+        .pipe-col.editing .pipe-col-title::before {
+            background: var(--accent);
+        }
+
+        .pipe-col.review .pipe-col-title::before {
+            background: var(--purple);
+        }
+
+        .pipe-col.live .pipe-col-title::before {
+            background: var(--green);
+        }
+
+        .pipe-count {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--surface3);
+            display: grid;
+            place-items: center;
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--text2);
+        }
+
+        .pipe-card {
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 12px 14px;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+        .pipe-card:hover {
+            border-color: var(--border2);
+            transform: translateY(-1px);
+        }
+
+        .pipe-card-title {
+            font-size: 12.5px;
+            font-weight: 500;
+            margin-bottom: 5px;
+            line-height: 1.3;
+        }
+
+        .pipe-card-meta {
+            font-size: 10.5px;
+            color: var(--text3);
+        }
+
+        .pipe-card-tags {
+            display: flex;
+            gap: 5px;
+            margin-top: 8px;
+            flex-wrap: wrap;
+        }
+
+        .pipe-tag {
+            padding: 2px 7px;
+            border-radius: 4px;
+            font-size: 9.5px;
+            font-weight: 600;
+            background: var(--surface3);
+            color: var(--text3);
+        }
+
+        /* ── SECTION TABS CONTENT ── */
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        /* ── SCROLLBAR ── */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--surface3);
+            border-radius: 3px;
+        }
+
+        /* ── ANIMATIONS ── */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(6px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section.active {
+            animation: fadeIn 0.2s ease;
+        }
+
+        /* ── MODAL ── */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: var(--modal-overlay-bg);
+            backdrop-filter: blur(8px);
+            z-index: 200;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-overlay.open {
+            display: flex;
+        }
+
+        .modal {
+            background: var(--surface);
+            border: 1px solid var(--border2);
+            border-radius: 20px;
+            padding: 28px;
+            width: 420px;
+            max-width: 90vw;
+            animation: fadeIn 0.2s ease;
+        }
+
+        .modal-title {
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: 18px;
+            letter-spacing: -0.5px;
+            margin-bottom: 6px;
+        }
+
+        .modal-sub {
+            font-size: 13px;
+            color: var(--text2);
+            margin-bottom: 20px;
+        }
+
+        .modal-platforms {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .modal-plat {
+            padding: 12px;
+            border-radius: 10px;
+            border: 1.5px solid var(--border);
+            cursor: pointer;
+            transition: all 0.15s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .modal-plat:hover {
+            border-color: var(--border2);
+        }
+
+        .modal-plat.selected {
+            border-color: var(--accent);
+            background: var(--accent-dim);
+        }
+
+        .modal-plat-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: grid;
+            place-items: center;
+            font-weight: 700;
+            font-size: 12px;
+            font-family: 'Syne', sans-serif;
+        }
+
+        .modal-plat-name {
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .modal-plat-handle {
+            font-size: 10.5px;
+            color: var(--text3);
+        }
+
+        .modal-date-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .modal-field {
+            flex: 1;
+        }
+
+        .modal-field label {
+            font-size: 11px;
+            color: var(--text3);
+            font-weight: 500;
+            display: block;
+            margin-bottom: 6px;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
+
+        .modal-field input {
+            width: 100%;
+            background: var(--surface2);
+            border: 1px solid var(--border2);
+            border-radius: 8px;
+            padding: 9px 12px;
+            color: var(--text);
+            font-size: 13px;
+            font-family: 'DM Sans', sans-serif;
+            outline: none;
+            transition: border-color 0.15s;
+        }
+
+        .modal-field input:focus {
+            border-color: var(--accent);
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 9px;
+            font-size: 13.5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.15s;
+            font-family: 'DM Sans', sans-serif;
+            border: 1px solid transparent;
+        }
+
+        .btn-accent {
+            background: var(--accent);
+            color: #fff;
+        }
+
+        .btn-accent:hover {
+            background: #d63578;
+        }
+
+        .btn-ghost {
+            background: transparent;
+            border-color: var(--border2);
+            color: var(--text2);
+        }
+
+        .btn-ghost:hover {
+            background: var(--surface2);
+            color: var(--text);
+        }
+
+        /* ── LIGHT MODE ── */
+        body.light {
+            --bg: #f4f4f6;
+            --surface: #ffffff;
+            --surface2: #f0f0f4;
+            --surface3: #e8e8ee;
+            --border: rgba(0, 0, 0, 0.07);
+            --border2: rgba(0, 0, 0, 0.13);
+            --accent-dim: rgba(240, 68, 138, 0.1);
+            --accent-glow: rgba(240, 68, 138, 0.05);
+            --text: #0d0d10;
+            --text2: #4a4a5e;
+            --text3: #8a8a9e;
+            --topbar-bg: rgba(244, 244, 246, 0.88);
+            --modal-overlay-bg: rgba(0, 0, 0, 0.45);
+        }
+
+        /* ── THEME TOGGLE ── */
+        .theme-toggle {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            border: 1px solid var(--border2);
+            background: var(--surface);
+            cursor: pointer;
+            display: grid;
+            place-items: center;
+            font-size: 16px;
+            transition: all 0.15s;
+            flex-shrink: 0;
+        }
+
+        .theme-toggle:hover {
+            background: var(--surface2);
+            border-color: var(--accent);
+        }
+
+        /* ── HAMBURGER ── */
+        .hamburger {
+            display: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            border: 1px solid var(--border2);
+            background: var(--surface);
+            cursor: pointer;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            flex-shrink: 0;
+        }
+
+        .hamburger span {
+            display: block;
+            width: 16px;
+            height: 1.5px;
+            background: var(--text2);
+            border-radius: 2px;
+            transition: all 0.2s;
+        }
+
+        /* ── SIDEBAR OVERLAY ── */
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.65);
+            z-index: 99;
+            backdrop-filter: blur(4px);
+        }
+
+        .sidebar-overlay.open {
+            display: block;
+        }
+
+        /* ── MOBILE ── */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: flex;
+            }
+
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.25s ease;
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .main {
+                margin-left: 0;
+            }
+
+            .page-content {
+                padding: 20px 16px;
+            }
+
+            .topbar {
+                padding: 0 16px;
+            }
+
+            .stats-row {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .two-col,
+            .three-col {
+                grid-template-columns: 1fr;
+            }
+
+            .pipeline {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .clip-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .platform-row {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .calendar-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+
+            .topbar-pill:not(.accent) {
+                display: none;
+            }
+        }
+
+        /* ── LOGIN SCREEN ── */
+        #login-screen {
+            min-height: 100vh;
+            background: var(--bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+
+        .login-card {
+            width: 100%;
+            max-width: 420px;
+            background: var(--surface);
+            border: 1px solid var(--border2);
+            border-radius: 24px;
+            padding: 40px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .login-logo {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            margin-bottom: 32px;
+        }
+
+        .login-logo-mark {
+            width: 44px;
+            height: 44px;
+            background: var(--accent);
+            border-radius: 12px;
+            display: grid;
+            place-items: center;
+            flex-shrink: 0;
+        }
+
+        .login-logo-mark svg {
+            width: 22px;
+            height: 22px;
+        }
+
+        .login-logo-name {
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: 20px;
+            letter-spacing: -0.4px;
+            line-height: 1.1;
+        }
+
+        .login-logo-name span {
+            color: var(--accent);
+        }
+
+        .login-logo-sub {
+            font-size: 11px;
+            color: var(--text3);
+            margin-top: 2px;
+            letter-spacing: 0.05em;
+        }
+
+        .login-divider {
+            height: 1px;
+            background: var(--border);
+            margin-bottom: 28px;
+        }
+
+        .login-heading {
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: 22px;
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+        }
+
+        .login-sub {
+            font-size: 13.5px;
+            color: var(--text2);
+            line-height: 1.5;
+            margin-bottom: 28px;
+        }
+
+        .login-label {
+            font-size: 11px;
+            color: var(--text3);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.07em;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .login-input {
+            width: 100%;
+            background: var(--surface2);
+            border: 1px solid var(--border2);
+            border-radius: 10px;
+            padding: 12px 15px;
+            color: var(--text);
+            font-size: 14px;
+            font-family: 'DM Sans', sans-serif;
+            outline: none;
+            transition: border-color 0.15s;
+            margin-bottom: 14px;
+        }
+
+        .login-input:focus {
+            border-color: var(--accent);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 13px;
+            border-radius: 10px;
+            background: var(--accent);
+            color: #fff;
+            font-size: 14px;
+            font-weight: 600;
+            font-family: 'DM Sans', sans-serif;
+            border: none;
+            cursor: pointer;
+            transition: background 0.15s;
+            letter-spacing: 0.01em;
+        }
+
+        .login-btn:hover {
+            background: #d63578;
+        }
+
+        .login-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .login-message {
+            display: none;
+            margin-top: 20px;
+            padding: 14px 16px;
+            border-radius: 10px;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .login-message.success {
+            background: rgba(61, 255, 160, 0.08);
+            border: 1px solid rgba(61, 255, 160, 0.2);
+            color: var(--green);
+        }
+
+        .login-message.error {
+            background: rgba(255, 77, 106, 0.08);
+            border: 1px solid rgba(255, 77, 106, 0.2);
+            color: var(--red);
+        }
+
+        .login-footer {
+            margin-top: 24px;
+            font-size: 11.5px;
+            color: var(--text3);
+            text-align: center;
+            line-height: 1.5;
+        }
+
+        @media (max-width: 480px) {
+            .stats-row {
+                grid-template-columns: 1fr;
+            }
+
+            .pipeline {
+                grid-template-columns: 1fr;
+            }
+
+            .clip-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .platform-row {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .calendar-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+
+<body>
+
+    <!-- LOGIN SCREEN -->
+    <div id="login-screen">
+        <div class="login-card">
+            <div class="login-logo">
+                <div class="login-logo-mark">
+                    <svg viewBox="0 0 24 24" fill="white">
+                        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+                    </svg>
+                </div>
+                <div>
+                    <div class="login-logo-name">Hatch <span>Studios</span></div>
+                    <div class="login-logo-sub">Client Portal</div>
+                </div>
+            </div>
+            <div class="login-divider"></div>
+            <div class="login-heading">Welcome back</div>
+            <div class="login-sub">Enter your email and we'll send you a secure sign-in link — no password needed.</div>
+            <label class="login-label">Email address</label>
+            <input class="login-input" type="email" id="login-email" placeholder="you@example.com" />
+            <button class="login-btn" id="login-btn" onclick="sendMagicLink()">Send me a link →</button>
+            <div class="login-message" id="login-message"></div>
+            <div class="login-footer">Access is by invitation only.<br>Contact Hatch Studios if you need access.</div>
+        </div>
+    </div>
+
+    <!-- PORTAL -->
+    <div id="portal" style="display:none">
+
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()"></div>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-logo">
+            <div class="logo-mark">
+                <svg viewBox="0 0 24 24" fill="white">
+                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+                </svg>
+            </div>
+            <div>
+                <div class="logo-name">Hatch <span>Studios</span></div>
+                <div class="logo-sub">Client Portal</div>
+            </div>
+        </div>
+
+        <nav class="nav">
+            <div class="nav-group-label">Overview</div>
+            <div class="nav-item" onclick="showSection('dashboard', this)">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="3" width="7" height="7" />
+                    <rect x="14" y="3" width="7" height="7" />
+                    <rect x="14" y="14" width="7" height="7" />
+                    <rect x="3" y="14" width="7" height="7" />
+                </svg>
+                Dashboard
+            </div>
+            <div class="nav-item active" onclick="showSection('pipeline', this)">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+                </svg>
+                Episode Pipeline
+                <span class="nav-badge">3</span>
+            </div>
+
+            <div class="nav-group-label">Production</div>
+            <div class="nav-item" onclick="showSection('upload', this)">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="16 16 12 12 8 16" />
+                    <line x1="12" y1="12" x2="12" y2="21" />
+                    <path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3" />
+                </svg>
+                Upload Files
+                <span class="nav-badge orange">!</span>
+            </div>
+            <div class="nav-item" onclick="showSection('downloads', this)">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                    <polyline points="7 10 12 15 17 10" />
+                    <line x1="12" y1="15" x2="12" y2="3" />
+                </svg>
+                Downloads
+                <span class="nav-badge blue">5</span>
+            </div>
+
+            <div class="nav-group-label">Distribution</div>
+            <div class="nav-item" onclick="showSection('clips', this)">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polygon points="23 7 16 12 23 17 23 7" />
+                    <rect x="1" y="5" width="15" height="14" rx="2" />
+                </svg>
+                Clips &amp; Content
+            </div>
+            <div class="nav-item" onclick="showSection('schedule', this)">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="4" width="18" height="18" rx="2" />
+                    <line x1="16" y1="2" x2="16" y2="6" />
+                    <line x1="8" y1="2" x2="8" y2="6" />
+                    <line x1="3" y1="10" x2="21" y2="10" />
+                </svg>
+                Scheduler
+            </div>
+
+            <div class="nav-group-label">Insights</div>
+            <div class="nav-item" onclick="showSection('analytics', this)">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="20" x2="18" y2="10" />
+                    <line x1="12" y1="20" x2="12" y2="4" />
+                    <line x1="6" y1="20" x2="6" y2="14" />
+                </svg>
+                Analytics
+            </div>
+        </nav>
+
+        <div class="sidebar-foot">
+            <div class="client-chip">
+                <div class="client-avatar">AR</div>
+                <div class="client-info">
+                    <div class="client-name">Archie's Podcast</div>
+                    <div class="client-plan">Core Plan · Active</div>
+                </div>
+            </div>
+            <button onclick="signOut()" style="margin-top:10px;width:100%;padding:8px;border-radius:8px;border:1px solid var(--border2);background:transparent;color:var(--text3);font-size:12px;font-family:'DM Sans',sans-serif;cursor:pointer;transition:all 0.15s;" onmouseover="this.style.color='var(--red)';this.style.borderColor='rgba(255,77,106,0.3)'" onmouseout="this.style.color='var(--text3)';this.style.borderColor='var(--border2)'">Sign out</button>
+        </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main">
+
+        <div class="topbar">
+            <div class="topbar-left">
+                <button class="hamburger" onclick="toggleSidebar()" aria-label="Toggle menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <div class="page-title" id="page-title">Episode Pipeline</div>
+            </div>
+            <div class="topbar-right">
+                <button class="theme-toggle" id="theme-toggle" onclick="toggleTheme()" title="Toggle light/dark mode">🌙</button>
+                <div class="topbar-pill">
+                    <div class="notif-dot"></div>
+                    3 Notifications
+                </div>
+                <div class="topbar-pill accent"
+                    onclick="showSection('upload', document.querySelector('[onclick*=upload]'))">
+                    + Upload New Episode
+                </div>
+            </div>
+        </div>
+
+        <div class="page-content">
+
+            <!-- DASHBOARD -->
+            <div class="section" id="section-dashboard">
+                <div class="stats-row">
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background:rgba(232,255,71,0.1);">🎙️</div>
+                        <div class="stat-label">Episodes Live</div>
+                        <div class="stat-value">42</div>
+                        <div class="stat-change up"><span class="up-arrow"></span> +4 this month</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background:rgba(255,107,53,0.1);">✂️</div>
+                        <div class="stat-label">Clips Posted</div>
+                        <div class="stat-value">386</div>
+                        <div class="stat-change up"><span class="up-arrow"></span> +28 this week</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background:rgba(61,255,160,0.1);">👁️</div>
+                        <div class="stat-label">Total Views</div>
+                        <div class="stat-value">1.2M</div>
+                        <div class="stat-change up"><span class="up-arrow"></span> +18% vs last mo.</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background:rgba(139,109,250,0.1);">📅</div>
+                        <div class="stat-label">Clips Scheduled</div>
+                        <div class="stat-value">14</div>
+                        <div class="stat-change" style="color:var(--text3);">Next 7 days</div>
+                    </div>
+                </div>
+                <div class="two-col">
+                    <div class="card">
+                        <div class="card-header">
+                            <div>
+                                <div class="card-title">Recent Episodes</div>
+                                <div class="card-sub">Latest production activity</div>
+                            </div>
+                            <div class="card-action"
+                                onclick="showSection('pipeline', document.querySelector('[onclick*=pipeline]'))">View
+                                all →</div>
+                        </div>
+                        <div class="card-body" style="padding:12px 16px;">
+                            <div class="episode-list">
+                                <div class="episode-row">
+                                    <div class="ep-num">#42</div>
+                                    <div class="ep-info">
+                                        <div class="ep-title">The Future of AI in Business</div>
+                                        <div class="ep-meta">Uploaded 2 days ago · 14 clips</div>
+                                    </div>
+                                    <div class="ep-status done">Live ✓</div>
+                                </div>
+                                <div class="episode-row">
+                                    <div class="ep-num">#43</div>
+                                    <div class="ep-info">
+                                        <div class="ep-title">Building Remote Teams That Scale</div>
+                                        <div class="ep-meta">In production · 12 clips drafted</div>
+                                    </div>
+                                    <div class="ep-status editing">Editing</div>
+                                </div>
+                                <div class="episode-row">
+                                    <div class="ep-num">#44</div>
+                                    <div class="ep-info">
+                                        <div class="ep-title">From Idea to £1M — Founders Series</div>
+                                        <div class="ep-meta">Awaiting your review</div>
+                                    </div>
+                                    <div class="ep-status review">Review</div>
+                                </div>
+                                <div class="episode-row">
+                                    <div class="ep-num">#45</div>
+                                    <div class="ep-info">
+                                        <div class="ep-title">Raw recording received</div>
+                                        <div class="ep-meta">Uploaded 1 hour ago · Processing</div>
+                                    </div>
+                                    <div class="ep-status upload">Processing</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <div>
+                                <div class="card-title">Upcoming Posts</div>
+                                <div class="card-sub">Scheduled across platforms</div>
+                            </div>
+                            <div class="card-action"
+                                onclick="showSection('schedule', document.querySelector('[onclick*=schedule]'))">Full
+                                calendar →</div>
+                        </div>
+                        <div class="card-body" style="padding:12px 16px;">
+                            <div class="episode-list">
+                                <div class="episode-row">
+                                    <div class="ep-num"
+                                        style="background:rgba(255,107,53,0.12);color:var(--orange);font-size:14px;">IG
+                                    </div>
+                                    <div class="ep-info">
+                                        <div class="ep-title">Clip #3 — AI &amp; Business Ep.42</div>
+                                        <div class="ep-meta">Tomorrow · 9:00 AM</div>
+                                    </div>
+                                    <div style="font-size:11px;color:var(--text3);">0:47</div>
+                                </div>
+                                <div class="episode-row">
+                                    <div class="ep-num"
+                                        style="background:rgba(71,184,255,0.1);color:var(--blue);font-size:14px;">TT
+                                    </div>
+                                    <div class="ep-info">
+                                        <div class="ep-title">Clip #7 — AI &amp; Business Ep.42</div>
+                                        <div class="ep-meta">Tomorrow · 12:00 PM</div>
+                                    </div>
+                                    <div style="font-size:11px;color:var(--text3);">1:12</div>
+                                </div>
+                                <div class="episode-row">
+                                    <div class="ep-num"
+                                        style="background:rgba(255,77,106,0.1);color:var(--red);font-size:14px;">YT
+                                    </div>
+                                    <div class="ep-info">
+                                        <div class="ep-title">Full Ep.42 — YouTube</div>
+                                        <div class="ep-meta">Wed 14 Apr · 10:00 AM</div>
+                                    </div>
+                                    <div style="font-size:11px;color:var(--text3);">Full</div>
+                                </div>
+                                <div class="episode-row">
+                                    <div class="ep-num"
+                                        style="background:rgba(139,109,250,0.12);color:var(--purple);font-size:14px;">LI
+                                    </div>
+                                    <div class="ep-info">
+                                        <div class="ep-title">Clip #1 — Remote Teams Ep.43</div>
+                                        <div class="ep-meta">Thu 15 Apr · 8:30 AM</div>
+                                    </div>
+                                    <div style="font-size:11px;color:var(--text3);">0:58</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PIPELINE -->
+            <div class="section active" id="section-pipeline">
+                <div class="pipeline">
+                    <div class="pipe-col uploaded">
+                        <div class="pipe-col-header">
+                            <div class="pipe-col-title">Uploaded</div>
+                            <div class="pipe-count">1</div>
+                        </div>
+                        <div class="pipe-card">
+                            <div class="pipe-card-title">Ep.45 — Raw Recording</div>
+                            <div class="pipe-card-meta">Uploaded 1hr ago · 94 min</div>
+                            <div class="pipe-card-tags"><span class="pipe-tag">Audio + Video</span><span
+                                    class="pipe-tag">1.8GB</span></div>
+                        </div>
+                    </div>
+                    <div class="pipe-col editing">
+                        <div class="pipe-col-header">
+                            <div class="pipe-col-title">Editing</div>
+                            <div class="pipe-count">2</div>
+                        </div>
+                        <div class="pipe-card">
+                            <div class="pipe-card-title">Ep.43 — Remote Teams</div>
+                            <div class="pipe-card-meta">In edit · Est. delivery Wed</div>
+                            <div class="pipe-card-tags"><span class="pipe-tag">12 clips drafted</span></div>
+                        </div>
+                        <div class="pipe-card">
+                            <div class="pipe-card-title">Ep.43 Short-Form Clips</div>
+                            <div class="pipe-card-meta">Captioning + hook writing</div>
+                            <div class="pipe-card-tags"><span class="pipe-tag">IG</span><span
+                                    class="pipe-tag">TT</span><span class="pipe-tag">YT</span></div>
+                        </div>
+                    </div>
+                    <div class="pipe-col review">
+                        <div class="pipe-col-header">
+                            <div class="pipe-col-title">Your Review</div>
+                            <div class="pipe-count">1</div>
+                        </div>
+                        <div class="pipe-card" style="border-color:rgba(139,109,250,0.3);">
+                            <div class="pipe-card-title">Ep.44 — Founders Series</div>
+                            <div class="pipe-card-meta">Ready for approval · 18 clips</div>
+                            <div class="pipe-card-tags"><span class="pipe-tag" style="color:var(--purple);">⚠ Awaiting
+                                    you</span></div>
+                            <button class="clip-schedule-btn" style="margin-top:10px;"
+                                onclick="showSection('clips', document.querySelector('[onclick*=clips]'))">Review Clips
+                                →</button>
+                        </div>
+                    </div>
+                    <div class="pipe-col live">
+                        <div class="pipe-col-header">
+                            <div class="pipe-col-title">Live</div>
+                            <div class="pipe-count">42</div>
+                        </div>
+                        <div class="pipe-card">
+                            <div class="pipe-card-title">Ep.42 — AI in Business</div>
+                            <div class="pipe-card-meta">Published Mon · 14 clips live</div>
+                            <div class="pipe-card-tags"><span class="pipe-tag" style="color:var(--green);">✓ 45.2K
+                                    views</span></div>
+                        </div>
+                        <div class="pipe-card">
+                            <div class="pipe-card-title">Ep.41 — Growth Mindset</div>
+                            <div class="pipe-card-meta">Published last week</div>
+                            <div class="pipe-card-tags"><span class="pipe-tag" style="color:var(--green);">✓ 31.8K
+                                    views</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- UPLOAD -->
+            <div class="section" id="section-upload">
+                <div class="two-col" style="align-items:start;">
+                    <div style="display:flex;flex-direction:column;gap:16px;">
+                        <div class="card">
+                            <div class="card-header">
+                                <div>
+                                    <div class="card-title">Upload New Episode</div>
+                                    <div class="card-sub">Raw audio or video recording</div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="upload-zone" onclick="alert('File picker would open here')">
+                                    <div class="upload-icon">🎙️</div>
+                                    <div class="upload-title">Drop your recording here</div>
+                                    <div class="upload-sub">Drag &amp; drop your raw podcast file, or click to browse.
+                                    </div>
+                                    <div class="upload-formats">
+                                        <span class="fmt-pill">MP4</span><span class="fmt-pill">MOV</span><span
+                                            class="fmt-pill">MKV</span><span class="fmt-pill">MP3</span><span
+                                            class="fmt-pill">WAV</span><span class="fmt-pill">M4A</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header">
+                                <div>
+                                    <div class="card-title">Episode Details</div>
+                                    <div class="card-sub">Help us produce it right</div>
+                                </div>
+                            </div>
+                            <div class="card-body" style="display:flex;flex-direction:column;gap:14px;">
+                                <div>
+                                    <div
+                                        style="font-size:11px;color:var(--text3);font-weight:500;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;">
+                                        Episode Title</div>
+                                    <input
+                                        style="width:100%;background:var(--surface2);border:1px solid var(--border2);border-radius:8px;padding:10px 13px;color:var(--text);font-size:13.5px;font-family:'DM Sans',sans-serif;outline:none;"
+                                        placeholder="Ep.45 — Your episode title..." />
+                                </div>
+                                <div>
+                                    <div
+                                        style="font-size:11px;color:var(--text3);font-weight:500;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;">
+                                        Notes for Editors</div>
+                                    <textarea
+                                        style="width:100%;background:var(--surface2);border:1px solid var(--border2);border-radius:8px;padding:10px 13px;color:var(--text2);font-size:13.5px;font-family:'DM Sans',sans-serif;outline:none;resize:none;height:80px;"
+                                        placeholder="Any specific moments to highlight, guest names, timestamps to avoid..."></textarea>
+                                </div>
+                                <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+                                    <div>
+                                        <div
+                                            style="font-size:11px;color:var(--text3);font-weight:500;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;">
+                                            Clip Count</div>
+                                        <select
+                                            style="width:100%;background:var(--surface2);border:1px solid var(--border2);border-radius:8px;padding:10px 13px;color:var(--text);font-size:13px;font-family:'DM Sans',sans-serif;outline:none;">
+                                            <option>10–15 clips</option>
+                                            <option selected>15–20 clips</option>
+                                            <option>20–30 clips</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <div
+                                            style="font-size:11px;color:var(--text3);font-weight:500;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;">
+                                            Turnaround</div>
+                                        <select
+                                            style="width:100%;background:var(--surface2);border:1px solid var(--border2);border-radius:8px;padding:10px 13px;color:var(--text);font-size:13px;font-family:'DM Sans',sans-serif;outline:none;">
+                                            <option>Standard (48–72hr)</option>
+                                            <option>Express (24hr)</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <button class="btn btn-accent" style="align-self:flex-start;">Submit for
+                                    Production</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <div>
+                                <div class="card-title">Upload History</div>
+                                <div class="card-sub">All raw files received</div>
+                            </div>
+                        </div>
+                        <div class="card-body" style="padding:12px 16px;">
+                            <div class="episode-list">
+                                <div class="episode-row">
+                                    <div class="ep-num" style="font-size:18px;background:var(--surface3);">🎬</div>
+                                    <div class="ep-info">
+                                        <div class="ep-title">ep45-raw-recording.mp4</div>
+                                        <div class="ep-meta">1.8 GB · Uploaded 1hr ago</div>
+                                    </div>
+                                    <div class="ep-status upload">Processing</div>
+                                </div>
+                                <div class="episode-row">
+                                    <div class="ep-num" style="font-size:18px;background:var(--surface3);">🎬</div>
+                                    <div class="ep-info">
+                                        <div class="ep-title">ep44-founders-raw.mov</div>
+                                        <div class="ep-meta">2.2 GB · 3 days ago</div>
+                                    </div>
+                                    <div class="ep-status review">In Review</div>
+                                </div>
+                                <div class="episode-row">
+                                    <div class="ep-num" style="font-size:18px;background:var(--surface3);">🎬</div>
+                                    <div class="ep-info">
+                                        <div class="ep-title">ep43-remote-teams.mp4</div>
+                                        <div class="ep-meta">1.6 GB · 5 days ago</div>
+                                    </div>
+                                    <div class="ep-status editing">Editing</div>
+                                </div>
+                                <div class="episode-row">
+                                    <div class="ep-num" style="font-size:18px;background:var(--surface3);">🎙️</div>
+                                    <div class="ep-info">
+                                        <div class="ep-title">ep42-ai-business-audio.wav</div>
+                                        <div class="ep-meta">380 MB · 12 days ago</div>
+                                    </div>
+                                    <div class="ep-status done">Done ✓</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DOWNLOADS -->
+            <div class="section" id="section-downloads">
+                <div class="card">
+                    <div class="card-header">
+                        <div>
+                            <div class="card-title">Finished Files Ready</div>
+                            <div class="card-sub">Download your completed episodes and assets</div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="download-list">
+                            <div class="download-row">
+                                <div class="dl-icon dl-video">🎬</div>
+                                <div class="dl-info">
+                                    <div class="dl-name">Ep.44 — Founders Series — Full Edit</div>
+                                    <div class="dl-meta">4K MP4 · Colour graded · 58:22</div>
+                                </div>
+                                <div class="dl-size">4.1 GB</div><button class="dl-btn new">⬇ Download</button>
+                            </div>
+                            <div class="download-row">
+                                <div class="dl-icon dl-audio">🎧</div>
+                                <div class="dl-info">
+                                    <div class="dl-name">Ep.44 — Founders Series — Audio Master</div>
+                                    <div class="dl-meta">WAV 44.1kHz · Mastered · Spotify-ready</div>
+                                </div>
+                                <div class="dl-size">380 MB</div><button class="dl-btn new">⬇ Download</button>
+                            </div>
+                            <div class="download-row">
+                                <div class="dl-icon dl-clips">✂️</div>
+                                <div class="dl-info">
+                                    <div class="dl-name">Ep.44 — All 18 Short-Form Clips</div>
+                                    <div class="dl-meta">9:16 MP4 · Captions burned · All platforms</div>
+                                </div>
+                                <div class="dl-size">1.2 GB</div><button class="dl-btn new">⬇ Download All</button>
+                            </div>
+                            <div class="download-row">
+                                <div class="dl-icon dl-video">🎬</div>
+                                <div class="dl-info">
+                                    <div class="dl-name">Ep.42 — AI in Business — Full Edit</div>
+                                    <div class="dl-meta">4K MP4 · Published Mon 7 Apr</div>
+                                </div>
+                                <div class="dl-size">3.8 GB</div><button class="dl-btn">⬇ Download</button>
+                            </div>
+                            <div class="download-row">
+                                <div class="dl-icon dl-clips">✂️</div>
+                                <div class="dl-info">
+                                    <div class="dl-name">Ep.42 — All 14 Short-Form Clips</div>
+                                    <div class="dl-meta">Posted · Still available for download</div>
+                                </div>
+                                <div class="dl-size">940 MB</div><button class="dl-btn">⬇ Download All</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CLIPS -->
+            <div class="section" id="section-clips">
+                <div class="tabs">
+                    <div class="tab active"
+                        onclick="this.parentElement.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));this.classList.add('active');">
+                        Ep.44 — Founders Series</div>
+                    <div class="tab"
+                        onclick="this.parentElement.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));this.classList.add('active');">
+                        Ep.42 — AI in Business</div>
+                    <div class="tab"
+                        onclick="this.parentElement.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));this.classList.add('active');">
+                        All Clips</div>
+                </div>
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
+                    <div>
+                        <div style="font-size:13.5px;font-weight:500;">18 clips ready · Select to schedule</div>
+                        <div style="font-size:11.5px;color:var(--text3);margin-top:3px;">Approve individual clips or
+                            schedule them directly to your social channels</div>
+                    </div>
+                    <div style="display:flex;gap:10px;">
+                        <button class="btn btn-ghost" style="font-size:12px;">✓ Approve All</button>
+                        <button class="btn btn-accent" style="font-size:12px;"
+                            onclick="document.getElementById('schedule-modal').classList.add('open')">Schedule Selected
+                            →</button>
+                    </div>
+                </div>
+                <div class="clip-grid">
+                    <div class="clip-card">
+                        <div class="clip-thumb">
+                            <div class="clip-thumb-bg"></div>
+                            <div class="clip-scheduled-badge">SCHEDULED</div>
+                            <div class="clip-play">▶</div>
+                            <div class="clip-duration">0:47</div>
+                        </div>
+                        <div class="clip-info">
+                            <div class="clip-title">"The moment I nearly lost everything" — Hook clip</div>
+                            <div class="clip-platforms">
+                                <div class="plat-dot plat-ig">IG</div>
+                                <div class="plat-dot plat-tt">TT</div><span
+                                    style="font-size:10px;color:var(--text3);margin-left:2px;">Tomorrow 9AM</span>
+                            </div><button class="clip-schedule-btn scheduled">✓ Scheduled</button>
+                        </div>
+                    </div>
+                    <div class="clip-card">
+                        <div class="clip-thumb">
+                            <div class="clip-thumb-bg"
+                                style="background:linear-gradient(160deg,rgba(255,107,53,0.15) 0%,rgba(232,255,71,0.04) 100%);">
+                            </div>
+                            <div class="clip-play">▶</div>
+                            <div class="clip-duration">1:12</div>
+                        </div>
+                        <div class="clip-info">
+                            <div class="clip-title">"From £0 to £1M in 18 months" — Story arc</div>
+                            <div class="clip-platforms">
+                                <div class="plat-dot plat-ig">IG</div>
+                                <div class="plat-dot plat-yt">YT</div>
+                                <div class="plat-dot plat-li">LI</div>
+                            </div><button class="clip-schedule-btn"
+                                onclick="document.getElementById('schedule-modal').classList.add('open')">+
+                                Schedule</button>
+                        </div>
+                    </div>
+                    <div class="clip-card">
+                        <div class="clip-thumb">
+                            <div class="clip-thumb-bg"
+                                style="background:linear-gradient(160deg,rgba(61,255,160,0.1) 0%,rgba(71,184,255,0.08) 100%);">
+                            </div>
+                            <div class="clip-play">▶</div>
+                            <div class="clip-duration">0:58</div>
+                        </div>
+                        <div class="clip-info">
+                            <div class="clip-title">"Why most founders give up at the wrong time"</div>
+                            <div class="clip-platforms">
+                                <div class="plat-dot plat-li">LI</div>
+                                <div class="plat-dot plat-tt">TT</div>
+                            </div><button class="clip-schedule-btn"
+                                onclick="document.getElementById('schedule-modal').classList.add('open')">+
+                                Schedule</button>
+                        </div>
+                    </div>
+                    <div class="clip-card">
+                        <div class="clip-thumb">
+                            <div class="clip-thumb-bg"
+                                style="background:linear-gradient(160deg,rgba(255,77,106,0.12) 0%,rgba(139,109,250,0.08) 100%);">
+                            </div>
+                            <div class="clip-play">▶</div>
+                            <div class="clip-duration">2:05</div>
+                        </div>
+                        <div class="clip-info">
+                            <div class="clip-title">"The hiring mistake that set us back 6 months"</div>
+                            <div class="clip-platforms">
+                                <div class="plat-dot plat-yt">YT</div>
+                                <div class="plat-dot plat-li">LI</div>
+                            </div><button class="clip-schedule-btn"
+                                onclick="document.getElementById('schedule-modal').classList.add('open')">+
+                                Schedule</button>
+                        </div>
+                    </div>
+                    <div class="clip-card">
+                        <div class="clip-thumb">
+                            <div class="clip-thumb-bg"
+                                style="background:linear-gradient(160deg,rgba(232,255,71,0.08) 0%,rgba(255,107,53,0.1) 100%);">
+                            </div>
+                            <div class="clip-play">▶</div>
+                            <div class="clip-duration">0:34</div>
+                        </div>
+                        <div class="clip-info">
+                            <div class="clip-title">"The one thing I'd tell my younger self"</div>
+                            <div class="clip-platforms">
+                                <div class="plat-dot plat-ig">IG</div>
+                                <div class="plat-dot plat-tt">TT</div>
+                                <div class="plat-dot plat-yt">YT</div>
+                            </div><button class="clip-schedule-btn"
+                                onclick="document.getElementById('schedule-modal').classList.add('open')">+
+                                Schedule</button>
+                        </div>
+                    </div>
+                    <div class="clip-card">
+                        <div class="clip-thumb">
+                            <div class="clip-thumb-bg"
+                                style="background:linear-gradient(160deg,rgba(139,109,250,0.18) 0%,rgba(71,184,255,0.06) 100%);">
+                            </div>
+                            <div class="clip-play">▶</div>
+                            <div class="clip-duration">1:45</div>
+                        </div>
+                        <div class="clip-info">
+                            <div class="clip-title">"Raising your first round — the truth nobody tells you"</div>
+                            <div class="clip-platforms">
+                                <div class="plat-dot plat-li">LI</div>
+                                <div class="plat-dot plat-yt">YT</div>
+                            </div><button class="clip-schedule-btn"
+                                onclick="document.getElementById('schedule-modal').classList.add('open')">+
+                                Schedule</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SCHEDULE -->
+            <div class="section" id="section-schedule">
+                <div class="schedule-header">
+                    <div class="week-nav">
+                        <button>‹</button>
+                        <div class="week-label">Apr 14 – Apr 20, 2025</div>
+                        <button>›</button>
+                    </div>
+                    <div style="display:flex;gap:10px;align-items:center;">
+                        <div style="display:flex;gap:8px;">
+                            <div class="cal-event ig" style="padding:4px 10px;font-size:11px;">IG</div>
+                            <div class="cal-event tt" style="padding:4px 10px;font-size:11px;">TT</div>
+                            <div class="cal-event yt" style="padding:4px 10px;font-size:11px;">YT</div>
+                            <div class="cal-event li" style="padding:4px 10px;font-size:11px;">LI</div>
+                        </div>
+                        <button class="btn btn-accent" style="font-size:12px;"
+                            onclick="document.getElementById('schedule-modal').classList.add('open')">+ Add
+                            Post</button>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body" style="padding:20px;">
+                        <div class="calendar-grid">
+                            <div class="cal-day">
+                                <div class="cal-day-header">
+                                    <div class="cal-day-name">MON</div>
+                                    <div class="cal-day-num today">14</div>
+                                </div>
+                                <div class="cal-event ig">
+                                    <div class="cal-plat">INSTAGRAM</div>
+                                    <div class="cal-title">Ep.42 — "AI will replace…" Hook clip</div>
+                                    <div class="cal-time">9:00 AM</div>
+                                </div>
+                                <div class="cal-event tt">
+                                    <div class="cal-plat">TIKTOK</div>
+                                    <div class="cal-title">Ep.42 — Viral hook cut #7</div>
+                                    <div class="cal-time">12:00 PM</div>
+                                </div>
+                            </div>
+                            <div class="cal-day">
+                                <div class="cal-day-header">
+                                    <div class="cal-day-name">TUE</div>
+                                    <div class="cal-day-num">15</div>
+                                </div>
+                                <div class="cal-event li">
+                                    <div class="cal-plat">LINKEDIN</div>
+                                    <div class="cal-title">Ep.44 — Founders clip #3</div>
+                                    <div class="cal-time">8:30 AM</div>
+                                </div>
+                                <div class="cal-event ig">
+                                    <div class="cal-plat">INSTAGRAM</div>
+                                    <div class="cal-title">Ep.42 — Story series pt.2</div>
+                                    <div class="cal-time">6:00 PM</div>
+                                </div>
+                            </div>
+                            <div class="cal-day">
+                                <div class="cal-day-header">
+                                    <div class="cal-day-name">WED</div>
+                                    <div class="cal-day-num">16</div>
+                                </div>
+                                <div class="cal-event yt">
+                                    <div class="cal-plat">YOUTUBE</div>
+                                    <div class="cal-title">Full Ep.44 — Founders Series publish</div>
+                                    <div class="cal-time">10:00 AM</div>
+                                </div>
+                                <div class="cal-event tt">
+                                    <div class="cal-plat">TIKTOK</div>
+                                    <div class="cal-title">Ep.44 — "Lost everything" clip</div>
+                                    <div class="cal-time">3:00 PM</div>
+                                </div>
+                            </div>
+                            <div class="cal-day">
+                                <div class="cal-day-header">
+                                    <div class="cal-day-name">THU</div>
+                                    <div class="cal-day-num">17</div>
+                                </div>
+                                <div class="cal-event ig">
+                                    <div class="cal-plat">INSTAGRAM</div>
+                                    <div class="cal-title">Ep.44 — £0 to £1M clip</div>
+                                    <div class="cal-time">9:00 AM</div>
+                                </div><button class="cal-add">+ Add post</button>
+                            </div>
+                            <div class="cal-day">
+                                <div class="cal-day-header">
+                                    <div class="cal-day-name">FRI</div>
+                                    <div class="cal-day-num">18</div>
+                                </div>
+                                <div class="cal-event li">
+                                    <div class="cal-plat">LINKEDIN</div>
+                                    <div class="cal-title">Ep.44 — Hiring mistake clip</div>
+                                    <div class="cal-time">8:00 AM</div>
+                                </div>
+                                <div class="cal-event yt">
+                                    <div class="cal-plat">YOUTUBE SHORT</div>
+                                    <div class="cal-title">Ep.44 — "Younger self" short</div>
+                                    <div class="cal-time">12:00 PM</div>
+                                </div>
+                            </div>
+                            <div class="cal-day">
+                                <div class="cal-day-header">
+                                    <div class="cal-day-name">SAT</div>
+                                    <div class="cal-day-num">19</div>
+                                </div>
+                                <div class="cal-event tt">
+                                    <div class="cal-plat">TIKTOK</div>
+                                    <div class="cal-title">Ep.44 — Raising first round clip</div>
+                                    <div class="cal-time">11:00 AM</div>
+                                </div><button class="cal-add">+ Add post</button>
+                            </div>
+                            <div class="cal-day">
+                                <div class="cal-day-header">
+                                    <div class="cal-day-name">SUN</div>
+                                    <div class="cal-day-num">20</div>
+                                </div><button class="cal-add">+ Add post</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ANALYTICS -->
+            <div class="section" id="section-analytics">
+                <div class="stats-row" style="margin-bottom:20px;">
+                    <div class="stat-card">
+                        <div class="stat-label">Total Views (30d)</div>
+                        <div class="stat-value" style="color:var(--accent);">284K</div>
+                        <div class="stat-change up"><span class="up-arrow"></span> +22% vs prev. period</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Avg. Engagement</div>
+                        <div class="stat-value">6.4%</div>
+                        <div class="stat-change up"><span class="up-arrow"></span> +1.2%</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">New Followers</div>
+                        <div class="stat-value">1,840</div>
+                        <div class="stat-change up"><span class="up-arrow"></span> +340 vs prev. period</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Best Performing</div>
+                        <div class="stat-value" style="font-size:18px;line-height:1.3;">IG Clip<br>#3 Ep.42</div>
+                        <div class="stat-change" style="color:var(--text3);">45.2K views</div>
+                    </div>
+                </div>
+                <div class="chart-container" style="margin-bottom:20px;">
+                    <div class="chart-header">
+                        <div>
+                            <div class="chart-title">Views by Platform — Last 30 Days</div>
+                            <div class="chart-sub">Aggregated across all clips and full episodes</div>
+                        </div>
+                        <div class="chart-legend">
+                            <div class="legend-item">
+                                <div class="legend-dot" style="background:var(--orange);"></div>Instagram
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-dot" style="background:var(--blue);"></div>TikTok
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-dot" style="background:var(--red);"></div>YouTube
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-dot" style="background:var(--purple);"></div>LinkedIn
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bar-chart">
+                        <div class="bar-group">
+                            <div class="bar" style="height:55%;background:var(--orange);">
+                                <div class="bar-tooltip">IG: 18.2K</div>
+                            </div>
+                            <div class="bar" style="height:40%;background:var(--blue);">
+                                <div class="bar-tooltip">TT: 13.1K</div>
+                            </div>
+                            <div class="bar" style="height:28%;background:var(--red);">
+                                <div class="bar-tooltip">YT: 9.2K</div>
+                            </div>
+                            <div class="bar" style="height:15%;background:var(--purple);">
+                                <div class="bar-tooltip">LI: 4.9K</div>
+                            </div>
+                        </div>
+                        <div class="bar-group">
+                            <div class="bar" style="height:62%;background:var(--orange);">
+                                <div class="bar-tooltip">IG: 20.4K</div>
+                            </div>
+                            <div class="bar" style="height:50%;background:var(--blue);">
+                                <div class="bar-tooltip">TT: 16.4K</div>
+                            </div>
+                            <div class="bar" style="height:35%;background:var(--red);">
+                                <div class="bar-tooltip">YT: 11.5K</div>
+                            </div>
+                            <div class="bar" style="height:18%;background:var(--purple);">
+                                <div class="bar-tooltip">LI: 5.9K</div>
+                            </div>
+                        </div>
+                        <div class="bar-group">
+                            <div class="bar" style="height:45%;background:var(--orange);">
+                                <div class="bar-tooltip">IG: 14.8K</div>
+                            </div>
+                            <div class="bar" style="height:38%;background:var(--blue);">
+                                <div class="bar-tooltip">TT: 12.5K</div>
+                            </div>
+                            <div class="bar" style="height:32%;background:var(--red);">
+                                <div class="bar-tooltip">YT: 10.5K</div>
+                            </div>
+                            <div class="bar" style="height:20%;background:var(--purple);">
+                                <div class="bar-tooltip">LI: 6.6K</div>
+                            </div>
+                        </div>
+                        <div class="bar-group">
+                            <div class="bar" style="height:88%;background:var(--orange);">
+                                <div class="bar-tooltip">IG: 29.0K</div>
+                            </div>
+                            <div class="bar" style="height:72%;background:var(--blue);">
+                                <div class="bar-tooltip">TT: 23.7K</div>
+                            </div>
+                            <div class="bar" style="height:48%;background:var(--red);">
+                                <div class="bar-tooltip">YT: 15.8K</div>
+                            </div>
+                            <div class="bar" style="height:22%;background:var(--purple);">
+                                <div class="bar-tooltip">LI: 7.2K</div>
+                            </div>
+                        </div>
+                        <div class="bar-group">
+                            <div class="bar" style="height:100%;background:var(--orange);">
+                                <div class="bar-tooltip">IG: 45.2K ★</div>
+                            </div>
+                            <div class="bar" style="height:80%;background:var(--blue);">
+                                <div class="bar-tooltip">TT: 28.1K</div>
+                            </div>
+                            <div class="bar" style="height:55%;background:var(--red);">
+                                <div class="bar-tooltip">YT: 19.7K</div>
+                            </div>
+                            <div class="bar" style="height:28%;background:var(--purple);">
+                                <div class="bar-tooltip">LI: 12.4K</div>
+                            </div>
+                        </div>
+                        <div class="bar-group">
+                            <div class="bar" style="height:70%;background:var(--orange);">
+                                <div class="bar-tooltip">IG: 23.1K</div>
+                            </div>
+                            <div class="bar" style="height:58%;background:var(--blue);">
+                                <div class="bar-tooltip">TT: 19.1K</div>
+                            </div>
+                            <div class="bar" style="height:40%;background:var(--red);">
+                                <div class="bar-tooltip">YT: 13.2K</div>
+                            </div>
+                            <div class="bar" style="height:24%;background:var(--purple);">
+                                <div class="bar-tooltip">LI: 7.9K</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bar-labels">
+                        <div class="bar-label">Ep.37</div>
+                        <div class="bar-label">Ep.38</div>
+                        <div class="bar-label">Ep.39</div>
+                        <div class="bar-label">Ep.40</div>
+                        <div class="bar-label">Ep.41</div>
+                        <div class="bar-label">Ep.42</div>
+                    </div>
+                </div>
+                <div class="platform-row" style="margin-bottom:20px;">
+                    <div class="platform-stat">
+                        <div class="platform-icon" style="background:rgba(255,107,53,0.12);color:var(--orange);">IG
+                        </div>
+                        <div class="plat-stat-val">128K</div>
+                        <div class="plat-stat-label">Instagram Views</div>
+                        <div class="plat-stat-change up" style="color:var(--green);"><span class="up-arrow"></span> +24%
+                        </div>
+                    </div>
+                    <div class="platform-stat">
+                        <div class="platform-icon" style="background:rgba(71,184,255,0.1);color:var(--blue);">TT</div>
+                        <div class="plat-stat-val">92K</div>
+                        <div class="plat-stat-label">TikTok Views</div>
+                        <div class="plat-stat-change up" style="color:var(--green);"><span class="up-arrow"></span> +31%
+                        </div>
+                    </div>
+                    <div class="platform-stat">
+                        <div class="platform-icon" style="background:rgba(255,77,106,0.12);color:var(--red);">YT</div>
+                        <div class="plat-stat-val">48K</div>
+                        <div class="plat-stat-label">YouTube Views</div>
+                        <div class="plat-stat-change up" style="color:var(--green);"><span class="up-arrow"></span> +15%
+                        </div>
+                    </div>
+                    <div class="platform-stat">
+                        <div class="platform-icon" style="background:rgba(139,109,250,0.12);color:var(--purple);">LI
+                        </div>
+                        <div class="plat-stat-val">16K</div>
+                        <div class="plat-stat-label">LinkedIn Views</div>
+                        <div class="plat-stat-change up" style="color:var(--green);"><span class="up-arrow"></span> +8%
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <div>
+                            <div class="card-title">Top Performing Clips</div>
+                            <div class="card-sub">Ranked by total views</div>
+                        </div>
+                    </div>
+                    <div class="card-body" style="padding:12px 16px;">
+                        <div class="episode-list">
+                            <div class="episode-row">
+                                <div class="ep-num"
+                                    style="background:rgba(232,255,71,0.12);color:var(--accent);font-family:'Syne',sans-serif;font-weight:700;">
+                                    #1</div>
+                                <div class="ep-info">
+                                    <div class="ep-title">Ep.42 — "AI will replace most jobs in 5 years"</div>
+                                    <div class="ep-meta">Instagram Reel · 0:47</div>
+                                </div>
+                                <div class="ep-clips"><strong>45.2K</strong><br>views</div>
+                            </div>
+                            <div class="episode-row">
+                                <div class="ep-num"
+                                    style="background:var(--surface3);color:var(--text2);font-family:'Syne',sans-serif;font-weight:700;">
+                                    #2</div>
+                                <div class="ep-info">
+                                    <div class="ep-title">Ep.41 — "The mindset shift that changed everything"</div>
+                                    <div class="ep-meta">TikTok · 1:12</div>
+                                </div>
+                                <div class="ep-clips"><strong>38.7K</strong><br>views</div>
+                            </div>
+                            <div class="episode-row">
+                                <div class="ep-num"
+                                    style="background:var(--surface3);color:var(--text2);font-family:'Syne',sans-serif;font-weight:700;">
+                                    #3</div>
+                                <div class="ep-info">
+                                    <div class="ep-title">Ep.42 — "How I built a £10M company with no funding"</div>
+                                    <div class="ep-meta">Instagram Reel · 2:05</div>
+                                </div>
+                                <div class="ep-clips"><strong>29.1K</strong><br>views</div>
+                            </div>
+                            <div class="episode-row">
+                                <div class="ep-num"
+                                    style="background:var(--surface3);color:var(--text2);font-family:'Syne',sans-serif;font-weight:700;">
+                                    #4</div>
+                                <div class="ep-info">
+                                    <div class="ep-title">Ep.40 — "Why most people never start a business"</div>
+                                    <div class="ep-meta">TikTok · 0:58</div>
+                                </div>
+                                <div class="ep-clips"><strong>24.3K</strong><br>views</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- SCHEDULE MODAL -->
+    <div class="modal-overlay" id="schedule-modal" onclick="if(event.target===this)this.classList.remove('open')">
+        <div class="modal">
+            <div class="modal-title">Schedule This Clip</div>
+            <div class="modal-sub">Choose platforms and set your publish time</div>
+            <div class="modal-platforms">
+                <div class="modal-plat selected" onclick="this.classList.toggle('selected')">
+                    <div class="modal-plat-icon" style="background:rgba(255,107,53,0.12);color:var(--orange);">IG</div>
+                    <div>
+                        <div class="modal-plat-name">Instagram</div>
+                        <div class="modal-plat-handle">@archie_podcast</div>
+                    </div>
+                </div>
+                <div class="modal-plat" onclick="this.classList.toggle('selected')">
+                    <div class="modal-plat-icon" style="background:rgba(71,184,255,0.1);color:var(--blue);">TT</div>
+                    <div>
+                        <div class="modal-plat-name">TikTok</div>
+                        <div class="modal-plat-handle">@archie_podcast</div>
+                    </div>
+                </div>
+                <div class="modal-plat" onclick="this.classList.toggle('selected')">
+                    <div class="modal-plat-icon" style="background:rgba(255,77,106,0.12);color:var(--red);">YT</div>
+                    <div>
+                        <div class="modal-plat-name">YouTube Shorts</div>
+                        <div class="modal-plat-handle">Archie's Podcast</div>
+                    </div>
+                </div>
+                <div class="modal-plat" onclick="this.classList.toggle('selected')">
+                    <div class="modal-plat-icon" style="background:rgba(139,109,250,0.12);color:var(--purple);">LI</div>
+                    <div>
+                        <div class="modal-plat-name">LinkedIn</div>
+                        <div class="modal-plat-handle">Archie R.</div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-date-row">
+                <div class="modal-field"><label>Date</label><input type="date" value="2025-04-15" /></div>
+                <div class="modal-field"><label>Time</label><input type="time" value="09:00" /></div>
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-accent"
+                    onclick="document.getElementById('schedule-modal').classList.remove('open')">Confirm
+                    Schedule</button>
+                <button class="btn btn-ghost"
+                    onclick="document.getElementById('schedule-modal').classList.remove('open')">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    </div><!-- /portal -->
+
+    <script>
+        const SUPABASE_URL = 'https://htfqhczffwofzvxuwzww.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh0ZnFoY3pmZndvZnp2eHV3end3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY4NDI5OTgsImV4cCI6MjA5MjQxODk5OH0.FCCnk5YrbsWxnwmZ1c4cplRSg7uf7Qj9-5RhnGTzy_k';
+        const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        const titles = {
+            dashboard: 'Dashboard',
+            pipeline: 'Episode Pipeline',
+            upload: 'Upload Files',
+            downloads: 'Downloads',
+            clips: 'Clips & Content',
+            schedule: 'Content Scheduler',
+            analytics: 'Analytics'
+        };
+
+        // ── AUTH ──
+        async function sendMagicLink() {
+            const email = document.getElementById('login-email').value.trim();
+            const btn = document.getElementById('login-btn');
+            const msg = document.getElementById('login-message');
+
+            if (!email) return;
+
+            btn.disabled = true;
+            btn.textContent = 'Sending…';
+            msg.style.display = 'none';
+
+            const { error } = await _supabase.auth.signInWithOtp({
+                email,
+                options: { shouldCreateUser: false }
+            });
+
+            if (error) {
+                msg.className = 'login-message error';
+                msg.textContent = 'This email isn\'t registered for portal access. Contact Hatch Studios if you need an invite.';
+                msg.style.display = 'block';
+                btn.disabled = false;
+                btn.textContent = 'Send me a link →';
+            } else {
+                msg.className = 'login-message success';
+                msg.textContent = '✓ Link sent! Check your inbox and click the link to sign in.';
+                msg.style.display = 'block';
+                btn.textContent = 'Link sent';
+            }
+        }
+
+        document.getElementById('login-email').addEventListener('keydown', e => {
+            if (e.key === 'Enter') sendMagicLink();
+        });
+
+        async function loadClientProfile(email) {
+            const { data } = await _supabase
+                .from('clients')
+                .select('name, plan, avatar_initials')
+                .eq('email', email)
+                .single();
+
+            if (data) {
+                const el = document.querySelector('.client-name');
+                const pl = document.querySelector('.client-plan');
+                const av = document.querySelector('.client-avatar');
+                if (el) el.textContent = data.name;
+                if (pl) pl.textContent = (data.plan || 'Core Plan') + ' · Active';
+                if (av) av.textContent = data.avatar_initials || email.slice(0, 2).toUpperCase();
+            }
+        }
+
+        function showPortal(email) {
+            document.getElementById('login-screen').style.display = 'none';
+            document.getElementById('portal').style.display = 'flex';
+            loadClientProfile(email);
+        }
+
+        function showLogin() {
+            document.getElementById('login-screen').style.display = 'flex';
+            document.getElementById('portal').style.display = 'none';
+        }
+
+        // Check existing session on load
+        _supabase.auth.getSession().then(({ data: { session } }) => {
+            if (session) {
+                showPortal(session.user.email);
+            } else {
+                showLogin();
+            }
+        });
+
+        // Handle magic link callback
+        _supabase.auth.onAuthStateChange((event, session) => {
+            if (event === 'SIGNED_IN' && session) {
+                showPortal(session.user.email);
+            } else if (event === 'SIGNED_OUT') {
+                showLogin();
+            }
+        });
+
+        async function signOut() {
+            await _supabase.auth.signOut();
+        }
+
+        // ── NAVIGATION ──
+        function showSection(id, navEl) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.getElementById('section-' + id).classList.add('active');
+            document.getElementById('page-title').textContent = titles[id] || id;
+            if (navEl) {
+                document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+                navEl.classList.add('active');
+            }
+            if (window.innerWidth <= 768) closeSidebar();
+        }
+
+        function toggleTheme() {
+            const isLight = document.body.classList.toggle('light');
+            document.getElementById('theme-toggle').textContent = isLight ? '🌑' : '🌙';
+        }
+
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('open');
+            document.getElementById('sidebar-overlay').classList.toggle('open');
+        }
+
+        function closeSidebar() {
+            document.getElementById('sidebar').classList.remove('open');
+            document.getElementById('sidebar-overlay').classList.remove('open');
+        }
+    </script>
+</body>
+
+</html>
