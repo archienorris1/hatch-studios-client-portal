@@ -1119,6 +1119,49 @@
                     </div>
                 </div>
 
+                <!-- CLIENT DETAIL -->
+                <div class="section" id="section-client-detail">
+                    <div style="display:flex;align-items:center;gap:12px;margin-bottom:24px;">
+                        <button class="btn btn-ghost" style="padding:8px 14px;font-size:12px;" onclick="showSection('clients', document.querySelector('[onclick*=\'clients\']'))">← Back to clients</button>
+                        <div>
+                            <div id="detail-client-name" style="font-family:'Syne',sans-serif;font-weight:700;font-size:18px;"></div>
+                            <div id="detail-client-email" style="font-size:12px;color:var(--text3);margin-top:1px;"></div>
+                        </div>
+                    </div>
+
+                    <!-- Episode Pipeline -->
+                    <div style="background:var(--surface);border:1px solid var(--border);border-radius:16px;overflow:hidden;margin-bottom:20px;">
+                        <div style="padding:18px 24px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+                            <div>
+                                <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:14px;">Episode Pipeline</div>
+                                <div style="font-size:11.5px;color:var(--text3);margin-top:2px;">Add episodes and track their production status</div>
+                            </div>
+                            <button class="btn btn-accent" style="padding:8px 16px;font-size:12px;" onclick="openAddEpisodeModal()">+ Add Episode</button>
+                        </div>
+                        <div style="padding:16px 24px;">
+                            <div id="detail-episode-list" style="display:flex;flex-direction:column;gap:8px;">
+                                <div style="padding:24px;text-align:center;color:var(--text3);">Loading episodes…</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Downloads -->
+                    <div style="background:var(--surface);border:1px solid var(--border);border-radius:16px;overflow:hidden;">
+                        <div style="padding:18px 24px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+                            <div>
+                                <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:14px;">Client Downloads</div>
+                                <div style="font-size:11.5px;color:var(--text3);margin-top:2px;">Files the client can download from their portal</div>
+                            </div>
+                            <button class="btn btn-accent" style="padding:8px 16px;font-size:12px;" onclick="openAddDownloadModal()">+ Add File</button>
+                        </div>
+                        <div style="padding:16px 24px;">
+                            <div id="detail-download-list" style="display:flex;flex-direction:column;gap:8px;">
+                                <div style="padding:24px;text-align:center;color:var(--text3);">Loading files…</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- ONBOARD CLIENT -->
                 <div class="section" id="section-add-client">
                     <div class="onboard-layout">
@@ -1221,6 +1264,89 @@
             <div class="modal-actions">
                 <button class="btn btn-danger" onclick="confirmRevoke()">Yes, revoke access</button>
                 <button class="btn btn-ghost" onclick="closeRevokeModal()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ADD EPISODE MODAL -->
+    <div class="modal-overlay" id="add-episode-modal" onclick="if(event.target===this)closeAddEpisodeModal()">
+        <div class="modal" style="width:480px;max-width:95vw;">
+            <div class="modal-title">Add Episode</div>
+            <div style="display:flex;flex-direction:column;gap:12px;margin-top:16px;">
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+                    <div>
+                        <label style="font-size:11px;color:var(--text3);font-weight:500;text-transform:uppercase;letter-spacing:0.06em;display:block;margin-bottom:5px;">Episode Number</label>
+                        <input id="ep-number" type="number" placeholder="1" style="width:100%;background:var(--surface2);border:1px solid var(--border2);border-radius:8px;padding:9px 12px;color:var(--text);font-size:13px;font-family:'DM Sans',sans-serif;outline:none;" />
+                    </div>
+                    <div>
+                        <label style="font-size:11px;color:var(--text3);font-weight:500;text-transform:uppercase;letter-spacing:0.06em;display:block;margin-bottom:5px;">Status</label>
+                        <select id="ep-status" style="width:100%;background:var(--surface2);border:1px solid var(--border2);border-radius:8px;padding:9px 12px;color:var(--text);font-size:13px;font-family:'DM Sans',sans-serif;outline:none;">
+                            <option value="uploaded">Uploaded</option>
+                            <option value="editing">Editing</option>
+                            <option value="review">Your Review</option>
+                            <option value="live">Live</option>
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <label style="font-size:11px;color:var(--text3);font-weight:500;text-transform:uppercase;letter-spacing:0.06em;display:block;margin-bottom:5px;">Episode Title</label>
+                    <input id="ep-title" type="text" placeholder="Episode title…" style="width:100%;background:var(--surface2);border:1px solid var(--border2);border-radius:8px;padding:9px 12px;color:var(--text);font-size:13px;font-family:'DM Sans',sans-serif;outline:none;" />
+                </div>
+                <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;">
+                    <div>
+                        <label style="font-size:11px;color:var(--text3);font-weight:500;text-transform:uppercase;letter-spacing:0.06em;display:block;margin-bottom:5px;">Duration (min)</label>
+                        <input id="ep-duration" type="number" placeholder="60" style="width:100%;background:var(--surface2);border:1px solid var(--border2);border-radius:8px;padding:9px 12px;color:var(--text);font-size:13px;font-family:'DM Sans',sans-serif;outline:none;" />
+                    </div>
+                    <div>
+                        <label style="font-size:11px;color:var(--text3);font-weight:500;text-transform:uppercase;letter-spacing:0.06em;display:block;margin-bottom:5px;">File Size (GB)</label>
+                        <input id="ep-filesize" type="number" step="0.1" placeholder="1.8" style="width:100%;background:var(--surface2);border:1px solid var(--border2);border-radius:8px;padding:9px 12px;color:var(--text);font-size:13px;font-family:'DM Sans',sans-serif;outline:none;" />
+                    </div>
+                    <div>
+                        <label style="font-size:11px;color:var(--text3);font-weight:500;text-transform:uppercase;letter-spacing:0.06em;display:block;margin-bottom:5px;">Clips Count</label>
+                        <input id="ep-clips" type="number" placeholder="0" style="width:100%;background:var(--surface2);border:1px solid var(--border2);border-radius:8px;padding:9px 12px;color:var(--text);font-size:13px;font-family:'DM Sans',sans-serif;outline:none;" />
+                    </div>
+                </div>
+                <div id="ep-modal-msg" style="display:none;"></div>
+            </div>
+            <div class="modal-actions" style="margin-top:20px;">
+                <button class="btn btn-accent" onclick="saveEpisode()">Save Episode</button>
+                <button class="btn btn-ghost" onclick="closeAddEpisodeModal()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ADD DOWNLOAD MODAL -->
+    <div class="modal-overlay" id="add-download-modal" onclick="if(event.target===this)closeAddDownloadModal()">
+        <div class="modal" style="width:480px;max-width:95vw;">
+            <div class="modal-title">Add Download File</div>
+            <div style="display:flex;flex-direction:column;gap:12px;margin-top:16px;">
+                <div>
+                    <label style="font-size:11px;color:var(--text3);font-weight:500;text-transform:uppercase;letter-spacing:0.06em;display:block;margin-bottom:5px;">File Name</label>
+                    <input id="dl-name" type="text" placeholder="Ep.1 — Full Edit" style="width:100%;background:var(--surface2);border:1px solid var(--border2);border-radius:8px;padding:9px 12px;color:var(--text);font-size:13px;font-family:'DM Sans',sans-serif;outline:none;" />
+                </div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+                    <div>
+                        <label style="font-size:11px;color:var(--text3);font-weight:500;text-transform:uppercase;letter-spacing:0.06em;display:block;margin-bottom:5px;">Type</label>
+                        <select id="dl-type" style="width:100%;background:var(--surface2);border:1px solid var(--border2);border-radius:8px;padding:9px 12px;color:var(--text);font-size:13px;font-family:'DM Sans',sans-serif;outline:none;">
+                            <option value="video">Video</option>
+                            <option value="audio">Audio</option>
+                            <option value="clips">Clips</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label style="font-size:11px;color:var(--text3);font-weight:500;text-transform:uppercase;letter-spacing:0.06em;display:block;margin-bottom:5px;">File Size (GB)</label>
+                        <input id="dl-size" type="number" step="0.01" placeholder="1.2" style="width:100%;background:var(--surface2);border:1px solid var(--border2);border-radius:8px;padding:9px 12px;color:var(--text);font-size:13px;font-family:'DM Sans',sans-serif;outline:none;" />
+                    </div>
+                </div>
+                <div>
+                    <label style="font-size:11px;color:var(--text3);font-weight:500;text-transform:uppercase;letter-spacing:0.06em;display:block;margin-bottom:5px;">Download URL (paste link or leave blank)</label>
+                    <input id="dl-url" type="url" placeholder="https://…" style="width:100%;background:var(--surface2);border:1px solid var(--border2);border-radius:8px;padding:9px 12px;color:var(--text);font-size:13px;font-family:'DM Sans',sans-serif;outline:none;" />
+                </div>
+                <div id="dl-modal-msg" style="display:none;"></div>
+            </div>
+            <div class="modal-actions" style="margin-top:20px;">
+                <button class="btn btn-accent" onclick="saveDownload()">Save File</button>
+                <button class="btn btn-ghost" onclick="closeAddDownloadModal()">Cancel</button>
             </div>
         </div>
     </div>
@@ -1397,6 +1523,7 @@
                     <div class="col-plan-head">${planBadge(c.plan)}</div>
                     <div class="status-dot col-status"><div class="dot active"></div>Active</div>
                     <div class="row-actions col-actions-head">
+                        <button class="action-btn" title="Manage episodes & files" onclick="openClientDetail('${c.id}', '${c.name.replace(/'/g, "\\'")}', '${c.email}')">⚙️</button>
                         <button class="action-btn primary" title="View portal as ${c.name}" onclick="openPreview('${c.email}', '${c.name.replace(/'/g, "\\'")}')">👁</button>
                         <button class="action-btn danger" title="Revoke access" onclick="openRevokeModal('${c.email}', '${c.name.replace(/'/g, "\\'")}')">🚫</button>
                     </div>
@@ -1474,6 +1601,192 @@
             document.getElementById('onboard-success').style.display = 'none';
         }
 
+        // ── CLIENT DETAIL ──
+        let detailClientId = null;
+
+        function adminTimeAgo(dateStr) {
+            if (!dateStr) return '';
+            const diff = Date.now() - new Date(dateStr).getTime();
+            const days = Math.floor(diff / 86400000);
+            if (days === 0) return 'Today';
+            if (days === 1) return 'Yesterday';
+            if (days < 7) return days + ' days ago';
+            return new Date(dateStr).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+        }
+
+        async function openClientDetail(clientId, name, email) {
+            detailClientId = clientId;
+            document.getElementById('detail-client-name').textContent = name;
+            document.getElementById('detail-client-email').textContent = email;
+            document.getElementById('detail-episode-list').innerHTML = '<div style="padding:24px;text-align:center;color:var(--text3);">Loading…</div>';
+            document.getElementById('detail-download-list').innerHTML = '<div style="padding:24px;text-align:center;color:var(--text3);">Loading…</div>';
+
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.getElementById('section-client-detail').classList.add('active');
+            document.getElementById('page-title').textContent = name;
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+
+            loadDetailData();
+        }
+
+        async function loadDetailData() {
+            if (!detailClientId) return;
+            const [epsRes, dlsRes] = await Promise.all([
+                _supabase.from('episodes').select('*').eq('client_id', detailClientId).order('number', { ascending: false }),
+                _supabase.from('downloads').select('*').eq('client_id', detailClientId).order('created_at', { ascending: false })
+            ]);
+            renderDetailEpisodes(epsRes.data || []);
+            renderDetailDownloads(dlsRes.data || []);
+        }
+
+        const epStatusMap = { uploaded: 'Uploaded', editing: 'Editing', review: 'Your Review', live: 'Live' };
+        const epStatusColors = { uploaded: 'var(--text2)', editing: 'var(--blue)', review: 'var(--purple)', live: 'var(--green)' };
+
+        function renderDetailEpisodes(episodes) {
+            const el = document.getElementById('detail-episode-list');
+            if (episodes.length === 0) {
+                el.innerHTML = '<div style="padding:24px;text-align:center;color:var(--text3);">No episodes yet. Add one to get started.</div>';
+                return;
+            }
+            el.innerHTML = episodes.map(ep => `
+                <div style="display:flex;align-items:center;gap:14px;padding:12px 14px;border-radius:10px;background:var(--surface2);border:1px solid var(--border);">
+                    <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:13px;color:var(--text3);min-width:36px;">#${ep.number}</div>
+                    <div style="flex:1;min-width:0;">
+                        <div style="font-size:13.5px;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${ep.title}</div>
+                        <div style="font-size:11.5px;color:var(--text3);margin-top:2px;">${adminTimeAgo(ep.created_at)}${ep.duration_minutes ? ' · ' + ep.duration_minutes + ' min' : ''}${ep.clips_count ? ' · ' + ep.clips_count + ' clips' : ''}</div>
+                    </div>
+                    <select onchange="updateEpisodeStatus('${ep.id}', this.value)" style="background:var(--surface3);border:1px solid var(--border2);border-radius:7px;padding:5px 10px;font-size:12px;color:${epStatusColors[ep.status] || 'var(--text)'};font-family:'DM Sans',sans-serif;outline:none;cursor:pointer;">
+                        ${Object.entries(epStatusMap).map(([v, l]) => `<option value="${v}"${ep.status === v ? ' selected' : ''}>${l}</option>`).join('')}
+                    </select>
+                    <button onclick="deleteEpisode('${ep.id}')" style="background:none;border:none;cursor:pointer;color:var(--text3);font-size:15px;padding:4px 6px;border-radius:6px;transition:color 0.15s;" title="Delete episode" onmouseover="this.style.color='var(--red)'" onmouseout="this.style.color='var(--text3)'">✕</button>
+                </div>
+            `).join('');
+        }
+
+        function renderDetailDownloads(downloads) {
+            const el = document.getElementById('detail-download-list');
+            const typeIcon = { video: '🎬', audio: '🎧', clips: '✂️' };
+            if (downloads.length === 0) {
+                el.innerHTML = '<div style="padding:24px;text-align:center;color:var(--text3);">No files yet. Add a download link for this client.</div>';
+                return;
+            }
+            el.innerHTML = downloads.map(dl => `
+                <div style="display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:10px;background:var(--surface2);border:1px solid var(--border);">
+                    <div style="font-size:18px;width:32px;text-align:center;">${typeIcon[dl.type] || '📁'}</div>
+                    <div style="flex:1;min-width:0;">
+                        <div style="font-size:13.5px;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${dl.name}</div>
+                        <div style="font-size:11.5px;color:var(--text3);margin-top:2px;">${dl.type}${dl.file_size_gb ? ' · ' + dl.file_size_gb + ' GB' : ''} · Added ${adminTimeAgo(dl.created_at)}</div>
+                    </div>
+                    ${dl.url ? `<a href="${dl.url}" target="_blank" style="font-size:12px;color:var(--accent);text-decoration:none;">↗ URL</a>` : '<span style="font-size:12px;color:var(--text3);">No URL</span>'}
+                    <button onclick="deleteDownload('${dl.id}')" style="background:none;border:none;cursor:pointer;color:var(--text3);font-size:15px;padding:4px 6px;border-radius:6px;transition:color 0.15s;" title="Delete file" onmouseover="this.style.color='var(--red)'" onmouseout="this.style.color='var(--text3)'">✕</button>
+                </div>
+            `).join('');
+        }
+
+        async function updateEpisodeStatus(episodeId, status) {
+            await _supabase.from('episodes').update({ status }).eq('id', episodeId);
+        }
+
+        async function deleteEpisode(episodeId) {
+            if (!confirm('Delete this episode? This cannot be undone.')) return;
+            await _supabase.from('episodes').delete().eq('id', episodeId);
+            loadDetailData();
+        }
+
+        async function deleteDownload(downloadId) {
+            if (!confirm('Remove this download file?')) return;
+            await _supabase.from('downloads').delete().eq('id', downloadId);
+            loadDetailData();
+        }
+
+        // Add Episode modal
+        function openAddEpisodeModal() {
+            ['ep-number', 'ep-title', 'ep-duration', 'ep-filesize', 'ep-clips'].forEach(id => document.getElementById(id).value = '');
+            document.getElementById('ep-status').value = 'uploaded';
+            document.getElementById('ep-modal-msg').style.display = 'none';
+            document.getElementById('add-episode-modal').classList.add('open');
+        }
+
+        function closeAddEpisodeModal() {
+            document.getElementById('add-episode-modal').classList.remove('open');
+        }
+
+        async function saveEpisode() {
+            const number = parseInt(document.getElementById('ep-number').value);
+            const title = document.getElementById('ep-title').value.trim();
+            const status = document.getElementById('ep-status').value;
+            const duration = parseInt(document.getElementById('ep-duration').value) || null;
+            const fileSize = parseFloat(document.getElementById('ep-filesize').value) || null;
+            const clips = parseInt(document.getElementById('ep-clips').value) || 0;
+            const msg = document.getElementById('ep-modal-msg');
+
+            if (!number || !title) {
+                msg.style.cssText = 'display:block;padding:10px 13px;border-radius:8px;font-size:12.5px;background:rgba(255,77,106,0.08);border:1px solid rgba(255,77,106,0.2);color:var(--red);';
+                msg.textContent = 'Episode number and title are required.';
+                return;
+            }
+
+            const { error } = await _supabase.from('episodes').insert({
+                client_id: detailClientId,
+                number, title, status,
+                duration_minutes: duration,
+                file_size_gb: fileSize,
+                clips_count: clips
+            });
+
+            if (error) {
+                msg.style.cssText = 'display:block;padding:10px 13px;border-radius:8px;font-size:12.5px;background:rgba(255,77,106,0.08);border:1px solid rgba(255,77,106,0.2);color:var(--red);';
+                msg.textContent = error.message;
+                return;
+            }
+
+            closeAddEpisodeModal();
+            loadDetailData();
+        }
+
+        // Add Download modal
+        function openAddDownloadModal() {
+            ['dl-name', 'dl-size', 'dl-url'].forEach(id => document.getElementById(id).value = '');
+            document.getElementById('dl-type').value = 'video';
+            document.getElementById('dl-modal-msg').style.display = 'none';
+            document.getElementById('add-download-modal').classList.add('open');
+        }
+
+        function closeAddDownloadModal() {
+            document.getElementById('add-download-modal').classList.remove('open');
+        }
+
+        async function saveDownload() {
+            const name = document.getElementById('dl-name').value.trim();
+            const type = document.getElementById('dl-type').value;
+            const size = parseFloat(document.getElementById('dl-size').value) || null;
+            const url = document.getElementById('dl-url').value.trim() || null;
+            const msg = document.getElementById('dl-modal-msg');
+
+            if (!name) {
+                msg.style.cssText = 'display:block;padding:10px 13px;border-radius:8px;font-size:12.5px;background:rgba(255,77,106,0.08);border:1px solid rgba(255,77,106,0.2);color:var(--red);';
+                msg.textContent = 'File name is required.';
+                return;
+            }
+
+            const { error } = await _supabase.from('downloads').insert({
+                client_id: detailClientId,
+                name, type,
+                file_size_gb: size,
+                url,
+                is_new: true
+            });
+
+            if (error) {
+                msg.style.cssText = 'display:block;padding:10px 13px;border-radius:8px;font-size:12.5px;background:rgba(255,77,106,0.08);border:1px solid rgba(255,77,106,0.2);color:var(--red);';
+                msg.textContent = error.message;
+                return;
+            }
+
+            closeAddDownloadModal();
+            loadDetailData();
+        }
+
         // ── REVOKE ──
         function openRevokeModal(email, name) {
             revokeTarget = { email, name };
@@ -1524,7 +1837,7 @@
         }
 
         // ── NAVIGATION ──
-        const pageTitles = { dashboard: 'Dashboard', clients: 'All Clients', 'add-client': 'Add Client' };
+        const pageTitles = { dashboard: 'Dashboard', clients: 'All Clients', 'add-client': 'Add Client', 'client-detail': 'Client' };
 
         function showSection(id, navEl) {
             document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));

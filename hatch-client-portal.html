@@ -2050,26 +2050,26 @@
                     <div class="stat-card">
                         <div class="stat-icon" style="background:rgba(232,255,71,0.1);">🎙️</div>
                         <div class="stat-label">Episodes Live</div>
-                        <div class="stat-value">42</div>
-                        <div class="stat-change up"><span class="up-arrow"></span> +4 this month</div>
+                        <div class="stat-value"><span id="stat-eps-live">—</span></div>
+                        <div class="stat-change" style="color:var(--text3);">Published episodes</div>
                     </div>
                     <div class="stat-card">
                         <div class="stat-icon" style="background:rgba(255,107,53,0.1);">✂️</div>
                         <div class="stat-label">Clips Posted</div>
-                        <div class="stat-value">386</div>
-                        <div class="stat-change up"><span class="up-arrow"></span> +28 this week</div>
+                        <div class="stat-value"><span id="stat-clips">—</span></div>
+                        <div class="stat-change" style="color:var(--text3);">Across all episodes</div>
                     </div>
                     <div class="stat-card">
                         <div class="stat-icon" style="background:rgba(61,255,160,0.1);">👁️</div>
                         <div class="stat-label">Total Views</div>
-                        <div class="stat-value">1.2M</div>
-                        <div class="stat-change up"><span class="up-arrow"></span> +18% vs last mo.</div>
+                        <div class="stat-value"><span id="stat-views">—</span></div>
+                        <div class="stat-change" style="color:var(--text3);">Across all content</div>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-icon" style="background:rgba(139,109,250,0.1);">📅</div>
-                        <div class="stat-label">Clips Scheduled</div>
-                        <div class="stat-value">14</div>
-                        <div class="stat-change" style="color:var(--text3);">Next 7 days</div>
+                        <div class="stat-icon" style="background:rgba(139,109,250,0.1);">🎬</div>
+                        <div class="stat-label">In Production</div>
+                        <div class="stat-value"><span id="stat-in-prod">—</span></div>
+                        <div class="stat-change" style="color:var(--text3);">Being worked on</div>
                     </div>
                 </div>
                 <div class="two-col">
@@ -2084,39 +2084,8 @@
                                 all →</div>
                         </div>
                         <div class="card-body" style="padding:12px 16px;">
-                            <div class="episode-list">
-                                <div class="episode-row">
-                                    <div class="ep-num">#42</div>
-                                    <div class="ep-info">
-                                        <div class="ep-title">The Future of AI in Business</div>
-                                        <div class="ep-meta">Uploaded 2 days ago · 14 clips</div>
-                                    </div>
-                                    <div class="ep-status done">Live ✓</div>
-                                </div>
-                                <div class="episode-row">
-                                    <div class="ep-num">#43</div>
-                                    <div class="ep-info">
-                                        <div class="ep-title">Building Remote Teams That Scale</div>
-                                        <div class="ep-meta">In production · 12 clips drafted</div>
-                                    </div>
-                                    <div class="ep-status editing">Editing</div>
-                                </div>
-                                <div class="episode-row">
-                                    <div class="ep-num">#44</div>
-                                    <div class="ep-info">
-                                        <div class="ep-title">From Idea to £1M — Founders Series</div>
-                                        <div class="ep-meta">Awaiting your review</div>
-                                    </div>
-                                    <div class="ep-status review">Review</div>
-                                </div>
-                                <div class="episode-row">
-                                    <div class="ep-num">#45</div>
-                                    <div class="ep-info">
-                                        <div class="ep-title">Raw recording received</div>
-                                        <div class="ep-meta">Uploaded 1 hour ago · Processing</div>
-                                    </div>
-                                    <div class="ep-status upload">Processing</div>
-                                </div>
+                            <div class="episode-list" id="dash-episode-list">
+                                <div style="padding:24px;text-align:center;color:var(--text3);">Loading episodes…</div>
                             </div>
                         </div>
                     </div>
@@ -2184,64 +2153,32 @@
                     <div class="pipe-col uploaded">
                         <div class="pipe-col-header">
                             <div class="pipe-col-title">Uploaded</div>
-                            <div class="pipe-count">1</div>
+                            <div class="pipe-count" id="pipe-count-uploaded">—</div>
                         </div>
-                        <div class="pipe-card">
-                            <div class="pipe-card-title">Ep.45 — Raw Recording</div>
-                            <div class="pipe-card-meta">Uploaded 1hr ago · 94 min</div>
-                            <div class="pipe-card-tags"><span class="pipe-tag">Audio + Video</span><span
-                                    class="pipe-tag">1.8GB</span></div>
+                        <div id="pipe-col-uploaded" style="display:flex;flex-direction:column;gap:10px;">
+                            <div style="color:var(--text3);font-size:12px;text-align:center;padding:20px 0;">Loading…</div>
                         </div>
                     </div>
                     <div class="pipe-col editing">
                         <div class="pipe-col-header">
                             <div class="pipe-col-title">Editing</div>
-                            <div class="pipe-count">2</div>
+                            <div class="pipe-count" id="pipe-count-editing">—</div>
                         </div>
-                        <div class="pipe-card">
-                            <div class="pipe-card-title">Ep.43 — Remote Teams</div>
-                            <div class="pipe-card-meta">In edit · Est. delivery Wed</div>
-                            <div class="pipe-card-tags"><span class="pipe-tag">12 clips drafted</span></div>
-                        </div>
-                        <div class="pipe-card">
-                            <div class="pipe-card-title">Ep.43 Short-Form Clips</div>
-                            <div class="pipe-card-meta">Captioning + hook writing</div>
-                            <div class="pipe-card-tags"><span class="pipe-tag">IG</span><span
-                                    class="pipe-tag">TT</span><span class="pipe-tag">YT</span></div>
-                        </div>
+                        <div id="pipe-col-editing" style="display:flex;flex-direction:column;gap:10px;"></div>
                     </div>
                     <div class="pipe-col review">
                         <div class="pipe-col-header">
                             <div class="pipe-col-title">Your Review</div>
-                            <div class="pipe-count">1</div>
+                            <div class="pipe-count" id="pipe-count-review">—</div>
                         </div>
-                        <div class="pipe-card" style="border-color:rgba(139,109,250,0.3);">
-                            <div class="pipe-card-title">Ep.44 — Founders Series</div>
-                            <div class="pipe-card-meta">Ready for approval · 18 clips</div>
-                            <div class="pipe-card-tags"><span class="pipe-tag" style="color:var(--purple);">⚠ Awaiting
-                                    you</span></div>
-                            <button class="clip-schedule-btn" style="margin-top:10px;"
-                                onclick="showSection('clips', document.querySelector('[onclick*=clips]'))">Review Clips
-                                →</button>
-                        </div>
+                        <div id="pipe-col-review" style="display:flex;flex-direction:column;gap:10px;"></div>
                     </div>
                     <div class="pipe-col live">
                         <div class="pipe-col-header">
                             <div class="pipe-col-title">Live</div>
-                            <div class="pipe-count">42</div>
+                            <div class="pipe-count" id="pipe-count-live">—</div>
                         </div>
-                        <div class="pipe-card">
-                            <div class="pipe-card-title">Ep.42 — AI in Business</div>
-                            <div class="pipe-card-meta">Published Mon · 14 clips live</div>
-                            <div class="pipe-card-tags"><span class="pipe-tag" style="color:var(--green);">✓ 45.2K
-                                    views</span></div>
-                        </div>
-                        <div class="pipe-card">
-                            <div class="pipe-card-title">Ep.41 — Growth Mindset</div>
-                            <div class="pipe-card-meta">Published last week</div>
-                            <div class="pipe-card-tags"><span class="pipe-tag" style="color:var(--green);">✓ 31.8K
-                                    views</span></div>
-                        </div>
+                        <div id="pipe-col-live" style="display:flex;flex-direction:column;gap:10px;"></div>
                     </div>
                 </div>
             </div>
@@ -2331,39 +2268,8 @@
                             </div>
                         </div>
                         <div class="card-body" style="padding:12px 16px;">
-                            <div class="episode-list">
-                                <div class="episode-row">
-                                    <div class="ep-num" style="font-size:18px;background:var(--surface3);">🎬</div>
-                                    <div class="ep-info">
-                                        <div class="ep-title">ep45-raw-recording.mp4</div>
-                                        <div class="ep-meta">1.8 GB · Uploaded 1hr ago</div>
-                                    </div>
-                                    <div class="ep-status upload">Processing</div>
-                                </div>
-                                <div class="episode-row">
-                                    <div class="ep-num" style="font-size:18px;background:var(--surface3);">🎬</div>
-                                    <div class="ep-info">
-                                        <div class="ep-title">ep44-founders-raw.mov</div>
-                                        <div class="ep-meta">2.2 GB · 3 days ago</div>
-                                    </div>
-                                    <div class="ep-status review">In Review</div>
-                                </div>
-                                <div class="episode-row">
-                                    <div class="ep-num" style="font-size:18px;background:var(--surface3);">🎬</div>
-                                    <div class="ep-info">
-                                        <div class="ep-title">ep43-remote-teams.mp4</div>
-                                        <div class="ep-meta">1.6 GB · 5 days ago</div>
-                                    </div>
-                                    <div class="ep-status editing">Editing</div>
-                                </div>
-                                <div class="episode-row">
-                                    <div class="ep-num" style="font-size:18px;background:var(--surface3);">🎙️</div>
-                                    <div class="ep-info">
-                                        <div class="ep-title">ep42-ai-business-audio.wav</div>
-                                        <div class="ep-meta">380 MB · 12 days ago</div>
-                                    </div>
-                                    <div class="ep-status done">Done ✓</div>
-                                </div>
+                            <div class="episode-list" id="upload-history-list">
+                                <div style="padding:24px;text-align:center;color:var(--text3);">Loading history…</div>
                             </div>
                         </div>
                     </div>
@@ -2380,47 +2286,8 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <div class="download-list">
-                            <div class="download-row">
-                                <div class="dl-icon dl-video">🎬</div>
-                                <div class="dl-info">
-                                    <div class="dl-name">Ep.44 — Founders Series — Full Edit</div>
-                                    <div class="dl-meta">4K MP4 · Colour graded · 58:22</div>
-                                </div>
-                                <div class="dl-size">4.1 GB</div><button class="dl-btn new">⬇ Download</button>
-                            </div>
-                            <div class="download-row">
-                                <div class="dl-icon dl-audio">🎧</div>
-                                <div class="dl-info">
-                                    <div class="dl-name">Ep.44 — Founders Series — Audio Master</div>
-                                    <div class="dl-meta">WAV 44.1kHz · Mastered · Spotify-ready</div>
-                                </div>
-                                <div class="dl-size">380 MB</div><button class="dl-btn new">⬇ Download</button>
-                            </div>
-                            <div class="download-row">
-                                <div class="dl-icon dl-clips">✂️</div>
-                                <div class="dl-info">
-                                    <div class="dl-name">Ep.44 — All 18 Short-Form Clips</div>
-                                    <div class="dl-meta">9:16 MP4 · Captions burned · All platforms</div>
-                                </div>
-                                <div class="dl-size">1.2 GB</div><button class="dl-btn new">⬇ Download All</button>
-                            </div>
-                            <div class="download-row">
-                                <div class="dl-icon dl-video">🎬</div>
-                                <div class="dl-info">
-                                    <div class="dl-name">Ep.42 — AI in Business — Full Edit</div>
-                                    <div class="dl-meta">4K MP4 · Published Mon 7 Apr</div>
-                                </div>
-                                <div class="dl-size">3.8 GB</div><button class="dl-btn">⬇ Download</button>
-                            </div>
-                            <div class="download-row">
-                                <div class="dl-icon dl-clips">✂️</div>
-                                <div class="dl-info">
-                                    <div class="dl-name">Ep.42 — All 14 Short-Form Clips</div>
-                                    <div class="dl-meta">Posted · Still available for download</div>
-                                </div>
-                                <div class="dl-size">940 MB</div><button class="dl-btn">⬇ Download All</button>
-                            </div>
+                        <div class="download-list" id="downloads-list">
+                            <div style="padding:40px;text-align:center;color:var(--text3);">Loading files…</div>
                         </div>
                     </div>
                 </div>
@@ -3014,21 +2881,162 @@
             if (e.key === 'Enter') sendMagicLink();
         });
 
+        let currentClient = null;
+
         async function loadClientProfile(email) {
             const { data } = await _supabase
                 .from('clients')
-                .select('name, plan, avatar_initials')
+                .select('id, name, plan, avatar_initials')
                 .eq('email', email)
                 .single();
 
             if (data) {
+                currentClient = data;
                 const el = document.querySelector('.client-name');
                 const pl = document.querySelector('.client-plan');
                 const av = document.querySelector('.client-avatar');
                 if (el) el.textContent = data.name;
                 if (pl) pl.textContent = (data.plan || 'Core Plan') + ' · Active';
                 if (av) av.textContent = data.avatar_initials || email.slice(0, 2).toUpperCase();
+                loadPortalData();
             }
+        }
+
+        async function loadPortalData() {
+            if (!currentClient) return;
+            const [epsRes, dlsRes] = await Promise.all([
+                _supabase.from('episodes').select('*').eq('client_id', currentClient.id).order('number', { ascending: false }),
+                _supabase.from('downloads').select('*').eq('client_id', currentClient.id).order('created_at', { ascending: false })
+            ]);
+            const episodes = epsRes.data || [];
+            const downloads = dlsRes.data || [];
+            renderDashboard(episodes, downloads);
+            renderPipeline(episodes);
+            renderDownloads(downloads);
+            renderUploadHistory(episodes);
+        }
+
+        function timeAgo(dateStr) {
+            if (!dateStr) return '';
+            const diff = Date.now() - new Date(dateStr).getTime();
+            const mins = Math.floor(diff / 60000);
+            if (mins < 60) return mins + ' min ago';
+            const hrs = Math.floor(mins / 60);
+            if (hrs < 24) return hrs + ' hr ago';
+            const days = Math.floor(hrs / 24);
+            if (days === 1) return '1 day ago';
+            if (days < 7) return days + ' days ago';
+            const wks = Math.floor(days / 7);
+            return wks === 1 ? '1 week ago' : wks + ' weeks ago';
+        }
+
+        function epStatusLabel(s) {
+            return { uploaded: 'Processing', editing: 'Editing', review: 'Review', live: 'Live ✓' }[s] || s;
+        }
+
+        function epStatusClass(s) {
+            return { uploaded: 'upload', editing: 'editing', review: 'review', live: 'done' }[s] || '';
+        }
+
+        function renderDashboard(episodes, downloads) {
+            const live = episodes.filter(e => e.status === 'live');
+            const inProd = episodes.filter(e => e.status !== 'live');
+            const totalClips = live.reduce((s, e) => s + (e.clips_count || 0), 0);
+            const totalViews = live.reduce((s, e) => s + (e.views || 0), 0);
+
+            document.getElementById('stat-eps-live').textContent = live.length || '0';
+            document.getElementById('stat-clips').textContent = totalClips || '—';
+            document.getElementById('stat-views').textContent = totalViews > 1000000
+                ? (totalViews / 1000000).toFixed(1) + 'M'
+                : totalViews > 1000 ? Math.round(totalViews / 1000) + 'K'
+                : totalViews || '—';
+            document.getElementById('stat-in-prod').textContent = inProd.length || '0';
+
+            const listEl = document.getElementById('dash-episode-list');
+            if (!listEl) return;
+            if (episodes.length === 0) {
+                listEl.innerHTML = '<div style="padding:24px;text-align:center;color:var(--text3);">No episodes yet — your first one will appear here once production starts.</div>';
+                return;
+            }
+            listEl.innerHTML = episodes.slice(0, 4).map(ep => `
+                <div class="episode-row">
+                    <div class="ep-num">#${ep.number}</div>
+                    <div class="ep-info">
+                        <div class="ep-title">${ep.title}</div>
+                        <div class="ep-meta">${timeAgo(ep.created_at)}${ep.clips_count ? ' · ' + ep.clips_count + ' clips' : ''}</div>
+                    </div>
+                    <div class="ep-status ${epStatusClass(ep.status)}">${epStatusLabel(ep.status)}</div>
+                </div>
+            `).join('');
+        }
+
+        function renderPipeline(episodes) {
+            ['uploaded', 'editing', 'review', 'live'].forEach(status => {
+                const eps = episodes.filter(e => e.status === status);
+                const countEl = document.getElementById('pipe-count-' + status);
+                const colEl = document.getElementById('pipe-col-' + status);
+                if (countEl) countEl.textContent = eps.length;
+                if (!colEl) return;
+                if (eps.length === 0) {
+                    colEl.innerHTML = '<div style="color:var(--text3);font-size:12px;text-align:center;padding:20px 0;">No episodes here</div>';
+                    return;
+                }
+                colEl.innerHTML = eps.map(ep => `
+                    <div class="pipe-card"${status === 'review' ? ' style="border-color:rgba(139,109,250,0.3);"' : ''}>
+                        <div class="pipe-card-title">Ep.${ep.number} — ${ep.title}</div>
+                        <div class="pipe-card-meta">${timeAgo(ep.created_at)}${ep.duration_minutes ? ' · ' + ep.duration_minutes + ' min' : ''}</div>
+                        <div class="pipe-card-tags">
+                            ${ep.file_size_gb ? `<span class="pipe-tag">${ep.file_size_gb} GB</span>` : ''}
+                            ${ep.clips_count ? `<span class="pipe-tag">${ep.clips_count} clips</span>` : ''}
+                            ${status === 'live' && ep.views ? `<span class="pipe-tag" style="color:var(--green);">✓ ${ep.views > 1000 ? Math.round(ep.views / 1000) + 'K' : ep.views} views</span>` : ''}
+                            ${status === 'review' ? `<span class="pipe-tag" style="color:var(--purple);">⚠ Awaiting you</span>` : ''}
+                        </div>
+                    </div>
+                `).join('');
+            });
+        }
+
+        function renderDownloads(downloads) {
+            const listEl = document.getElementById('downloads-list');
+            if (!listEl) return;
+            if (downloads.length === 0) {
+                listEl.innerHTML = '<div style="padding:40px;text-align:center;color:var(--text3);">No files ready yet — completed episodes will appear here for download.</div>';
+                return;
+            }
+            const typeIcon = { video: '🎬', audio: '🎧', clips: '✂️' };
+            const typeClass = { video: 'dl-video', audio: 'dl-audio', clips: 'dl-clips' };
+            listEl.innerHTML = downloads.map(dl => `
+                <div class="download-row">
+                    <div class="dl-icon ${typeClass[dl.type] || 'dl-video'}">${typeIcon[dl.type] || '📁'}</div>
+                    <div class="dl-info">
+                        <div class="dl-name">${dl.name}</div>
+                        <div class="dl-meta">${dl.file_size_gb ? dl.file_size_gb + ' GB · ' : ''}Added ${timeAgo(dl.created_at)}</div>
+                    </div>
+                    ${dl.file_size_gb ? `<div class="dl-size">${dl.file_size_gb} GB</div>` : ''}
+                    ${dl.url
+                        ? `<a href="${dl.url}" target="_blank" class="dl-btn${dl.is_new ? ' new' : ''}">⬇ Download</a>`
+                        : `<button class="dl-btn" disabled style="opacity:0.4;cursor:default;">Preparing…</button>`}
+                </div>
+            `).join('');
+        }
+
+        function renderUploadHistory(episodes) {
+            const listEl = document.getElementById('upload-history-list');
+            if (!listEl) return;
+            if (episodes.length === 0) {
+                listEl.innerHTML = '<div style="padding:24px;text-align:center;color:var(--text3);">No uploads yet.</div>';
+                return;
+            }
+            listEl.innerHTML = episodes.map(ep => `
+                <div class="episode-row">
+                    <div class="ep-num" style="font-size:18px;background:var(--surface3);">🎬</div>
+                    <div class="ep-info">
+                        <div class="ep-title">Ep.${ep.number} — ${ep.title}</div>
+                        <div class="ep-meta">${ep.file_size_gb ? ep.file_size_gb + ' GB · ' : ''}${timeAgo(ep.created_at)}</div>
+                    </div>
+                    <div class="ep-status ${epStatusClass(ep.status)}">${epStatusLabel(ep.status)}</div>
+                </div>
+            `).join('');
         }
 
         function showPortal(email) {
