@@ -4,6 +4,17 @@ description: Full current state — files, Supabase setup, what's built, what's 
 type: project
 originSessionId: 14103b72-69fb-425c-a82d-9d9b5eb892c3
 ---
+## Live URLs
+
+| | URL |
+|---|---|
+| **Client portal** | https://hatch-studios-portal.vercel.app/ |
+| **Admin portal** | https://hatch-studios-portal.vercel.app/admin |
+| **GitHub repo** | https://github.com/archienorris1/hatch-studios-client-portal |
+| **Vercel project** | https://vercel.com/archienorris1s-projects/hatch-studios-portal |
+
+Deployments are automatic — any `git push` to `main` triggers a new Vercel deploy.
+
 ## Files (iCloud Drive → Claude Code → Hatch Studios - Client Portal)
 
 | File | Purpose |
