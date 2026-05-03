@@ -4,10 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hatch Studios — Client Portal</title>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap"
-        rel="stylesheet">
+    <title>Upper Floor | Client Portal</title>
     <style>
         *,
         *::before,
@@ -18,30 +15,30 @@
         }
 
         :root {
-            --bg: #0a0a0b;
-            --surface: #111113;
-            --surface2: #16161a;
-            --surface3: #1d1d23;
-            --border: rgba(255, 255, 255, 0.06);
-            --border2: rgba(255, 255, 255, 0.11);
-            --accent: #f0448a;
-            --accent-dim: rgba(240, 68, 138, 0.12);
-            --accent-glow: rgba(240, 68, 138, 0.06);
+            --bg: #000000;
+            --surface: #111111;
+            --surface2: #0d0d0d;
+            --surface3: #1a1a1a;
+            --border: #222222;
+            --border2: #2e2e2e;
+            --accent: #E07BA3;
+            --accent-dim: rgba(224, 123, 163, 0.12);
+            --accent-glow: rgba(224, 123, 163, 0.06);
             --orange: #ff6b35;
             --purple: #8b6dfa;
             --green: #3dffa0;
             --red: #ff4d6a;
             --blue: #47b8ff;
-            --text: #f0f0f2;
-            --text2: #9a9aaa;
-            --text3: #6e6e82;
+            --text: #FFFFFF;
+            --text2: #BBBBBB;
+            --text3: #888888;
             --sidebar-w: 228px;
-            --topbar-bg: rgba(10, 10, 11, 0.85);
-            --modal-overlay-bg: rgba(0, 0, 0, 0.7);
+            --topbar-bg: rgba(0, 0, 0, 0.9);
+            --modal-overlay-bg: rgba(0, 0, 0, 0.75);
         }
 
         body {
-            font-family: 'DM Sans', sans-serif;
+            font-family: Arial, Helvetica, sans-serif;
             background: var(--bg);
             color: var(--text);
             min-height: 100vh;
@@ -79,39 +76,41 @@
             gap: 11px;
         }
 
-        .logo-mark {
-            width: 34px;
-            height: 34px;
-            background: var(--accent);
-            border-radius: 9px;
-            display: grid;
-            place-items: center;
-            flex-shrink: 0;
+        .uf-logo-wrap {
+            display: flex;
+            flex-direction: column;
+            line-height: 1;
         }
 
-        .logo-mark svg {
-            width: 17px;
-            height: 17px;
+        .uf-logo-upper {
+            font-family: Arial, Helvetica, sans-serif;
+            font-weight: 900;
+            font-style: italic;
+            font-size: 21px;
+            letter-spacing: -0.04em;
+            text-transform: uppercase;
+            color: var(--text);
+            line-height: 1;
         }
 
-        .logo-name {
-            font-family: 'Syne', sans-serif;
-            font-weight: 800;
-            font-size: 16px;
-            letter-spacing: -0.3px;
-            line-height: 1.1;
-        }
-
-        .logo-name span {
-            color: var(--accent);
+        .uf-logo-floor {
+            font-family: Arial, Helvetica, sans-serif;
+            font-weight: 700;
+            font-size: 8px;
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+            color: var(--text);
+            line-height: 1;
+            margin-top: 2px;
         }
 
         .logo-sub {
             font-size: 10px;
             color: var(--text3);
             font-weight: 400;
-            letter-spacing: 0.05em;
-            margin-top: 1px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            margin-top: 2px;
         }
 
         .nav {
@@ -181,13 +180,13 @@
         .nav-badge {
             margin-left: auto;
             background: var(--accent);
-            color: #fff;
+            color: #000;
             font-size: 10px;
             font-weight: 700;
             padding: 1px 6px;
             border-radius: 20px;
             line-height: 1.5;
-            font-family: 'Syne', sans-serif;
+            font-family: Arial, Helvetica, sans-serif;
         }
 
         .nav-badge.orange {
@@ -227,7 +226,7 @@
             background: linear-gradient(135deg, var(--accent), var(--orange));
             display: grid;
             place-items: center;
-            font-family: 'Syne', sans-serif;
+            font-family: Arial, Helvetica, sans-serif;
             font-weight: 700;
             font-size: 12px;
             color: #fff;
@@ -285,10 +284,11 @@
         }
 
         .page-title {
-            font-family: 'Syne', sans-serif;
+            font-family: Arial, Helvetica, sans-serif;
             font-weight: 700;
-            font-size: 17px;
-            letter-spacing: -0.3px;
+            font-size: 15px;
+            letter-spacing: -0.02em;
+            text-transform: uppercase;
         }
 
         .breadcrumb {
@@ -311,8 +311,10 @@
             gap: 6px;
             padding: 7px 13px;
             border-radius: 8px;
-            font-size: 12.5px;
-            font-weight: 500;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+            text-transform: uppercase;
             cursor: pointer;
             transition: all 0.15s;
             border: 1px solid var(--border2);
@@ -328,13 +330,14 @@
 
         .topbar-pill.accent {
             background: var(--accent);
-            color: #fff;
+            color: #000;
             border-color: var(--accent);
-            font-weight: 600;
+            font-weight: 700;
         }
 
         .topbar-pill.accent:hover {
-            background: #d63578;
+            background: #c96990;
+            color: #000;
         }
 
         .notif-dot {
@@ -370,7 +373,7 @@
             cursor: pointer;
             color: var(--text2);
             transition: all 0.15s;
-            font-family: 'DM Sans', sans-serif;
+            font-family: Arial, Helvetica, sans-serif;
             white-space: nowrap;
         }
 
@@ -428,7 +431,7 @@
         }
 
         .stat-value {
-            font-family: 'Syne', sans-serif;
+            font-family: Arial, Helvetica, sans-serif;
             font-size: 28px;
             font-weight: 800;
             letter-spacing: -1px;
@@ -494,10 +497,11 @@
         }
 
         .card-title {
-            font-family: 'Syne', sans-serif;
+            font-family: Arial, Helvetica, sans-serif;
             font-weight: 700;
-            font-size: 14px;
-            letter-spacing: -0.2px;
+            font-size: 13px;
+            letter-spacing: -0.02em;
+            text-transform: uppercase;
         }
 
         .card-sub {
@@ -554,7 +558,7 @@
         }
 
         .upload-title {
-            font-family: 'Syne', sans-serif;
+            font-family: Arial, Helvetica, sans-serif;
             font-weight: 700;
             font-size: 15px;
             margin-bottom: 6px;
@@ -613,7 +617,7 @@
             background: var(--surface3);
             display: grid;
             place-items: center;
-            font-family: 'Syne', sans-serif;
+            font-family: Arial, Helvetica, sans-serif;
             font-weight: 700;
             font-size: 12px;
             color: var(--text2);
@@ -791,7 +795,7 @@
             place-items: center;
             font-size: 10px;
             font-weight: 700;
-            font-family: 'Syne', sans-serif;
+            font-family: Arial, Helvetica, sans-serif;
         }
 
         .plat-ig {
@@ -826,7 +830,7 @@
             font-weight: 500;
             cursor: pointer;
             transition: all 0.15s;
-            font-family: 'DM Sans', sans-serif;
+            font-family: Arial, Helvetica, sans-serif;
         }
 
         .clip-schedule-btn:hover {
@@ -875,7 +879,7 @@
         }
 
         .week-label {
-            font-family: 'Syne', sans-serif;
+            font-family: Arial, Helvetica, sans-serif;
             font-weight: 700;
             font-size: 14px;
         }
@@ -906,7 +910,7 @@
         }
 
         .cal-day-num {
-            font-family: 'Syne', sans-serif;
+            font-family: Arial, Helvetica, sans-serif;
             font-size: 16px;
             font-weight: 700;
             margin-top: 2px;
@@ -987,7 +991,7 @@
             align-items: center;
             justify-content: center;
             gap: 4px;
-            font-family: 'DM Sans', sans-serif;
+            font-family: Arial, Helvetica, sans-serif;
         }
 
         .cal-add:hover {
@@ -1011,7 +1015,7 @@
         }
 
         .chart-title {
-            font-family: 'Syne', sans-serif;
+            font-family: Arial, Helvetica, sans-serif;
             font-weight: 700;
             font-size: 14px;
         }
@@ -1130,11 +1134,11 @@
             margin: 0 auto 10px;
             font-weight: 700;
             font-size: 13px;
-            font-family: 'Syne', sans-serif;
+            font-family: Arial, Helvetica, sans-serif;
         }
 
         .plat-stat-val {
-            font-family: 'Syne', sans-serif;
+            font-family: Arial, Helvetica, sans-serif;
             font-weight: 800;
             font-size: 22px;
             letter-spacing: -0.5px;
@@ -1243,7 +1247,7 @@
             display: flex;
             align-items: center;
             gap: 5px;
-            font-family: 'DM Sans', sans-serif;
+            font-family: Arial, Helvetica, sans-serif;
             white-space: nowrap;
         }
 
@@ -1436,7 +1440,7 @@
         }
 
         .modal-title {
-            font-family: 'Syne', sans-serif;
+            font-family: Arial, Helvetica, sans-serif;
             font-weight: 800;
             font-size: 18px;
             letter-spacing: -0.5px;
@@ -1484,7 +1488,7 @@
             place-items: center;
             font-weight: 700;
             font-size: 12px;
-            font-family: 'Syne', sans-serif;
+            font-family: Arial, Helvetica, sans-serif;
         }
 
         .modal-plat-name {
@@ -1525,7 +1529,7 @@
             padding: 9px 12px;
             color: var(--text);
             font-size: 13px;
-            font-family: 'DM Sans', sans-serif;
+            font-family: Arial, Helvetica, sans-serif;
             outline: none;
             transition: border-color 0.15s;
         }
@@ -1542,27 +1546,32 @@
         .btn {
             padding: 10px 20px;
             border-radius: 9px;
-            font-size: 13.5px;
-            font-weight: 600;
+            font-size: 12px;
+            font-weight: 700;
             cursor: pointer;
             transition: all 0.15s;
-            font-family: 'DM Sans', sans-serif;
+            font-family: Arial, Helvetica, sans-serif;
+            letter-spacing: -0.01em;
+            text-transform: uppercase;
             border: 1px solid transparent;
         }
 
         .btn-accent {
             background: var(--accent);
-            color: #fff;
+            color: #000;
         }
 
         .btn-accent:hover {
-            background: #d63578;
+            background: #c96990;
         }
 
         .btn-ghost {
             background: transparent;
             border-color: var(--border2);
             color: var(--text2);
+            text-transform: none;
+            font-weight: 500;
+            letter-spacing: 0;
         }
 
         .btn-ghost:hover {
@@ -1572,18 +1581,18 @@
 
         /* ── LIGHT MODE ── */
         body.light {
-            --bg: #f4f4f6;
-            --surface: #ffffff;
-            --surface2: #f0f0f4;
-            --surface3: #e8e8ee;
-            --border: rgba(0, 0, 0, 0.07);
-            --border2: rgba(0, 0, 0, 0.13);
-            --accent-dim: rgba(240, 68, 138, 0.1);
-            --accent-glow: rgba(240, 68, 138, 0.05);
-            --text: #0d0d10;
-            --text2: #4a4a5e;
-            --text3: #8a8a9e;
-            --topbar-bg: rgba(244, 244, 246, 0.88);
+            --bg: #FAF8F5;
+            --surface: #F0EDE8;
+            --surface2: #E8E4DF;
+            --surface3: #DDD8D1;
+            --border: #E0DBD4;
+            --border2: #C8C2BB;
+            --accent-dim: rgba(224, 123, 163, 0.1);
+            --accent-glow: rgba(224, 123, 163, 0.05);
+            --text: #000000;
+            --text2: #444444;
+            --text3: #777777;
+            --topbar-bg: rgba(250, 248, 245, 0.9);
             --modal-overlay-bg: rgba(0, 0, 0, 0.45);
         }
 
@@ -1725,43 +1734,39 @@
 
         .login-logo {
             display: flex;
-            align-items: center;
-            gap: 13px;
+            align-items: flex-end;
+            gap: 14px;
             margin-bottom: 32px;
         }
 
-        .login-logo-mark {
-            width: 44px;
-            height: 44px;
-            background: var(--accent);
-            border-radius: 12px;
-            display: grid;
-            place-items: center;
-            flex-shrink: 0;
+        .login-uf-upper {
+            font-family: Arial, Helvetica, sans-serif;
+            font-weight: 900;
+            font-style: italic;
+            font-size: 34px;
+            letter-spacing: -0.04em;
+            text-transform: uppercase;
+            color: var(--text);
+            line-height: 1;
         }
 
-        .login-logo-mark svg {
-            width: 22px;
-            height: 22px;
-        }
-
-        .login-logo-name {
-            font-family: 'Syne', sans-serif;
-            font-weight: 800;
-            font-size: 20px;
-            letter-spacing: -0.4px;
-            line-height: 1.1;
-        }
-
-        .login-logo-name span {
-            color: var(--accent);
+        .login-uf-floor {
+            font-family: Arial, Helvetica, sans-serif;
+            font-weight: 700;
+            font-size: 12px;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--text);
+            line-height: 1;
+            margin-bottom: 5px;
         }
 
         .login-logo-sub {
             font-size: 11px;
             color: var(--text3);
-            margin-top: 2px;
-            letter-spacing: 0.05em;
+            margin-top: 3px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
         }
 
         .login-divider {
@@ -1771,10 +1776,11 @@
         }
 
         .login-heading {
-            font-family: 'Syne', sans-serif;
-            font-weight: 800;
+            font-family: Arial, Helvetica, sans-serif;
+            font-weight: 900;
             font-size: 22px;
-            letter-spacing: -0.5px;
+            letter-spacing: -0.04em;
+            text-transform: uppercase;
             margin-bottom: 8px;
         }
 
@@ -1803,7 +1809,7 @@
             padding: 12px 15px;
             color: var(--text);
             font-size: 14px;
-            font-family: 'DM Sans', sans-serif;
+            font-family: Arial, Helvetica, sans-serif;
             outline: none;
             transition: border-color 0.15s;
             margin-bottom: 14px;
@@ -1818,18 +1824,19 @@
             padding: 13px;
             border-radius: 10px;
             background: var(--accent);
-            color: #fff;
-            font-size: 14px;
-            font-weight: 600;
-            font-family: 'DM Sans', sans-serif;
+            color: #000;
+            font-size: 12px;
+            font-weight: 700;
+            font-family: Arial, Helvetica, sans-serif;
             border: none;
             cursor: pointer;
             transition: background 0.15s;
-            letter-spacing: 0.01em;
+            letter-spacing: -0.01em;
+            text-transform: uppercase;
         }
 
         .login-btn:hover {
-            background: #d63578;
+            background: #c96990;
         }
 
         .login-btn:disabled {
@@ -1897,13 +1904,11 @@
     <div id="login-screen">
         <div class="login-card">
             <div class="login-logo">
-                <div class="login-logo-mark">
-                    <svg viewBox="0 0 24 24" fill="white">
-                        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
-                    </svg>
+                <div>
+                    <div class="login-uf-upper">UPPER</div>
+                    <div class="login-uf-floor">FLOOR</div>
                 </div>
                 <div>
-                    <div class="login-logo-name">Hatch <span>Studios</span></div>
                     <div class="login-logo-sub">Client Portal</div>
                 </div>
             </div>
@@ -1914,7 +1919,7 @@
             <input class="login-input" type="email" id="login-email" placeholder="you@example.com" />
             <button class="login-btn" id="login-btn" onclick="sendMagicLink()">Send me a link →</button>
             <div class="login-message" id="login-message"></div>
-            <div class="login-footer">Access is by invitation only.<br>Contact Hatch Studios if you need access.</div>
+            <div class="login-footer">Access is by invitation only.<br>Contact Upper Floor if you need access.</div>
         </div>
     </div>
 
@@ -1926,15 +1931,11 @@
     <!-- SIDEBAR -->
     <aside class="sidebar" id="sidebar">
         <div class="sidebar-logo">
-            <div class="logo-mark">
-                <svg viewBox="0 0 24 24" fill="white">
-                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
-                </svg>
+            <div class="uf-logo-wrap">
+                <div class="uf-logo-upper">UPPER</div>
+                <div class="uf-logo-floor">FLOOR</div>
             </div>
-            <div>
-                <div class="logo-name">Hatch <span>Studios</span></div>
-                <div class="logo-sub">Client Portal</div>
-            </div>
+            <div class="logo-sub">Client Portal</div>
         </div>
 
         <nav class="nav">
@@ -2013,7 +2014,7 @@
                     <div class="client-plan">Core Plan · Active</div>
                 </div>
             </div>
-            <button onclick="signOut()" style="margin-top:10px;width:100%;padding:8px;border-radius:8px;border:1px solid var(--border2);background:transparent;color:var(--text3);font-size:12px;font-family:'DM Sans',sans-serif;cursor:pointer;transition:all 0.15s;" onmouseover="this.style.color='var(--red)';this.style.borderColor='rgba(255,77,106,0.3)'" onmouseout="this.style.color='var(--text3)';this.style.borderColor='var(--border2)'">Sign out</button>
+            <button onclick="signOut()" style="margin-top:10px;width:100%;padding:8px;border-radius:8px;border:1px solid var(--border2);background:transparent;color:var(--text3);font-size:12px;font-family:Arial,Helvetica,sans-serif;cursor:pointer;transition:all 0.15s;" onmouseover="this.style.color='var(--red)';this.style.borderColor='rgba(255,77,106,0.3)'" onmouseout="this.style.color='var(--text3)';this.style.borderColor='var(--border2)'">Sign out</button>
         </div>
     </aside>
 
@@ -2221,7 +2222,7 @@
                                         style="font-size:11px;color:var(--text3);font-weight:500;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;">
                                         Episode Title</div>
                                     <input
-                                        style="width:100%;background:var(--surface2);border:1px solid var(--border2);border-radius:8px;padding:10px 13px;color:var(--text);font-size:13.5px;font-family:'DM Sans',sans-serif;outline:none;"
+                                        style="width:100%;background:var(--surface2);border:1px solid var(--border2);border-radius:8px;padding:10px 13px;color:var(--text);font-size:13.5px;font-family:Arial,Helvetica,sans-serif;outline:none;"
                                         placeholder="Ep.45 — Your episode title..." />
                                 </div>
                                 <div>
@@ -2229,7 +2230,7 @@
                                         style="font-size:11px;color:var(--text3);font-weight:500;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;">
                                         Notes for Editors</div>
                                     <textarea
-                                        style="width:100%;background:var(--surface2);border:1px solid var(--border2);border-radius:8px;padding:10px 13px;color:var(--text2);font-size:13.5px;font-family:'DM Sans',sans-serif;outline:none;resize:none;height:80px;"
+                                        style="width:100%;background:var(--surface2);border:1px solid var(--border2);border-radius:8px;padding:10px 13px;color:var(--text2);font-size:13.5px;font-family:Arial,Helvetica,sans-serif;outline:none;resize:none;height:80px;"
                                         placeholder="Any specific moments to highlight, guest names, timestamps to avoid..."></textarea>
                                 </div>
                                 <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
@@ -2238,7 +2239,7 @@
                                             style="font-size:11px;color:var(--text3);font-weight:500;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;">
                                             Clip Count</div>
                                         <select
-                                            style="width:100%;background:var(--surface2);border:1px solid var(--border2);border-radius:8px;padding:10px 13px;color:var(--text);font-size:13px;font-family:'DM Sans',sans-serif;outline:none;">
+                                            style="width:100%;background:var(--surface2);border:1px solid var(--border2);border-radius:8px;padding:10px 13px;color:var(--text);font-size:13px;font-family:Arial,Helvetica,sans-serif;outline:none;">
                                             <option>10–15 clips</option>
                                             <option selected>15–20 clips</option>
                                             <option>20–30 clips</option>
@@ -2249,7 +2250,7 @@
                                             style="font-size:11px;color:var(--text3);font-weight:500;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;">
                                             Turnaround</div>
                                         <select
-                                            style="width:100%;background:var(--surface2);border:1px solid var(--border2);border-radius:8px;padding:10px 13px;color:var(--text);font-size:13px;font-family:'DM Sans',sans-serif;outline:none;">
+                                            style="width:100%;background:var(--surface2);border:1px solid var(--border2);border-radius:8px;padding:10px 13px;color:var(--text);font-size:13px;font-family:Arial,Helvetica,sans-serif;outline:none;">
                                             <option>Standard (48–72hr)</option>
                                             <option>Express (24hr)</option>
                                         </select>
@@ -2734,7 +2735,7 @@
                         <div class="episode-list">
                             <div class="episode-row">
                                 <div class="ep-num"
-                                    style="background:rgba(232,255,71,0.12);color:var(--accent);font-family:'Syne',sans-serif;font-weight:700;">
+                                    style="background:rgba(232,255,71,0.12);color:var(--accent);font-family:Arial,Helvetica,sans-serif;font-weight:700;">
                                     #1</div>
                                 <div class="ep-info">
                                     <div class="ep-title">Ep.42 — "AI will replace most jobs in 5 years"</div>
@@ -2744,7 +2745,7 @@
                             </div>
                             <div class="episode-row">
                                 <div class="ep-num"
-                                    style="background:var(--surface3);color:var(--text2);font-family:'Syne',sans-serif;font-weight:700;">
+                                    style="background:var(--surface3);color:var(--text2);font-family:Arial,Helvetica,sans-serif;font-weight:700;">
                                     #2</div>
                                 <div class="ep-info">
                                     <div class="ep-title">Ep.41 — "The mindset shift that changed everything"</div>
@@ -2754,7 +2755,7 @@
                             </div>
                             <div class="episode-row">
                                 <div class="ep-num"
-                                    style="background:var(--surface3);color:var(--text2);font-family:'Syne',sans-serif;font-weight:700;">
+                                    style="background:var(--surface3);color:var(--text2);font-family:Arial,Helvetica,sans-serif;font-weight:700;">
                                     #3</div>
                                 <div class="ep-info">
                                     <div class="ep-title">Ep.42 — "How I built a £10M company with no funding"</div>
@@ -2764,7 +2765,7 @@
                             </div>
                             <div class="episode-row">
                                 <div class="ep-num"
-                                    style="background:var(--surface3);color:var(--text2);font-family:'Syne',sans-serif;font-weight:700;">
+                                    style="background:var(--surface3);color:var(--text2);font-family:Arial,Helvetica,sans-serif;font-weight:700;">
                                     #4</div>
                                 <div class="ep-info">
                                     <div class="ep-title">Ep.40 — "Why most people never start a business"</div>
@@ -2865,7 +2866,7 @@
 
             if (error) {
                 msg.className = 'login-message error';
-                msg.textContent = 'This email isn\'t registered for portal access. Contact Hatch Studios if you need an invite.';
+                msg.textContent = 'This email isn\'t registered for portal access. Contact Upper Floor if you need an invite.';
                 msg.style.display = 'block';
                 btn.disabled = false;
                 btn.textContent = 'Send me a link →';
