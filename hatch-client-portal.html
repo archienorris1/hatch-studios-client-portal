@@ -2767,6 +2767,181 @@
             font-weight: 600;
             color: var(--accent);
         }
+
+        /* ── COMMENTS MODAL ── */
+        .comments-modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: var(--modal-overlay-bg);
+            z-index: 300;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .comments-modal-overlay.open {
+            display: flex;
+        }
+
+        .comments-modal {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            width: 100%;
+            max-width: 540px;
+            max-height: 85vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .comments-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 18px 20px;
+            border-bottom: 1px solid var(--border);
+            flex-shrink: 0;
+        }
+
+        .comments-head-title {
+            font-weight: 700;
+            font-size: 13px;
+            letter-spacing: -0.02em;
+            text-transform: uppercase;
+        }
+
+        .comments-head-ep {
+            font-size: 11px;
+            color: var(--text3);
+            margin-top: 2px;
+        }
+
+        .comments-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 12px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .comment-item {
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+        }
+
+        .comment-avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent), var(--orange));
+            display: grid;
+            place-items: center;
+            font-size: 11px;
+            font-weight: 700;
+            color: #fff;
+            flex-shrink: 0;
+        }
+
+        .comment-avatar.team {
+            background: linear-gradient(135deg, #333, #555);
+        }
+
+        .comment-body-wrap {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .comment-meta-row {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 3px;
+        }
+
+        .comment-author {
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .comment-team-badge {
+            font-size: 9px;
+            font-weight: 700;
+            background: var(--surface3);
+            color: var(--text3);
+            padding: 1px 5px;
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+
+        .comment-time {
+            font-size: 10px;
+            color: var(--text3);
+            margin-left: auto;
+        }
+
+        .comment-text {
+            font-size: 13px;
+            color: var(--text2);
+            line-height: 1.5;
+            background: var(--surface2);
+            padding: 8px 12px;
+            border-radius: 0 8px 8px 8px;
+        }
+
+        .comment-empty {
+            text-align: center;
+            color: var(--text3);
+            font-size: 12px;
+            padding: 30px 0;
+        }
+
+        .comments-input-row {
+            display: flex;
+            gap: 10px;
+            padding: 14px 20px;
+            border-top: 1px solid var(--border);
+            flex-shrink: 0;
+        }
+
+        .comment-input {
+            flex: 1;
+            padding: 9px 12px;
+            background: var(--surface2);
+            border: 1px solid var(--border2);
+            border-radius: 8px;
+            color: var(--text);
+            font-size: 13px;
+            font-family: Arial, Helvetica, sans-serif;
+            outline: none;
+            transition: border-color 0.15s;
+            resize: none;
+        }
+
+        .comment-input:focus {
+            border-color: var(--accent);
+        }
+
+        /* Pipe card comment button */
+        .pipe-card-comment-btn {
+            font-size: 10px;
+            color: var(--text3);
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-family: Arial, Helvetica, sans-serif;
+            padding: 2px 0;
+            margin-top: 6px;
+            transition: color 0.15s;
+        }
+
+        .pipe-card-comment-btn:hover {
+            color: var(--accent);
+        }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
@@ -2831,15 +3006,6 @@
             </div>
 
             <div class="nav-group-label">Production</div>
-            <div class="nav-item" onclick="showSection('upload', this)">
-                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <polyline points="16 16 12 12 8 16" />
-                    <line x1="12" y1="12" x2="12" y2="21" />
-                    <path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3" />
-                </svg>
-                Upload Files
-                <span class="nav-badge orange">!</span>
-            </div>
             <div class="nav-item" onclick="showSection('downloads', this)">
                 <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
@@ -2933,29 +3099,29 @@
             <!-- DASHBOARD -->
             <div class="section" id="section-dashboard">
                 <div class="stats-row">
-                    <div class="stat-card">
+                    <div class="stat-card" style="cursor:pointer;" onclick="showSection('pipeline', document.querySelector('[onclick*=pipeline]'))" title="View pipeline">
                         <div class="stat-icon" style="background:rgba(232,255,71,0.1);">🎙️</div>
                         <div class="stat-label">Episodes Live</div>
                         <div class="stat-value"><span id="stat-eps-live">—</span></div>
-                        <div class="stat-change" style="color:var(--text3);">Published episodes</div>
+                        <div class="stat-change" style="color:var(--accent);font-size:10.5px;">View pipeline →</div>
                     </div>
-                    <div class="stat-card">
+                    <div class="stat-card" style="cursor:pointer;" onclick="showSection('clips', document.querySelector('[onclick*=clips]'))" title="View clips">
                         <div class="stat-icon" style="background:rgba(255,107,53,0.1);">✂️</div>
                         <div class="stat-label">Clips Posted</div>
                         <div class="stat-value"><span id="stat-clips">—</span></div>
-                        <div class="stat-change" style="color:var(--text3);">Across all episodes</div>
+                        <div class="stat-change" style="color:var(--accent);font-size:10.5px;">View clips →</div>
                     </div>
-                    <div class="stat-card">
+                    <div class="stat-card" style="cursor:pointer;" onclick="showSection('analytics', document.querySelector('[onclick*=analytics]'))" title="View analytics">
                         <div class="stat-icon" style="background:rgba(61,255,160,0.1);">👁️</div>
                         <div class="stat-label">Total Views</div>
                         <div class="stat-value"><span id="stat-views">—</span></div>
-                        <div class="stat-change" style="color:var(--text3);">Across all content</div>
+                        <div class="stat-change" style="color:var(--accent);font-size:10.5px;">View analytics →</div>
                     </div>
-                    <div class="stat-card">
+                    <div class="stat-card" style="cursor:pointer;" onclick="showSection('pipeline', document.querySelector('[onclick*=pipeline]'))" title="View in production">
                         <div class="stat-icon" style="background:rgba(139,109,250,0.1);">🎬</div>
                         <div class="stat-label">In Production</div>
                         <div class="stat-value"><span id="stat-in-prod">—</span></div>
-                        <div class="stat-change" style="color:var(--text3);">Being worked on</div>
+                        <div class="stat-change" style="color:var(--accent);font-size:10.5px;">View pipeline →</div>
                     </div>
                 </div>
                 <div class="two-col">
@@ -3081,15 +3247,23 @@
                                 </div>
                             </div>
                             <div class="card-body">
-                                <div class="upload-zone" onclick="alert('File picker would open here')">
+                                <div class="upload-zone" id="upload-zone" onclick="document.getElementById('upload-file-input').click()" style="cursor:pointer;">
+                                    <input type="file" id="upload-file-input" accept="video/*,audio/*" style="display:none;" onchange="handleFileSelect(this)" />
                                     <div class="upload-icon">🎙️</div>
                                     <div class="upload-title">Drop your recording here</div>
-                                    <div class="upload-sub">Drag &amp; drop your raw podcast file, or click to browse.
-                                    </div>
+                                    <div class="upload-sub">Drag &amp; drop your raw podcast file, or click to browse.</div>
                                     <div class="upload-formats">
-                                        <span class="fmt-pill">MP4</span><span class="fmt-pill">MOV</span><span
-                                            class="fmt-pill">MKV</span><span class="fmt-pill">MP3</span><span
-                                            class="fmt-pill">WAV</span><span class="fmt-pill">M4A</span>
+                                        <span class="fmt-pill">MP4</span><span class="fmt-pill">MOV</span><span class="fmt-pill">MKV</span><span class="fmt-pill">MP3</span><span class="fmt-pill">WAV</span><span class="fmt-pill">M4A</span>
+                                    </div>
+                                    <div style="font-size:11px;color:var(--text3);margin-top:8px;">Max file size: 2 GB</div>
+                                </div>
+                                <div id="upload-progress" style="display:none;margin-top:12px;">
+                                    <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--text2);margin-bottom:6px;">
+                                        <span id="upload-filename"></span>
+                                        <span id="upload-pct">0%</span>
+                                    </div>
+                                    <div style="height:4px;background:var(--surface3);border-radius:4px;overflow:hidden;">
+                                        <div id="upload-bar" style="height:100%;background:var(--accent);width:0%;transition:width 0.3s;border-radius:4px;"></div>
                                     </div>
                                 </div>
                             </div>
@@ -3181,139 +3355,17 @@
 
             <!-- CLIPS -->
             <div class="section" id="section-clips">
-                <div class="tabs">
-                    <div class="tab active"
-                        onclick="this.parentElement.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));this.classList.add('active');">
-                        Ep.44 — Founders Series</div>
-                    <div class="tab"
-                        onclick="this.parentElement.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));this.classList.add('active');">
-                        Ep.42 — AI in Business</div>
-                    <div class="tab"
-                        onclick="this.parentElement.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));this.classList.add('active');">
-                        All Clips</div>
-                </div>
-                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px;">
                     <div>
-                        <div style="font-size:13.5px;font-weight:500;">18 clips ready · Select to schedule</div>
-                        <div style="font-size:11.5px;color:var(--text3);margin-top:3px;">Approve individual clips or
-                            schedule them directly to your social channels</div>
+                        <div style="font-size:13.5px;font-weight:500;" id="clips-count-label">Loading clips…</div>
+                        <div style="font-size:11.5px;color:var(--text3);margin-top:3px;">Click a clip to schedule it to your connected platforms</div>
                     </div>
                     <div style="display:flex;gap:10px;">
-                        <button class="btn btn-ghost" style="font-size:12px;">✓ Approve All</button>
-                        <button class="btn btn-accent" style="font-size:12px;"
-                            onclick="document.getElementById('schedule-modal').classList.add('open')">Schedule Selected
-                            →</button>
+                        <button class="btn btn-accent" style="font-size:12px;" onclick="openComposeModal()">+ Schedule Clip</button>
                     </div>
                 </div>
-                <div class="clip-grid">
-                    <div class="clip-card">
-                        <div class="clip-thumb">
-                            <div class="clip-thumb-bg"></div>
-                            <div class="clip-scheduled-badge">SCHEDULED</div>
-                            <div class="clip-play">▶</div>
-                            <div class="clip-duration">0:47</div>
-                        </div>
-                        <div class="clip-info">
-                            <div class="clip-title">"The moment I nearly lost everything" — Hook clip</div>
-                            <div class="clip-platforms">
-                                <div class="plat-dot plat-ig">IG</div>
-                                <div class="plat-dot plat-tt">TT</div><span
-                                    style="font-size:10px;color:var(--text3);margin-left:2px;">Tomorrow 9AM</span>
-                            </div><button class="clip-schedule-btn scheduled">✓ Scheduled</button>
-                        </div>
-                    </div>
-                    <div class="clip-card">
-                        <div class="clip-thumb">
-                            <div class="clip-thumb-bg"
-                                style="background:linear-gradient(160deg,rgba(255,107,53,0.15) 0%,rgba(232,255,71,0.04) 100%);">
-                            </div>
-                            <div class="clip-play">▶</div>
-                            <div class="clip-duration">1:12</div>
-                        </div>
-                        <div class="clip-info">
-                            <div class="clip-title">"From £0 to £1M in 18 months" — Story arc</div>
-                            <div class="clip-platforms">
-                                <div class="plat-dot plat-ig">IG</div>
-                                <div class="plat-dot plat-yt">YT</div>
-                                <div class="plat-dot plat-li">LI</div>
-                            </div><button class="clip-schedule-btn"
-                                onclick="document.getElementById('schedule-modal').classList.add('open')">+
-                                Schedule</button>
-                        </div>
-                    </div>
-                    <div class="clip-card">
-                        <div class="clip-thumb">
-                            <div class="clip-thumb-bg"
-                                style="background:linear-gradient(160deg,rgba(61,255,160,0.1) 0%,rgba(71,184,255,0.08) 100%);">
-                            </div>
-                            <div class="clip-play">▶</div>
-                            <div class="clip-duration">0:58</div>
-                        </div>
-                        <div class="clip-info">
-                            <div class="clip-title">"Why most founders give up at the wrong time"</div>
-                            <div class="clip-platforms">
-                                <div class="plat-dot plat-li">LI</div>
-                                <div class="plat-dot plat-tt">TT</div>
-                            </div><button class="clip-schedule-btn"
-                                onclick="document.getElementById('schedule-modal').classList.add('open')">+
-                                Schedule</button>
-                        </div>
-                    </div>
-                    <div class="clip-card">
-                        <div class="clip-thumb">
-                            <div class="clip-thumb-bg"
-                                style="background:linear-gradient(160deg,rgba(255,77,106,0.12) 0%,rgba(139,109,250,0.08) 100%);">
-                            </div>
-                            <div class="clip-play">▶</div>
-                            <div class="clip-duration">2:05</div>
-                        </div>
-                        <div class="clip-info">
-                            <div class="clip-title">"The hiring mistake that set us back 6 months"</div>
-                            <div class="clip-platforms">
-                                <div class="plat-dot plat-yt">YT</div>
-                                <div class="plat-dot plat-li">LI</div>
-                            </div><button class="clip-schedule-btn"
-                                onclick="document.getElementById('schedule-modal').classList.add('open')">+
-                                Schedule</button>
-                        </div>
-                    </div>
-                    <div class="clip-card">
-                        <div class="clip-thumb">
-                            <div class="clip-thumb-bg"
-                                style="background:linear-gradient(160deg,rgba(232,255,71,0.08) 0%,rgba(255,107,53,0.1) 100%);">
-                            </div>
-                            <div class="clip-play">▶</div>
-                            <div class="clip-duration">0:34</div>
-                        </div>
-                        <div class="clip-info">
-                            <div class="clip-title">"The one thing I'd tell my younger self"</div>
-                            <div class="clip-platforms">
-                                <div class="plat-dot plat-ig">IG</div>
-                                <div class="plat-dot plat-tt">TT</div>
-                                <div class="plat-dot plat-yt">YT</div>
-                            </div><button class="clip-schedule-btn"
-                                onclick="document.getElementById('schedule-modal').classList.add('open')">+
-                                Schedule</button>
-                        </div>
-                    </div>
-                    <div class="clip-card">
-                        <div class="clip-thumb">
-                            <div class="clip-thumb-bg"
-                                style="background:linear-gradient(160deg,rgba(139,109,250,0.18) 0%,rgba(71,184,255,0.06) 100%);">
-                            </div>
-                            <div class="clip-play">▶</div>
-                            <div class="clip-duration">1:45</div>
-                        </div>
-                        <div class="clip-info">
-                            <div class="clip-title">"Raising your first round — the truth nobody tells you"</div>
-                            <div class="clip-platforms">
-                                <div class="plat-dot plat-li">LI</div>
-                                <div class="plat-dot plat-yt">YT</div>
-                            </div><button class="clip-schedule-btn"
-                                onclick="document.getElementById('schedule-modal').classList.add('open')">+
-                                Schedule</button>
-                        </div>
-                    </div>
+                <div class="clip-grid" id="clips-grid">
+                    <div style="grid-column:1/-1;text-align:center;padding:60px;color:var(--text3);">Loading clips…</div>
                 </div>
             </div>
 
@@ -3552,6 +3604,27 @@
         </div>
     </div>
 
+    <!-- COMMENTS MODAL -->
+    <div class="comments-modal-overlay" id="comments-modal" onclick="if(event.target===this)closeCommentsModal()">
+        <div class="comments-modal">
+            <div class="comments-head">
+                <div>
+                    <div class="comments-head-title">Episode Comments</div>
+                    <div class="comments-head-ep" id="comments-ep-title"></div>
+                </div>
+                <button class="btn btn-ghost" style="font-size:12px;padding:6px 12px;" onclick="closeCommentsModal()">✕</button>
+            </div>
+            <div class="comments-list" id="comments-list">
+                <div class="comment-empty">Loading comments…</div>
+            </div>
+            <div class="comments-input-row">
+                <textarea class="comment-input" id="comment-input" rows="1" placeholder="Leave a comment…"
+                    onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();submitComment();}"></textarea>
+                <button class="btn btn-accent" style="font-size:12px;padding:8px 16px;align-self:flex-end;" onclick="submitComment()">Send</button>
+            </div>
+        </div>
+    </div>
+
     </div><!-- /portal -->
 
     <script>
@@ -3606,8 +3679,36 @@
         });
 
         let currentClient = null;
+        let currentUserId = null;
 
-        async function loadClientProfile(email) {
+        async function loadClientProfile(email, userId) {
+            currentUserId = userId;
+
+            // Try portal_members first (new model)
+            if (userId) {
+                const { data: memberData } = await _supabase
+                    .from('portal_members')
+                    .select('portal_id, display_name, avatar_initials, role, portals(id, name, plan)')
+                    .eq('user_id', userId)
+                    .eq('role', 'client')
+                    .single();
+
+                if (memberData?.portals) {
+                    const portal = memberData.portals;
+                    currentClient = {
+                        id: null,
+                        name: memberData.display_name || portal.name,
+                        plan: portal.plan || 'Core Plan',
+                        avatar_initials: memberData.avatar_initials || email.slice(0, 2).toUpperCase()
+                    };
+                    currentPortalId = portal.id;
+                    _updateSidebarProfile(currentClient, email);
+                    loadPortalData();
+                    return;
+                }
+            }
+
+            // Fallback: legacy clients table lookup by email
             const { data } = await _supabase
                 .from('clients')
                 .select('id, name, plan, avatar_initials')
@@ -3616,28 +3717,51 @@
 
             if (data) {
                 currentClient = data;
-                const el = document.querySelector('.client-name');
-                const pl = document.querySelector('.client-plan');
-                const av = document.querySelector('.client-avatar');
-                if (el) el.textContent = data.name;
-                if (pl) pl.textContent = (data.plan || 'Core Plan') + ' · Active';
-                if (av) av.textContent = data.avatar_initials || email.slice(0, 2).toUpperCase();
+                _updateSidebarProfile(data, email);
+
+                // Look up portal by name (seeded from clients)
+                const { data: portal } = await _supabase
+                    .from('portals')
+                    .select('id')
+                    .eq('name', data.name)
+                    .single();
+                if (portal) currentPortalId = portal.id;
+
                 loadPortalData();
             }
         }
 
+        function _updateSidebarProfile(profile, email) {
+            const el = document.querySelector('.client-name');
+            const pl = document.querySelector('.client-plan');
+            const av = document.querySelector('.client-avatar');
+            if (el) el.textContent = profile.name;
+            if (pl) pl.textContent = (profile.plan || 'Core Plan') + ' · Active';
+            if (av) av.textContent = profile.avatar_initials || email.slice(0, 2).toUpperCase();
+        }
+
         async function loadPortalData() {
-            if (!currentClient) return;
-            const [epsRes, dlsRes] = await Promise.all([
-                _supabase.from('episodes').select('*').eq('client_id', currentClient.id).order('number', { ascending: false }),
-                _supabase.from('downloads').select('*').eq('client_id', currentClient.id).order('created_at', { ascending: false })
-            ]);
+            if (!currentClient && !currentPortalId) return;
+
+            let epsQuery = _supabase.from('episodes').select('*').order('number', { ascending: false });
+            let dlsQuery = _supabase.from('downloads').select('*').order('created_at', { ascending: false });
+
+            if (currentPortalId) {
+                epsQuery = epsQuery.eq('portal_id', currentPortalId);
+                dlsQuery = dlsQuery.eq('client_id', currentClient?.id || '00000000-0000-0000-0000-000000000000');
+            } else if (currentClient?.id) {
+                epsQuery = epsQuery.eq('client_id', currentClient.id);
+                dlsQuery = dlsQuery.eq('client_id', currentClient.id);
+            }
+
+            const [epsRes, dlsRes] = await Promise.all([epsQuery, dlsQuery]);
             const episodes = epsRes.data || [];
             const downloads = dlsRes.data || [];
             renderDashboard(episodes, downloads);
             renderPipeline(episodes);
             renderDownloads(downloads);
             renderUploadHistory(episodes);
+            loadClipsSection();
         }
 
         function timeAgo(dateStr) {
@@ -3713,8 +3837,9 @@
                             ${ep.file_size_gb ? `<span class="pipe-tag">${ep.file_size_gb} GB</span>` : ''}
                             ${ep.clips_count ? `<span class="pipe-tag">${ep.clips_count} clips</span>` : ''}
                             ${status === 'live' && ep.views ? `<span class="pipe-tag" style="color:var(--green);">✓ ${ep.views > 1000 ? Math.round(ep.views / 1000) + 'K' : ep.views} views</span>` : ''}
-                            ${status === 'review' ? `<span class="pipe-tag" style="color:var(--purple);">⚠ Awaiting you</span>` : ''}
+                            ${status === 'review' ? `<span class="pipe-tag" style="color:var(--purple);">⚠ Awaiting your review</span>` : ''}
                         </div>
+                        <button class="pipe-card-comment-btn" onclick="openCommentsModal('${ep.id}', 'Ep.${ep.number} — ${ep.title.replace(/'/g, "\\'")}')">💬 Comments</button>
                     </div>
                 `).join('');
             });
@@ -3763,10 +3888,10 @@
             `).join('');
         }
 
-        function showPortal(email) {
+        function showPortal(email, userId) {
             document.getElementById('login-screen').style.display = 'none';
             document.getElementById('portal').style.display = 'flex';
-            loadClientProfile(email);
+            loadClientProfile(email, userId);
         }
 
         function showLogin() {
@@ -3777,7 +3902,7 @@
         // Check existing session on load
         _supabase.auth.getSession().then(({ data: { session } }) => {
             if (session) {
-                showPortal(session.user.email);
+                showPortal(session.user.email, session.user.id);
             } else {
                 showLogin();
             }
@@ -3786,7 +3911,7 @@
         // Handle magic link callback
         _supabase.auth.onAuthStateChange((event, session) => {
             if (event === 'SIGNED_IN' && session) {
-                showPortal(session.user.email);
+                showPortal(session.user.email, session.user.id);
             } else if (event === 'SIGNED_OUT') {
                 showLogin();
             }
@@ -4389,25 +4514,232 @@
         const _origShowSection = showSection;
         function showSection(id, navEl) {
             _origShowSection(id, navEl);
-            if (id === 'schedule') {
-                renderScheduleCalendar();
-                loadSchedulePosts();
-            }
-            if (id === 'analytics') {
-                renderAnalytics();
-            }
-            if (id === 'connections') {
-                loadConnections();
-            }
+            if (id === 'schedule') { renderScheduleCalendar(); loadSchedulePosts(); }
+            if (id === 'analytics') renderAnalytics();
+            if (id === 'connections') loadConnections();
+            if (id === 'clips') loadClipsSection();
         }
 
-        // ── EXTENDED loadPortalData ──
-        const _origLoadPortalData = loadPortalData;
-        async function loadPortalData() {
-            await _origLoadPortalData();
-            if (currentClient) await loadPortalId(currentClient.id);
-            renderScheduleCalendar();
-            renderAnalytics();
+        // ── CLIPS SECTION (live data) ──
+        async function loadClipsSection() {
+            const grid = document.getElementById('clips-grid');
+            const label = document.getElementById('clips-count-label');
+            if (!grid) return;
+            if (!currentPortalId) {
+                grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:60px;color:var(--text3);">Sign in to view your clips.</div>';
+                return;
+            }
+            const { data: clips } = await _supabase
+                .from('clips')
+                .select('*')
+                .eq('portal_id', currentPortalId)
+                .order('created_at', { ascending: false });
+
+            const list = clips || [];
+            if (label) label.textContent = list.length > 0
+                ? `${list.length} clip${list.length > 1 ? 's' : ''} ready · Click to schedule`
+                : 'No clips yet';
+
+            if (list.length === 0) {
+                grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:60px;color:var(--text3);">No clips ready yet — they\'ll appear here once your episode has been edited.</div>';
+                return;
+            }
+
+            const statusBadge = s => s === 'posted' ? '<div class="clip-scheduled-badge">POSTED</div>'
+                : s === 'scheduled' ? '<div class="clip-scheduled-badge">SCHEDULED</div>' : '';
+            const platLabel = p => ({ instagram: 'IG', tiktok: 'TT', youtube: 'YT', linkedin: 'LI', twitter: 'TW' }[p] || p.slice(0, 2).toUpperCase());
+            const platClass = p => ({ instagram: 'plat-ig', tiktok: 'plat-tt', youtube: 'plat-yt', linkedin: 'plat-li' }[p] || '');
+            const durFmt = s => s ? Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0') : '';
+
+            grid.innerHTML = list.map(c => `
+                <div class="clip-card">
+                    <div class="clip-thumb">
+                        <div class="clip-thumb-bg" style="background:linear-gradient(160deg,rgba(224,123,163,0.12) 0%,rgba(0,0,0,0) 100%);"></div>
+                        ${statusBadge(c.status)}
+                        <div class="clip-play">▶</div>
+                        ${c.duration_seconds ? `<div class="clip-duration">${durFmt(c.duration_seconds)}</div>` : ''}
+                    </div>
+                    <div class="clip-info">
+                        <div class="clip-title">${c.title}</div>
+                        <div class="clip-platforms">
+                            ${c.platform ? `<div class="plat-dot ${platClass(c.platform)}">${platLabel(c.platform)}</div>` : ''}
+                        </div>
+                        <button class="clip-schedule-btn${c.status === 'scheduled' || c.status === 'posted' ? ' scheduled' : ''}"
+                            onclick="openComposeModal()">
+                            ${c.status === 'scheduled' ? '✓ Scheduled' : c.status === 'posted' ? '✓ Posted' : '+ Schedule'}
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // ── COMMENTS SYSTEM ──
+        let currentCommentEpisodeId = null;
+        let commentsChannel = null;
+
+        async function openCommentsModal(episodeId, episodeTitle) {
+            currentCommentEpisodeId = episodeId;
+            document.getElementById('comments-ep-title').textContent = episodeTitle;
+            document.getElementById('comment-input').value = '';
+            document.getElementById('comments-modal').classList.add('open');
+            await loadComments(episodeId);
+            subscribeToComments(episodeId);
+        }
+
+        function closeCommentsModal() {
+            document.getElementById('comments-modal').classList.remove('open');
+            if (commentsChannel) {
+                _supabase.removeChannel(commentsChannel);
+                commentsChannel = null;
+            }
+            currentCommentEpisodeId = null;
+        }
+
+        async function loadComments(episodeId) {
+            const { data } = await _supabase
+                .from('comments')
+                .select('id, body, created_at, user_id, portal_members(display_name, avatar_initials, role)')
+                .eq('episode_id', episodeId)
+                .order('created_at', { ascending: true });
+            renderComments(data || []);
+        }
+
+        function renderComments(comments) {
+            const el = document.getElementById('comments-list');
+            if (!el) return;
+            if (comments.length === 0) {
+                el.innerHTML = '<div class="comment-empty">No comments yet — be the first to leave one.</div>';
+                return;
+            }
+            el.innerHTML = comments.map(c => {
+                const member = Array.isArray(c.portal_members) ? c.portal_members[0] : c.portal_members;
+                const name = member?.display_name || 'Unknown';
+                const initials = member?.avatar_initials || name.slice(0, 2).toUpperCase();
+                const isTeam = member?.role === 'team' || member?.role === 'admin';
+                return `<div class="comment-item">
+                    <div class="comment-avatar${isTeam ? ' team' : ''}">${initials}</div>
+                    <div class="comment-body-wrap">
+                        <div class="comment-meta-row">
+                            <span class="comment-author">${name}</span>
+                            ${isTeam ? '<span class="comment-team-badge">UF</span>' : ''}
+                            <span class="comment-time">${timeAgo(c.created_at)}</span>
+                        </div>
+                        <div class="comment-text">${c.body}</div>
+                    </div>
+                </div>`;
+            }).join('');
+            el.scrollTop = el.scrollHeight;
+        }
+
+        function subscribeToComments(episodeId) {
+            if (commentsChannel) _supabase.removeChannel(commentsChannel);
+            commentsChannel = _supabase
+                .channel(`comments:${episodeId}`)
+                .on('postgres_changes', {
+                    event: 'INSERT',
+                    schema: 'public',
+                    table: 'comments',
+                    filter: `episode_id=eq.${episodeId}`
+                }, async () => {
+                    await loadComments(episodeId);
+                })
+                .subscribe();
+        }
+
+        async function submitComment() {
+            const input = document.getElementById('comment-input');
+            const body = input.value.trim();
+            if (!body || !currentCommentEpisodeId || !currentPortalId || !currentUserId) return;
+
+            input.value = '';
+            await _supabase.from('comments').insert({
+                portal_id: currentPortalId,
+                episode_id: currentCommentEpisodeId,
+                user_id: currentUserId,
+                body
+            });
+        }
+
+        // ── FILE UPLOAD ──
+        async function handleFileSelect(input) {
+            const file = input.files[0];
+            if (!file) return;
+
+            const MAX = 2 * 1024 * 1024 * 1024; // 2GB
+            if (file.size > MAX) {
+                alert('File is too large. Maximum upload size is 2 GB.');
+                input.value = '';
+                return;
+            }
+
+            if (!currentPortalId) {
+                alert('Portal not loaded yet. Please try again in a moment.');
+                return;
+            }
+
+            const progress = document.getElementById('upload-progress');
+            const filename = document.getElementById('upload-filename');
+            const pct = document.getElementById('upload-pct');
+            const bar = document.getElementById('upload-bar');
+
+            if (progress) progress.style.display = 'block';
+            if (filename) filename.textContent = file.name;
+
+            const path = `${currentPortalId}/${Date.now()}-${file.name}`;
+
+            const { error } = await _supabase.storage
+                .from('episode-uploads')
+                .upload(path, file, {
+                    onUploadProgress: (e) => {
+                        const p = Math.round((e.loaded / e.total) * 100);
+                        if (pct) pct.textContent = p + '%';
+                        if (bar) bar.style.width = p + '%';
+                    }
+                });
+
+            if (error) {
+                alert('Upload failed: ' + error.message);
+                if (progress) progress.style.display = 'none';
+                return;
+            }
+
+            if (pct) pct.textContent = '100%';
+            if (bar) bar.style.width = '100%';
+            setTimeout(() => {
+                if (progress) progress.style.display = 'none';
+                alert('✓ Upload complete! Your Upper Floor team has been notified and will begin production shortly.');
+            }, 600);
+        }
+
+        // Drag-and-drop on upload zone
+        document.addEventListener('DOMContentLoaded', () => {
+            const zone = document.getElementById('upload-zone');
+            if (!zone) return;
+            zone.addEventListener('dragover', e => { e.preventDefault(); zone.style.borderColor = 'var(--accent)'; });
+            zone.addEventListener('dragleave', () => { zone.style.borderColor = ''; });
+            zone.addEventListener('drop', e => {
+                e.preventDefault();
+                zone.style.borderColor = '';
+                const file = e.dataTransfer.files[0];
+                if (file) {
+                    const input = document.getElementById('upload-file-input');
+                    const dt = new DataTransfer();
+                    dt.items.add(file);
+                    input.files = dt.files;
+                    handleFileSelect(input);
+                }
+            });
+        });
+
+        // ── PORTAL ID LOOKUP (legacy fallback) ──
+        async function loadPortalId(clientId) {
+            if (currentPortalId) return; // already set via portal_members
+            const { data } = await _supabase
+                .from('portals')
+                .select('id')
+                .eq('name', currentClient?.name)
+                .single();
+            if (data) currentPortalId = data.id;
         }
     </script>
 </body>

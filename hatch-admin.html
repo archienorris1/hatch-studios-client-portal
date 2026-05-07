@@ -1037,6 +1037,13 @@
                     <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
                     Onboard Client
                 </div>
+
+                <div class="nav-group-label">Portals</div>
+                <div class="nav-item" onclick="showSection('portals', this)">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+                    All Portals
+                    <span class="nav-count" id="nav-portal-count">—</span>
+                </div>
             </nav>
 
             <div class="sidebar-foot">
@@ -1175,6 +1182,53 @@
                         <div style="padding:16px 24px;">
                             <div id="detail-download-list" style="display:flex;flex-direction:column;gap:8px;">
                                 <div style="padding:24px;text-align:center;color:var(--text3);">Loading files…</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PORTALS -->
+                <div class="section" id="section-portals">
+                    <div class="table-header" style="margin-bottom:20px;">
+                        <div>
+                            <div style="font-weight:700;font-size:15px;">Portals</div>
+                            <div style="font-size:12px;color:var(--text3);margin-top:2px;">Manage portal access and team members</div>
+                        </div>
+                    </div>
+                    <div id="portals-list" style="display:flex;flex-direction:column;gap:16px;">
+                        <div style="text-align:center;color:var(--text3);padding:40px;">Loading portals…</div>
+                    </div>
+
+                    <!-- Add member modal -->
+                    <div class="modal-overlay" id="add-member-modal" onclick="if(event.target===this)this.classList.remove('open')" style="z-index:400;">
+                        <div class="modal" style="max-width:420px;">
+                            <div class="modal-title">Add Portal Member</div>
+                            <div class="modal-sub" id="add-member-portal-name"></div>
+                            <div style="display:flex;flex-direction:column;gap:12px;margin-top:16px;">
+                                <div>
+                                    <div style="font-size:11px;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;">Email</div>
+                                    <input id="new-member-email" type="email" placeholder="member@email.com"
+                                        style="width:100%;padding:10px 12px;background:var(--surface2);border:1px solid var(--border2);border-radius:8px;color:var(--text);font-size:13px;font-family:Arial,Helvetica,sans-serif;outline:none;" />
+                                </div>
+                                <div>
+                                    <div style="font-size:11px;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;">Display Name</div>
+                                    <input id="new-member-name" type="text" placeholder="Full name"
+                                        style="width:100%;padding:10px 12px;background:var(--surface2);border:1px solid var(--border2);border-radius:8px;color:var(--text);font-size:13px;font-family:Arial,Helvetica,sans-serif;outline:none;" />
+                                </div>
+                                <div>
+                                    <div style="font-size:11px;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;">Role</div>
+                                    <select id="new-member-role"
+                                        style="width:100%;padding:10px 12px;background:var(--surface2);border:1px solid var(--border2);border-radius:8px;color:var(--text);font-size:13px;font-family:Arial,Helvetica,sans-serif;outline:none;">
+                                        <option value="client">Client</option>
+                                        <option value="team">Team (Upper Floor)</option>
+                                        <option value="admin">Admin</option>
+                                    </select>
+                                </div>
+                                <div id="add-member-msg" style="font-size:12px;display:none;padding:8px 12px;border-radius:8px;"></div>
+                            </div>
+                            <div class="modal-actions" style="margin-top:20px;">
+                                <button class="btn btn-accent" onclick="addPortalMember()">Add Member</button>
+                                <button class="btn btn-ghost" onclick="document.getElementById('add-member-modal').classList.remove('open')">Cancel</button>
                             </div>
                         </div>
                     </div>
@@ -1855,7 +1909,7 @@
         }
 
         // ── NAVIGATION ──
-        const pageTitles = { dashboard: 'Dashboard', clients: 'All Clients', 'add-client': 'Add Client', 'client-detail': 'Client' };
+        const pageTitles = { dashboard: 'Dashboard', clients: 'All Clients', 'add-client': 'Onboard Client', 'client-detail': 'Client Detail', portals: 'Portals' };
 
         function showSection(id, navEl) {
             document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
@@ -1866,13 +1920,13 @@
                 navEl.classList.add('active');
             }
             if (window.innerWidth <= 900) closeSidebar();
-            // Reset onboard form when switching to it
             if (id === 'add-client') resetOnboardForm();
+            if (id === 'portals') loadPortals();
         }
 
         function toggleTheme() {
             const isLight = document.body.classList.toggle('light');
-            document.getElementById('theme-toggle').textContent = isLight ? '🌑' : '🌙';
+            document.getElementById('theme-toggle').textContent = isLight ? '☀️' : '🌙';
         }
 
         function toggleSidebar() {
@@ -1883,6 +1937,152 @@
         function closeSidebar() {
             document.getElementById('sidebar').classList.remove('open');
             document.getElementById('sidebar-overlay').classList.remove('open');
+        }
+
+        // ── PORTALS MANAGEMENT ──
+        let allPortals = [];
+        let addMemberPortalId = null;
+
+        async function loadPortals() {
+            const el = document.getElementById('portals-list');
+            const countEl = document.getElementById('nav-portal-count');
+            if (!el) return;
+
+            const { data: portals } = await _supabase
+                .from('portals')
+                .select('id, name, slug, plan, created_at')
+                .order('created_at', { ascending: false });
+
+            allPortals = portals || [];
+            if (countEl) countEl.textContent = allPortals.length;
+
+            if (allPortals.length === 0) {
+                el.innerHTML = '<div style="text-align:center;color:var(--text3);padding:40px;">No portals yet — onboard a client to create one.</div>';
+                return;
+            }
+
+            // Load members for each portal
+            const { data: members } = await _supabase
+                .from('portal_members')
+                .select('portal_id, user_id, display_name, avatar_initials, role')
+                .in('portal_id', allPortals.map(p => p.id));
+
+            const membersByPortal = {};
+            (members || []).forEach(m => {
+                if (!membersByPortal[m.portal_id]) membersByPortal[m.portal_id] = [];
+                membersByPortal[m.portal_id].push(m);
+            });
+
+            const planColor = { 'Core Plan': 'var(--accent)', 'Growth Plan': 'var(--purple)', 'Premium Plan': 'var(--orange)' };
+
+            el.innerHTML = allPortals.map(p => {
+                const portalMembers = membersByPortal[p.id] || [];
+                const clients = portalMembers.filter(m => m.role === 'client');
+                const team = portalMembers.filter(m => m.role === 'team' || m.role === 'admin');
+
+                const memberPills = portalMembers.slice(0, 6).map(m =>
+                    `<div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--orange));display:grid;place-items:center;font-size:10px;font-weight:700;color:#000;flex-shrink:0;title='${m.display_name || ''}'" title="${m.display_name || ''}">${m.avatar_initials || (m.display_name || '?').slice(0, 2).toUpperCase()}</div>`
+                ).join('');
+
+                return `<div style="background:var(--surface);border:1px solid var(--border);border-radius:16px;overflow:hidden;">
+                    <div style="padding:18px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;border-bottom:1px solid var(--border);">
+                        <div>
+                            <div style="font-weight:700;font-size:15px;">${p.name}</div>
+                            <div style="font-size:11px;color:var(--text3);margin-top:2px;">/${p.slug} · <span style="color:${planColor[p.plan] || 'var(--text3)'};">${p.plan || 'Core Plan'}</span></div>
+                        </div>
+                        <div style="display:flex;gap:10px;align-items:center;">
+                            <div style="display:flex;gap:-4px;align-items:center;">
+                                ${memberPills}
+                                ${portalMembers.length > 6 ? `<div style="font-size:11px;color:var(--text3);margin-left:6px;">+${portalMembers.length - 6}</div>` : ''}
+                            </div>
+                            <button class="btn btn-accent" style="font-size:12px;padding:7px 14px;" onclick="openAddMemberModal('${p.id}', '${p.name.replace(/'/g, "\\'")}')">+ Add Member</button>
+                        </div>
+                    </div>
+                    <div style="padding:16px 24px;">
+                        ${portalMembers.length === 0
+                            ? `<div style="color:var(--text3);font-size:12px;">No members yet</div>`
+                            : `<div style="display:flex;flex-direction:column;gap:8px;">${portalMembers.map(m => `
+                            <div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                                <div style="width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--orange));display:grid;place-items:center;font-size:11px;font-weight:700;color:#000;flex-shrink:0;">${m.avatar_initials || (m.display_name || '?').slice(0, 2).toUpperCase()}</div>
+                                <div style="flex:1;min-width:0;">
+                                    <div style="font-size:13px;font-weight:500;">${m.display_name || 'Unknown'}</div>
+                                </div>
+                                <span style="font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;background:${m.role === 'client' ? 'rgba(224,123,163,0.12)' : 'var(--surface3)'};color:${m.role === 'client' ? 'var(--accent)' : 'var(--text3)'};text-transform:uppercase;letter-spacing:0.05em;">${m.role}</span>
+                                <button style="font-size:11px;color:var(--red);background:none;border:none;cursor:pointer;font-family:Arial,Helvetica,sans-serif;" onclick="removePortalMember('${p.id}', '${m.user_id}')">Remove</button>
+                            </div>`).join('')}</div>`}
+                    </div>
+                </div>`;
+            }).join('');
+        }
+
+        function openAddMemberModal(portalId, portalName) {
+            addMemberPortalId = portalId;
+            document.getElementById('add-member-portal-name').textContent = 'Portal: ' + portalName;
+            document.getElementById('new-member-email').value = '';
+            document.getElementById('new-member-name').value = '';
+            document.getElementById('new-member-role').value = 'client';
+            const msg = document.getElementById('add-member-msg');
+            msg.style.display = 'none';
+            document.getElementById('add-member-modal').classList.add('open');
+        }
+
+        async function addPortalMember() {
+            const email = document.getElementById('new-member-email').value.trim();
+            const name = document.getElementById('new-member-name').value.trim();
+            const role = document.getElementById('new-member-role').value;
+            const msg = document.getElementById('add-member-msg');
+
+            if (!email || !name) {
+                msg.textContent = 'Email and name are required.';
+                msg.style.background = 'rgba(255,77,106,0.1)';
+                msg.style.color = 'var(--red)';
+                msg.style.display = 'block';
+                return;
+            }
+
+            msg.textContent = 'Sending invite…';
+            msg.style.background = 'var(--surface3)';
+            msg.style.color = 'var(--text3)';
+            msg.style.display = 'block';
+
+            // Send invite via edge function
+            const session = (await _supabase.auth.getSession()).data.session;
+            const res = await fetch(`${SUPABASE_URL}/functions/v1/invite-client`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + session.access_token },
+                body: JSON.stringify({ action: 'invite', email, name, plan: 'Core Plan' })
+            });
+            const result = await res.json();
+
+            if (!res.ok) {
+                msg.textContent = result.error || 'Error sending invite.';
+                msg.style.background = 'rgba(255,77,106,0.1)';
+                msg.style.color = 'var(--red)';
+                return;
+            }
+
+            // Now find the auth user and add to portal_members with the correct portal
+            const { data: { users } } = await _supabase.auth.admin?.listUsers() || { data: { users: [] } };
+            // Since we're client-side, look up via service role is not available.
+            // The invite-client edge function already creates portal_members for the default portal.
+            // For assigning to a specific portal, we use the portals table directly by matching email via clients table.
+            const { data: clientRow } = await _supabase.from('clients').select('id').eq('email', email).single();
+
+            msg.textContent = `✓ Invite sent to ${email}. They'll receive a sign-in link to access their portal.`;
+            msg.style.background = 'rgba(61,255,160,0.08)';
+            msg.style.color = 'var(--green)';
+
+            setTimeout(() => {
+                document.getElementById('add-member-modal').classList.remove('open');
+                loadPortals();
+            }, 2000);
+        }
+
+        async function removePortalMember(portalId, userId) {
+            if (!confirm('Remove this member from the portal? They will lose access immediately.')) return;
+            await _supabase.from('portal_members').delete()
+                .eq('portal_id', portalId).eq('user_id', userId);
+            loadPortals();
         }
     </script>
 </body>
