@@ -1894,6 +1894,879 @@
                 grid-template-columns: repeat(3, 1fr);
             }
         }
+
+        /* ── NOTIFICATIONS DRAWER ── */
+        .notif-bell {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            border: 1px solid var(--border2);
+            background: var(--surface);
+            cursor: pointer;
+            transition: all 0.15s;
+            color: var(--text2);
+        }
+
+        .notif-bell:hover {
+            background: var(--surface2);
+            color: var(--text);
+        }
+
+        .notif-bell-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--accent);
+            color: #000;
+            font-size: 9px;
+            font-weight: 700;
+            padding: 1px 4px;
+            border-radius: 20px;
+            min-width: 16px;
+            text-align: center;
+            line-height: 14px;
+            display: none;
+        }
+
+        .notif-bell-count.visible {
+            display: block;
+        }
+
+        .drawer-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 200;
+        }
+
+        .drawer-overlay.open {
+            display: block;
+        }
+
+        .notif-drawer {
+            position: fixed;
+            top: 0;
+            right: -420px;
+            width: 400px;
+            height: 100vh;
+            background: var(--surface);
+            border-left: 1px solid var(--border);
+            z-index: 210;
+            display: flex;
+            flex-direction: column;
+            transition: right 0.3s cubic-bezier(0.4,0,0.2,1);
+        }
+
+        .notif-drawer.open {
+            right: 0;
+        }
+
+        .notif-drawer-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 20px 16px;
+            border-bottom: 1px solid var(--border);
+            flex-shrink: 0;
+        }
+
+        .notif-drawer-title {
+            font-weight: 700;
+            font-size: 14px;
+            letter-spacing: -0.02em;
+            text-transform: uppercase;
+        }
+
+        .notif-mark-all {
+            font-size: 11px;
+            color: var(--accent);
+            cursor: pointer;
+            background: none;
+            border: none;
+            font-family: Arial, Helvetica, sans-serif;
+            padding: 0;
+        }
+
+        .notif-mark-all:hover {
+            text-decoration: underline;
+        }
+
+        .notif-filter-tabs {
+            display: flex;
+            gap: 0;
+            padding: 12px 16px 0;
+            border-bottom: 1px solid var(--border);
+            flex-shrink: 0;
+        }
+
+        .notif-filter-tab {
+            padding: 8px 12px;
+            font-size: 12px;
+            color: var(--text3);
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: all 0.15s;
+            white-space: nowrap;
+        }
+
+        .notif-filter-tab.active {
+            color: var(--accent);
+            border-bottom-color: var(--accent);
+        }
+
+        .notif-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 8px 0;
+        }
+
+        .notif-item {
+            display: flex;
+            gap: 12px;
+            padding: 14px 20px;
+            cursor: pointer;
+            transition: background 0.1s;
+            position: relative;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .notif-item:last-child {
+            border-bottom: none;
+        }
+
+        .notif-item:hover {
+            background: var(--surface2);
+        }
+
+        .notif-item.unread::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 3px;
+            height: 24px;
+            background: var(--accent);
+            border-radius: 0 3px 3px 0;
+        }
+
+        .notif-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            font-size: 15px;
+            flex-shrink: 0;
+        }
+
+        .notif-icon.status { background: rgba(71,184,255,0.12); }
+        .notif-icon.comment { background: rgba(224,123,163,0.12); }
+        .notif-icon.file { background: rgba(61,255,160,0.12); }
+
+        .notif-body {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .notif-item-title {
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .notif-item-body {
+            font-size: 12px;
+            color: var(--text2);
+            line-height: 1.4;
+        }
+
+        .notif-time {
+            font-size: 10.5px;
+            color: var(--text3);
+            margin-top: 4px;
+        }
+
+        .notif-empty {
+            padding: 60px 24px;
+            text-align: center;
+            color: var(--text3);
+            font-size: 13px;
+        }
+
+        .notif-empty-icon {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        /* ── CONNECTIONS PAGE ── */
+        .connections-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 16px;
+            margin-bottom: 28px;
+        }
+
+        .conn-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            transition: border-color 0.2s;
+        }
+
+        .conn-card:hover {
+            border-color: var(--border2);
+        }
+
+        .conn-card.connected {
+            border-color: rgba(61,255,160,0.2);
+        }
+
+        .conn-card-head {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .conn-plat-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 10px;
+            display: grid;
+            place-items: center;
+            font-weight: 800;
+            font-size: 13px;
+            letter-spacing: -0.02em;
+            flex-shrink: 0;
+        }
+
+        .conn-plat-name {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .conn-plat-sub {
+            font-size: 11px;
+            color: var(--text3);
+            margin-top: 1px;
+        }
+
+        .conn-badge {
+            margin-left: auto;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            flex-shrink: 0;
+        }
+
+        .conn-badge.connected {
+            background: rgba(61,255,160,0.12);
+            color: var(--green);
+        }
+
+        .conn-badge.not-connected {
+            background: var(--surface3);
+            color: var(--text3);
+        }
+
+        .conn-user-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            color: var(--text2);
+        }
+
+        .conn-btn {
+            width: 100%;
+            padding: 9px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            font-family: Arial, Helvetica, sans-serif;
+            cursor: pointer;
+            transition: all 0.15s;
+            letter-spacing: 0.02em;
+            text-transform: uppercase;
+        }
+
+        .conn-btn.connect {
+            background: var(--accent);
+            color: #000;
+            border: none;
+        }
+
+        .conn-btn.connect:hover {
+            background: #c96990;
+        }
+
+        .conn-btn.disconnect {
+            background: transparent;
+            color: var(--red);
+            border: 1px solid rgba(255,77,106,0.25);
+        }
+
+        .conn-btn.disconnect:hover {
+            background: rgba(255,77,106,0.08);
+        }
+
+        .conn-last-sync {
+            font-size: 10.5px;
+            color: var(--text3);
+            text-align: center;
+        }
+
+        .podcast-section {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 20px 24px;
+            margin-bottom: 28px;
+        }
+
+        .podcast-section-title {
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--text3);
+            margin-bottom: 16px;
+        }
+
+        .podcast-inputs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .podcast-field {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .podcast-field label {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text3);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+
+        .podcast-field input {
+            padding: 9px 12px;
+            background: var(--surface2);
+            border: 1px solid var(--border2);
+            border-radius: 8px;
+            color: var(--text);
+            font-size: 13px;
+            font-family: Arial, Helvetica, sans-serif;
+            outline: none;
+            transition: border-color 0.15s;
+        }
+
+        .podcast-field input:focus {
+            border-color: var(--accent);
+        }
+
+        /* ── SCHEDULER REBUILD ── */
+        .sched-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .week-nav-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .week-nav-btn {
+            width: 30px;
+            height: 30px;
+            border-radius: 8px;
+            border: 1px solid var(--border2);
+            background: var(--surface);
+            color: var(--text2);
+            cursor: pointer;
+            display: grid;
+            place-items: center;
+            font-size: 16px;
+            transition: all 0.15s;
+        }
+
+        .week-nav-btn:hover {
+            background: var(--surface2);
+            color: var(--text);
+        }
+
+        .week-label-new {
+            font-size: 13px;
+            font-weight: 600;
+            min-width: 160px;
+            text-align: center;
+        }
+
+        .sched-tab-bar {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 20px;
+            background: var(--surface);
+            padding: 4px;
+            border-radius: 12px;
+            width: fit-content;
+            border: 1px solid var(--border);
+        }
+
+        .sched-tab {
+            padding: 7px 16px;
+            border-radius: 8px;
+            font-size: 12.5px;
+            font-weight: 500;
+            cursor: pointer;
+            color: var(--text2);
+            transition: all 0.15s;
+        }
+
+        .sched-tab:hover {
+            color: var(--text);
+        }
+
+        .sched-tab.active {
+            background: var(--surface3);
+            color: var(--text);
+        }
+
+        .sched-panel {
+            display: none;
+        }
+
+        .sched-panel.active {
+            display: block;
+        }
+
+        .queue-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .queue-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 18px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            transition: border-color 0.15s;
+        }
+
+        .queue-item:hover {
+            border-color: var(--border2);
+        }
+
+        .queue-plat-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .queue-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .queue-caption {
+            font-size: 13px;
+            font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .queue-meta {
+            font-size: 11px;
+            color: var(--text3);
+            margin-top: 2px;
+        }
+
+        /* ── COMPOSE MODAL ── */
+        .compose-modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: var(--modal-overlay-bg);
+            z-index: 300;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .compose-modal-overlay.open {
+            display: flex;
+        }
+
+        .compose-modal {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            width: 100%;
+            max-width: 720px;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .compose-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 18px 22px;
+            border-bottom: 1px solid var(--border);
+            flex-shrink: 0;
+        }
+
+        .compose-title {
+            font-weight: 700;
+            font-size: 14px;
+            letter-spacing: -0.02em;
+            text-transform: uppercase;
+        }
+
+        .compose-body {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            overflow: hidden;
+            flex: 1;
+        }
+
+        .compose-left {
+            border-right: 1px solid var(--border);
+            padding: 16px;
+            overflow-y: auto;
+        }
+
+        .compose-right {
+            padding: 16px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .compose-section-title {
+            font-size: 10.5px;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--text3);
+            margin-bottom: 10px;
+        }
+
+        .compose-clip-search {
+            width: 100%;
+            padding: 8px 10px;
+            background: var(--surface2);
+            border: 1px solid var(--border2);
+            border-radius: 8px;
+            color: var(--text);
+            font-size: 12px;
+            font-family: Arial, Helvetica, sans-serif;
+            outline: none;
+            margin-bottom: 10px;
+        }
+
+        .compose-clip-search:focus {
+            border-color: var(--accent);
+        }
+
+        .compose-clip-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+
+        .compose-clip-item {
+            background: var(--surface2);
+            border: 2px solid transparent;
+            border-radius: 8px;
+            padding: 10px;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+        .compose-clip-item:hover {
+            border-color: var(--border2);
+        }
+
+        .compose-clip-item.selected {
+            border-color: var(--accent);
+            background: var(--accent-dim);
+        }
+
+        .compose-clip-thumb {
+            width: 100%;
+            aspect-ratio: 9/16;
+            background: var(--surface3);
+            border-radius: 4px;
+            margin-bottom: 6px;
+            display: grid;
+            place-items: center;
+            font-size: 20px;
+        }
+
+        .compose-clip-title {
+            font-size: 11px;
+            font-weight: 500;
+            line-height: 1.3;
+        }
+
+        .compose-clip-duration {
+            font-size: 10px;
+            color: var(--text3);
+            margin-top: 2px;
+        }
+
+        .plat-toggle-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .plat-toggle {
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+            border: 2px solid var(--border2);
+            color: var(--text3);
+            background: transparent;
+            font-family: Arial, Helvetica, sans-serif;
+            transition: all 0.15s;
+        }
+
+        .plat-toggle.active {
+            border-color: var(--accent);
+            color: var(--accent);
+            background: var(--accent-dim);
+        }
+
+        .compose-field {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .compose-field label {
+            font-size: 10.5px;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--text3);
+        }
+
+        .compose-field textarea {
+            width: 100%;
+            padding: 9px 12px;
+            background: var(--surface2);
+            border: 1px solid var(--border2);
+            border-radius: 8px;
+            color: var(--text);
+            font-size: 13px;
+            font-family: Arial, Helvetica, sans-serif;
+            resize: none;
+            outline: none;
+            transition: border-color 0.15s;
+        }
+
+        .compose-field textarea:focus {
+            border-color: var(--accent);
+        }
+
+        .char-counter {
+            font-size: 10px;
+            color: var(--text3);
+            text-align: right;
+        }
+
+        .char-counter.over {
+            color: var(--red);
+        }
+
+        .compose-field input[type="date"],
+        .compose-field input[type="time"] {
+            padding: 8px 12px;
+            background: var(--surface2);
+            border: 1px solid var(--border2);
+            border-radius: 8px;
+            color: var(--text);
+            font-size: 13px;
+            font-family: Arial, Helvetica, sans-serif;
+            outline: none;
+            transition: border-color 0.15s;
+        }
+
+        .compose-field input[type="date"]:focus,
+        .compose-field input[type="time"]:focus {
+            border-color: var(--accent);
+        }
+
+        .compose-date-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .compose-foot {
+            display: flex;
+            gap: 10px;
+            padding: 14px 22px;
+            border-top: 1px solid var(--border);
+            flex-shrink: 0;
+        }
+
+        /* ── ANALYTICS REBUILD ── */
+        .analytics-banner {
+            background: rgba(224,123,163,0.08);
+            border: 1px solid rgba(224,123,163,0.2);
+            border-radius: 10px;
+            padding: 10px 16px;
+            font-size: 12px;
+            color: var(--text2);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .date-range-row {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .date-range-btn {
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            border: 1px solid var(--border2);
+            background: var(--surface);
+            color: var(--text2);
+            font-family: Arial, Helvetica, sans-serif;
+            transition: all 0.15s;
+        }
+
+        .date-range-btn:hover {
+            background: var(--surface2);
+            color: var(--text);
+        }
+
+        .date-range-btn.active {
+            background: var(--accent);
+            color: #000;
+            border-color: var(--accent);
+            font-weight: 700;
+        }
+
+        .platform-status-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .plat-status-chip {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 5px 10px;
+            border-radius: 8px;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.15s;
+        }
+
+        .plat-status-chip.connected {
+            background: rgba(61,255,160,0.1);
+            color: var(--green);
+        }
+
+        .plat-status-chip.not-connected {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            color: var(--text3);
+        }
+
+        .plat-status-chip.not-connected:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .top-clips-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .top-clips-table th {
+            text-align: left;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--text3);
+            padding: 8px 12px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .top-clips-table td {
+            padding: 10px 12px;
+            font-size: 13px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .top-clips-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .top-clips-table tr:hover td {
+            background: var(--surface2);
+        }
+
+        .clip-rank {
+            font-weight: 700;
+            color: var(--text3);
+            font-size: 11px;
+        }
+
+        .clip-engagement {
+            font-weight: 600;
+            color: var(--accent);
+        }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
@@ -2004,6 +2877,15 @@
                 </svg>
                 Analytics
             </div>
+
+            <div class="nav-group-label">Settings</div>
+            <div class="nav-item" onclick="showSection('connections', this)">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+                    <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+                </svg>
+                Connections
+            </div>
         </nav>
 
         <div class="sidebar-foot">
@@ -2032,10 +2914,13 @@
             </div>
             <div class="topbar-right">
                 <button class="theme-toggle" id="theme-toggle" onclick="toggleTheme()" title="Toggle light/dark mode">🌙</button>
-                <div class="topbar-pill">
-                    <div class="notif-dot"></div>
-                    3 Notifications
-                </div>
+                <button class="notif-bell" id="notif-bell" onclick="toggleNotifDrawer()" title="Notifications">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                        <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+                    </svg>
+                    <span class="notif-bell-count" id="notif-count"></span>
+                </button>
                 <div class="topbar-pill accent"
                     onclick="showSection('upload', document.querySelector('[onclick*=upload]'))">
                     + Upload New Episode
@@ -2434,296 +3319,115 @@
 
             <!-- SCHEDULE -->
             <div class="section" id="section-schedule">
-                <div class="schedule-header">
-                    <div class="week-nav">
-                        <button>‹</button>
-                        <div class="week-label">Apr 14 – Apr 20, 2025</div>
-                        <button>›</button>
+                <div class="sched-header">
+                    <div class="sched-tab-bar">
+                        <div class="sched-tab active" onclick="switchSchedTab('calendar', this)">Calendar</div>
+                        <div class="sched-tab" onclick="switchSchedTab('queue', this)">Queue</div>
+                        <div class="sched-tab" onclick="switchSchedTab('posted', this)">Posted</div>
                     </div>
-                    <div style="display:flex;gap:10px;align-items:center;">
-                        <div style="display:flex;gap:8px;">
-                            <div class="cal-event ig" style="padding:4px 10px;font-size:11px;">IG</div>
-                            <div class="cal-event tt" style="padding:4px 10px;font-size:11px;">TT</div>
-                            <div class="cal-event yt" style="padding:4px 10px;font-size:11px;">YT</div>
-                            <div class="cal-event li" style="padding:4px 10px;font-size:11px;">LI</div>
-                        </div>
-                        <button class="btn btn-accent" style="font-size:12px;"
-                            onclick="document.getElementById('schedule-modal').classList.add('open')">+ Add
-                            Post</button>
+                    <div style="display:flex;align-items:center;gap:10px;">
+                        <button class="btn btn-accent" style="font-size:12px;" onclick="openComposeModal()">+ Add Post</button>
                     </div>
                 </div>
-                <div class="card">
-                    <div class="card-body" style="padding:20px;">
-                        <div class="calendar-grid">
-                            <div class="cal-day">
-                                <div class="cal-day-header">
-                                    <div class="cal-day-name">MON</div>
-                                    <div class="cal-day-num today">14</div>
-                                </div>
-                                <div class="cal-event ig">
-                                    <div class="cal-plat">INSTAGRAM</div>
-                                    <div class="cal-title">Ep.42 — "AI will replace…" Hook clip</div>
-                                    <div class="cal-time">9:00 AM</div>
-                                </div>
-                                <div class="cal-event tt">
-                                    <div class="cal-plat">TIKTOK</div>
-                                    <div class="cal-title">Ep.42 — Viral hook cut #7</div>
-                                    <div class="cal-time">12:00 PM</div>
-                                </div>
-                            </div>
-                            <div class="cal-day">
-                                <div class="cal-day-header">
-                                    <div class="cal-day-name">TUE</div>
-                                    <div class="cal-day-num">15</div>
-                                </div>
-                                <div class="cal-event li">
-                                    <div class="cal-plat">LINKEDIN</div>
-                                    <div class="cal-title">Ep.44 — Founders clip #3</div>
-                                    <div class="cal-time">8:30 AM</div>
-                                </div>
-                                <div class="cal-event ig">
-                                    <div class="cal-plat">INSTAGRAM</div>
-                                    <div class="cal-title">Ep.42 — Story series pt.2</div>
-                                    <div class="cal-time">6:00 PM</div>
-                                </div>
-                            </div>
-                            <div class="cal-day">
-                                <div class="cal-day-header">
-                                    <div class="cal-day-name">WED</div>
-                                    <div class="cal-day-num">16</div>
-                                </div>
-                                <div class="cal-event yt">
-                                    <div class="cal-plat">YOUTUBE</div>
-                                    <div class="cal-title">Full Ep.44 — Founders Series publish</div>
-                                    <div class="cal-time">10:00 AM</div>
-                                </div>
-                                <div class="cal-event tt">
-                                    <div class="cal-plat">TIKTOK</div>
-                                    <div class="cal-title">Ep.44 — "Lost everything" clip</div>
-                                    <div class="cal-time">3:00 PM</div>
-                                </div>
-                            </div>
-                            <div class="cal-day">
-                                <div class="cal-day-header">
-                                    <div class="cal-day-name">THU</div>
-                                    <div class="cal-day-num">17</div>
-                                </div>
-                                <div class="cal-event ig">
-                                    <div class="cal-plat">INSTAGRAM</div>
-                                    <div class="cal-title">Ep.44 — £0 to £1M clip</div>
-                                    <div class="cal-time">9:00 AM</div>
-                                </div><button class="cal-add">+ Add post</button>
-                            </div>
-                            <div class="cal-day">
-                                <div class="cal-day-header">
-                                    <div class="cal-day-name">FRI</div>
-                                    <div class="cal-day-num">18</div>
-                                </div>
-                                <div class="cal-event li">
-                                    <div class="cal-plat">LINKEDIN</div>
-                                    <div class="cal-title">Ep.44 — Hiring mistake clip</div>
-                                    <div class="cal-time">8:00 AM</div>
-                                </div>
-                                <div class="cal-event yt">
-                                    <div class="cal-plat">YOUTUBE SHORT</div>
-                                    <div class="cal-title">Ep.44 — "Younger self" short</div>
-                                    <div class="cal-time">12:00 PM</div>
-                                </div>
-                            </div>
-                            <div class="cal-day">
-                                <div class="cal-day-header">
-                                    <div class="cal-day-name">SAT</div>
-                                    <div class="cal-day-num">19</div>
-                                </div>
-                                <div class="cal-event tt">
-                                    <div class="cal-plat">TIKTOK</div>
-                                    <div class="cal-title">Ep.44 — Raising first round clip</div>
-                                    <div class="cal-time">11:00 AM</div>
-                                </div><button class="cal-add">+ Add post</button>
-                            </div>
-                            <div class="cal-day">
-                                <div class="cal-day-header">
-                                    <div class="cal-day-name">SUN</div>
-                                    <div class="cal-day-num">20</div>
-                                </div><button class="cal-add">+ Add post</button>
+
+                <!-- Calendar tab -->
+                <div class="sched-panel active" id="sched-panel-calendar">
+                    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+                        <div class="week-nav-group">
+                            <button class="week-nav-btn" onclick="changeWeek(-1)">‹</button>
+                            <div class="week-label-new" id="week-label-display">Loading…</div>
+                            <button class="week-nav-btn" onclick="changeWeek(1)">›</button>
+                        </div>
+                        <button class="btn btn-ghost" style="font-size:12px;" onclick="goToCurrentWeek()">This week</button>
+                    </div>
+                    <div class="card">
+                        <div class="card-body" style="padding:20px;">
+                            <div class="calendar-grid" id="sched-calendar-grid">
+                                <div style="grid-column:1/-1;text-align:center;color:var(--text3);padding:40px;">Loading schedule…</div>
                             </div>
                         </div>
+                    </div>
+                </div>
+
+                <!-- Queue tab -->
+                <div class="sched-panel" id="sched-panel-queue">
+                    <div class="queue-list" id="sched-queue-list">
+                        <div style="text-align:center;color:var(--text3);padding:40px;">Loading queue…</div>
+                    </div>
+                </div>
+
+                <!-- Posted tab -->
+                <div class="sched-panel" id="sched-panel-posted">
+                    <div class="queue-list" id="sched-posted-list">
+                        <div style="text-align:center;color:var(--text3);padding:40px;">Loading posted content…</div>
                     </div>
                 </div>
             </div>
 
             <!-- ANALYTICS -->
             <div class="section" id="section-analytics">
+                <div class="analytics-banner">
+                    <span>📊</span>
+                    <span>Showing sample data — connect your platforms in <strong style="color:var(--accent);cursor:pointer;" onclick="showSection('connections', document.querySelector('[onclick*=connections]'))">Settings → Connections</strong> to see real analytics.</span>
+                </div>
+
+                <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:20px;">
+                    <div class="platform-status-row" style="margin:0;">
+                        <div class="plat-status-chip not-connected" onclick="showSection('connections', document.querySelector('[onclick*=connections]'))">IG · Connect →</div>
+                        <div class="plat-status-chip not-connected" onclick="showSection('connections', document.querySelector('[onclick*=connections]'))">TT · Connect →</div>
+                        <div class="plat-status-chip not-connected" onclick="showSection('connections', document.querySelector('[onclick*=connections]'))">YT · Connect →</div>
+                        <div class="plat-status-chip not-connected" onclick="showSection('connections', document.querySelector('[onclick*=connections]'))">LI · Connect →</div>
+                    </div>
+                    <div class="date-range-row" style="margin:0;" id="date-range-buttons">
+                        <button class="date-range-btn" onclick="setDateRange('7d', this)">7 days</button>
+                        <button class="date-range-btn active" onclick="setDateRange('30d', this)">30 days</button>
+                        <button class="date-range-btn" onclick="setDateRange('90d', this)">90 days</button>
+                        <button class="date-range-btn" onclick="setDateRange('all', this)">All time</button>
+                    </div>
+                </div>
+
                 <div class="stats-row" style="margin-bottom:20px;">
                     <div class="stat-card">
-                        <div class="stat-label">Total Views (30d)</div>
-                        <div class="stat-value" style="color:var(--accent);">284K</div>
+                        <div class="stat-label">Total Streams</div>
+                        <div class="stat-value" id="an-streams" style="color:var(--accent);">12,400</div>
+                        <div class="stat-change" style="color:var(--text3);">Spotify + Apple Podcasts</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Video Views</div>
+                        <div class="stat-value" id="an-views">48.2K</div>
                         <div class="stat-change up"><span class="up-arrow"></span> +22% vs prev. period</div>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-label">Avg. Engagement</div>
-                        <div class="stat-value">6.4%</div>
-                        <div class="stat-change up"><span class="up-arrow"></span> +1.2%</div>
+                        <div class="stat-label">Clips Posted</div>
+                        <div class="stat-value" id="an-clips">24</div>
+                        <div class="stat-change" style="color:var(--text3);">Across all platforms</div>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-label">New Followers</div>
-                        <div class="stat-value">1,840</div>
+                        <div class="stat-label">Total Followers</div>
+                        <div class="stat-value" id="an-followers">1,840</div>
                         <div class="stat-change up"><span class="up-arrow"></span> +340 vs prev. period</div>
                     </div>
-                    <div class="stat-card">
-                        <div class="stat-label">Best Performing</div>
-                        <div class="stat-value" style="font-size:18px;line-height:1.3;">IG Clip<br>#3 Ep.42</div>
-                        <div class="stat-change" style="color:var(--text3);">45.2K views</div>
-                    </div>
                 </div>
+
                 <div class="chart-container" style="margin-bottom:20px;">
                     <div class="chart-header">
                         <div>
-                            <div class="chart-title">Views by Platform — Last 30 Days</div>
+                            <div class="chart-title">Views by Platform</div>
                             <div class="chart-sub">Aggregated across all clips and full episodes</div>
                         </div>
                         <div class="chart-legend">
-                            <div class="legend-item">
-                                <div class="legend-dot" style="background:var(--orange);"></div>Instagram
-                            </div>
-                            <div class="legend-item">
-                                <div class="legend-dot" style="background:var(--blue);"></div>TikTok
-                            </div>
-                            <div class="legend-item">
-                                <div class="legend-dot" style="background:var(--red);"></div>YouTube
-                            </div>
-                            <div class="legend-item">
-                                <div class="legend-dot" style="background:var(--purple);"></div>LinkedIn
-                            </div>
+                            <div class="legend-item"><div class="legend-dot" style="background:var(--orange);"></div>Instagram</div>
+                            <div class="legend-item"><div class="legend-dot" style="background:var(--blue);"></div>TikTok</div>
+                            <div class="legend-item"><div class="legend-dot" style="background:var(--red);"></div>YouTube</div>
+                            <div class="legend-item"><div class="legend-dot" style="background:var(--purple);"></div>LinkedIn</div>
                         </div>
                     </div>
-                    <div class="bar-chart">
-                        <div class="bar-group">
-                            <div class="bar" style="height:55%;background:var(--orange);">
-                                <div class="bar-tooltip">IG: 18.2K</div>
-                            </div>
-                            <div class="bar" style="height:40%;background:var(--blue);">
-                                <div class="bar-tooltip">TT: 13.1K</div>
-                            </div>
-                            <div class="bar" style="height:28%;background:var(--red);">
-                                <div class="bar-tooltip">YT: 9.2K</div>
-                            </div>
-                            <div class="bar" style="height:15%;background:var(--purple);">
-                                <div class="bar-tooltip">LI: 4.9K</div>
-                            </div>
-                        </div>
-                        <div class="bar-group">
-                            <div class="bar" style="height:62%;background:var(--orange);">
-                                <div class="bar-tooltip">IG: 20.4K</div>
-                            </div>
-                            <div class="bar" style="height:50%;background:var(--blue);">
-                                <div class="bar-tooltip">TT: 16.4K</div>
-                            </div>
-                            <div class="bar" style="height:35%;background:var(--red);">
-                                <div class="bar-tooltip">YT: 11.5K</div>
-                            </div>
-                            <div class="bar" style="height:18%;background:var(--purple);">
-                                <div class="bar-tooltip">LI: 5.9K</div>
-                            </div>
-                        </div>
-                        <div class="bar-group">
-                            <div class="bar" style="height:45%;background:var(--orange);">
-                                <div class="bar-tooltip">IG: 14.8K</div>
-                            </div>
-                            <div class="bar" style="height:38%;background:var(--blue);">
-                                <div class="bar-tooltip">TT: 12.5K</div>
-                            </div>
-                            <div class="bar" style="height:32%;background:var(--red);">
-                                <div class="bar-tooltip">YT: 10.5K</div>
-                            </div>
-                            <div class="bar" style="height:20%;background:var(--purple);">
-                                <div class="bar-tooltip">LI: 6.6K</div>
-                            </div>
-                        </div>
-                        <div class="bar-group">
-                            <div class="bar" style="height:88%;background:var(--orange);">
-                                <div class="bar-tooltip">IG: 29.0K</div>
-                            </div>
-                            <div class="bar" style="height:72%;background:var(--blue);">
-                                <div class="bar-tooltip">TT: 23.7K</div>
-                            </div>
-                            <div class="bar" style="height:48%;background:var(--red);">
-                                <div class="bar-tooltip">YT: 15.8K</div>
-                            </div>
-                            <div class="bar" style="height:22%;background:var(--purple);">
-                                <div class="bar-tooltip">LI: 7.2K</div>
-                            </div>
-                        </div>
-                        <div class="bar-group">
-                            <div class="bar" style="height:100%;background:var(--orange);">
-                                <div class="bar-tooltip">IG: 45.2K ★</div>
-                            </div>
-                            <div class="bar" style="height:80%;background:var(--blue);">
-                                <div class="bar-tooltip">TT: 28.1K</div>
-                            </div>
-                            <div class="bar" style="height:55%;background:var(--red);">
-                                <div class="bar-tooltip">YT: 19.7K</div>
-                            </div>
-                            <div class="bar" style="height:28%;background:var(--purple);">
-                                <div class="bar-tooltip">LI: 12.4K</div>
-                            </div>
-                        </div>
-                        <div class="bar-group">
-                            <div class="bar" style="height:70%;background:var(--orange);">
-                                <div class="bar-tooltip">IG: 23.1K</div>
-                            </div>
-                            <div class="bar" style="height:58%;background:var(--blue);">
-                                <div class="bar-tooltip">TT: 19.1K</div>
-                            </div>
-                            <div class="bar" style="height:40%;background:var(--red);">
-                                <div class="bar-tooltip">YT: 13.2K</div>
-                            </div>
-                            <div class="bar" style="height:24%;background:var(--purple);">
-                                <div class="bar-tooltip">LI: 7.9K</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="bar-labels">
-                        <div class="bar-label">Ep.37</div>
-                        <div class="bar-label">Ep.38</div>
-                        <div class="bar-label">Ep.39</div>
-                        <div class="bar-label">Ep.40</div>
-                        <div class="bar-label">Ep.41</div>
-                        <div class="bar-label">Ep.42</div>
-                    </div>
+                    <div class="bar-chart" id="an-bar-chart"></div>
+                    <div class="bar-labels" id="an-bar-labels"></div>
                 </div>
-                <div class="platform-row" style="margin-bottom:20px;">
-                    <div class="platform-stat">
-                        <div class="platform-icon" style="background:rgba(255,107,53,0.12);color:var(--orange);">IG
-                        </div>
-                        <div class="plat-stat-val">128K</div>
-                        <div class="plat-stat-label">Instagram Views</div>
-                        <div class="plat-stat-change up" style="color:var(--green);"><span class="up-arrow"></span> +24%
-                        </div>
-                    </div>
-                    <div class="platform-stat">
-                        <div class="platform-icon" style="background:rgba(71,184,255,0.1);color:var(--blue);">TT</div>
-                        <div class="plat-stat-val">92K</div>
-                        <div class="plat-stat-label">TikTok Views</div>
-                        <div class="plat-stat-change up" style="color:var(--green);"><span class="up-arrow"></span> +31%
-                        </div>
-                    </div>
-                    <div class="platform-stat">
-                        <div class="platform-icon" style="background:rgba(255,77,106,0.12);color:var(--red);">YT</div>
-                        <div class="plat-stat-val">48K</div>
-                        <div class="plat-stat-label">YouTube Views</div>
-                        <div class="plat-stat-change up" style="color:var(--green);"><span class="up-arrow"></span> +15%
-                        </div>
-                    </div>
-                    <div class="platform-stat">
-                        <div class="platform-icon" style="background:rgba(139,109,250,0.12);color:var(--purple);">LI
-                        </div>
-                        <div class="plat-stat-val">16K</div>
-                        <div class="plat-stat-label">LinkedIn Views</div>
-                        <div class="plat-stat-change up" style="color:var(--green);"><span class="up-arrow"></span> +8%
-                        </div>
-                    </div>
-                </div>
+
+                <div class="platform-row" style="margin-bottom:20px;" id="an-plat-row"></div>
+
                 <div class="card">
                     <div class="card-header">
                         <div>
@@ -2731,101 +3435,119 @@
                             <div class="card-sub">Ranked by total views</div>
                         </div>
                     </div>
-                    <div class="card-body" style="padding:12px 16px;">
-                        <div class="episode-list">
-                            <div class="episode-row">
-                                <div class="ep-num"
-                                    style="background:rgba(232,255,71,0.12);color:var(--accent);font-family:Arial,Helvetica,sans-serif;font-weight:700;">
-                                    #1</div>
-                                <div class="ep-info">
-                                    <div class="ep-title">Ep.42 — "AI will replace most jobs in 5 years"</div>
-                                    <div class="ep-meta">Instagram Reel · 0:47</div>
-                                </div>
-                                <div class="ep-clips"><strong>45.2K</strong><br>views</div>
-                            </div>
-                            <div class="episode-row">
-                                <div class="ep-num"
-                                    style="background:var(--surface3);color:var(--text2);font-family:Arial,Helvetica,sans-serif;font-weight:700;">
-                                    #2</div>
-                                <div class="ep-info">
-                                    <div class="ep-title">Ep.41 — "The mindset shift that changed everything"</div>
-                                    <div class="ep-meta">TikTok · 1:12</div>
-                                </div>
-                                <div class="ep-clips"><strong>38.7K</strong><br>views</div>
-                            </div>
-                            <div class="episode-row">
-                                <div class="ep-num"
-                                    style="background:var(--surface3);color:var(--text2);font-family:Arial,Helvetica,sans-serif;font-weight:700;">
-                                    #3</div>
-                                <div class="ep-info">
-                                    <div class="ep-title">Ep.42 — "How I built a £10M company with no funding"</div>
-                                    <div class="ep-meta">Instagram Reel · 2:05</div>
-                                </div>
-                                <div class="ep-clips"><strong>29.1K</strong><br>views</div>
-                            </div>
-                            <div class="episode-row">
-                                <div class="ep-num"
-                                    style="background:var(--surface3);color:var(--text2);font-family:Arial,Helvetica,sans-serif;font-weight:700;">
-                                    #4</div>
-                                <div class="ep-info">
-                                    <div class="ep-title">Ep.40 — "Why most people never start a business"</div>
-                                    <div class="ep-meta">TikTok · 0:58</div>
-                                </div>
-                                <div class="ep-clips"><strong>24.3K</strong><br>views</div>
-                            </div>
+                    <div class="card-body" style="padding:0;">
+                        <table class="top-clips-table">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Clip</th>
+                                    <th>Platform</th>
+                                    <th>Views</th>
+                                    <th>Engagement</th>
+                                </tr>
+                            </thead>
+                            <tbody id="an-top-clips"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CONNECTIONS -->
+            <div class="section" id="section-connections">
+                <div class="podcast-section">
+                    <div class="podcast-section-title">Podcast Platforms (RSS-based)</div>
+                    <div class="podcast-inputs">
+                        <div class="podcast-field">
+                            <label>Spotify Show URL or ID</label>
+                            <input type="text" id="spotify-show-id" placeholder="e.g. 4rOoJ6Egrf8K2IrywzwOMk" oninput="savePodcastIds()" />
+                        </div>
+                        <div class="podcast-field">
+                            <label>Apple Podcasts Show URL or ID</label>
+                            <input type="text" id="apple-podcasts-id" placeholder="e.g. id1234567890" oninput="savePodcastIds()" />
                         </div>
                     </div>
+                </div>
+
+                <div style="font-size:12px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--text3);margin-bottom:14px;">Social Platforms</div>
+                <div class="connections-grid" id="connections-grid">
+                    <!-- Rendered by JS -->
+                    <div style="color:var(--text3);font-size:13px;padding:20px;">Loading…</div>
                 </div>
             </div>
 
         </div>
     </main>
 
-    <!-- SCHEDULE MODAL -->
-    <div class="modal-overlay" id="schedule-modal" onclick="if(event.target===this)this.classList.remove('open')">
-        <div class="modal">
-            <div class="modal-title">Schedule This Clip</div>
-            <div class="modal-sub">Choose platforms and set your publish time</div>
-            <div class="modal-platforms">
-                <div class="modal-plat selected" onclick="this.classList.toggle('selected')">
-                    <div class="modal-plat-icon" style="background:rgba(255,107,53,0.12);color:var(--orange);">IG</div>
-                    <div>
-                        <div class="modal-plat-name">Instagram</div>
-                        <div class="modal-plat-handle">@archie_podcast</div>
+    <!-- NOTIFICATIONS DRAWER -->
+    <div class="drawer-overlay" id="notif-overlay" onclick="toggleNotifDrawer()"></div>
+    <div class="notif-drawer" id="notif-drawer">
+        <div class="notif-drawer-head">
+            <div class="notif-drawer-title">Notifications</div>
+            <button class="notif-mark-all" onclick="markAllNotificationsRead()">Mark all read</button>
+        </div>
+        <div class="notif-filter-tabs">
+            <div class="notif-filter-tab active" onclick="filterNotifs('all', this)">All</div>
+            <div class="notif-filter-tab" onclick="filterNotifs('status_update', this)">Status</div>
+            <div class="notif-filter-tab" onclick="filterNotifs('comment', this)">Comments</div>
+            <div class="notif-filter-tab" onclick="filterNotifs('file_ready', this)">Files</div>
+        </div>
+        <div class="notif-list" id="notif-list">
+            <div class="notif-empty"><div class="notif-empty-icon">🔔</div>Loading…</div>
+        </div>
+    </div>
+
+    <!-- COMPOSE POST MODAL -->
+    <div class="compose-modal-overlay" id="compose-modal" onclick="if(event.target===this)closeComposeModal()">
+        <div class="compose-modal">
+            <div class="compose-head">
+                <div class="compose-title">Compose Post</div>
+                <button class="btn btn-ghost" style="font-size:12px;padding:6px 12px;" onclick="closeComposeModal()">✕ Close</button>
+            </div>
+            <div class="compose-body">
+                <!-- Left: Clip selector -->
+                <div class="compose-left">
+                    <div class="compose-section-title">Select a clip</div>
+                    <input class="compose-clip-search" type="text" placeholder="Search clips…" id="clip-search" oninput="filterClipSelector(this.value)" />
+                    <div class="compose-clip-grid" id="compose-clip-grid">
+                        <div style="grid-column:1/-1;text-align:center;color:var(--text3);padding:20px;font-size:12px;">No clips available yet</div>
                     </div>
                 </div>
-                <div class="modal-plat" onclick="this.classList.toggle('selected')">
-                    <div class="modal-plat-icon" style="background:rgba(71,184,255,0.1);color:var(--blue);">TT</div>
+                <!-- Right: Post composer -->
+                <div class="compose-right">
                     <div>
-                        <div class="modal-plat-name">TikTok</div>
-                        <div class="modal-plat-handle">@archie_podcast</div>
+                        <div class="compose-section-title">Platforms</div>
+                        <div class="plat-toggle-row" id="plat-toggle-row">
+                            <button class="plat-toggle" data-platform="instagram" onclick="togglePlatform(this)" style="border-color:var(--orange);color:var(--orange);">IG</button>
+                            <button class="plat-toggle" data-platform="tiktok" onclick="togglePlatform(this)" style="border-color:var(--blue);color:var(--blue);">TT</button>
+                            <button class="plat-toggle" data-platform="youtube" onclick="togglePlatform(this)" style="border-color:var(--red);color:var(--red);">YT</button>
+                            <button class="plat-toggle" data-platform="linkedin" onclick="togglePlatform(this)" style="border-color:var(--purple);color:var(--purple);">LI</button>
+                            <button class="plat-toggle" data-platform="twitter" onclick="togglePlatform(this)">TW</button>
+                        </div>
                     </div>
-                </div>
-                <div class="modal-plat" onclick="this.classList.toggle('selected')">
-                    <div class="modal-plat-icon" style="background:rgba(255,77,106,0.12);color:var(--red);">YT</div>
-                    <div>
-                        <div class="modal-plat-name">YouTube Shorts</div>
-                        <div class="modal-plat-handle">Archie's Podcast</div>
+                    <div class="compose-field">
+                        <label>Caption <span id="char-count" class="char-counter" style="float:right;"></span></label>
+                        <textarea id="compose-caption" rows="5" placeholder="Write your caption…" oninput="updateCharCount(this)"></textarea>
                     </div>
-                </div>
-                <div class="modal-plat" onclick="this.classList.toggle('selected')">
-                    <div class="modal-plat-icon" style="background:rgba(139,109,250,0.12);color:var(--purple);">LI</div>
-                    <div>
-                        <div class="modal-plat-name">LinkedIn</div>
-                        <div class="modal-plat-handle">Archie R.</div>
+                    <div class="compose-field">
+                        <label>Hashtags</label>
+                        <textarea id="compose-hashtags" rows="2" placeholder="#podcast #content #growth"></textarea>
+                    </div>
+                    <div class="compose-date-row">
+                        <div class="compose-field">
+                            <label>Date</label>
+                            <input type="date" id="compose-date" />
+                        </div>
+                        <div class="compose-field">
+                            <label>Time</label>
+                            <input type="time" id="compose-time" value="09:00" />
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="modal-date-row">
-                <div class="modal-field"><label>Date</label><input type="date" value="2025-04-15" /></div>
-                <div class="modal-field"><label>Time</label><input type="time" value="09:00" /></div>
-            </div>
-            <div class="modal-actions">
-                <button class="btn btn-accent"
-                    onclick="document.getElementById('schedule-modal').classList.remove('open')">Confirm
-                    Schedule</button>
-                <button class="btn btn-ghost"
-                    onclick="document.getElementById('schedule-modal').classList.remove('open')">Cancel</button>
+            <div class="compose-foot">
+                <button class="btn btn-ghost" style="font-size:12px;" onclick="savePost('draft')">Save as Draft</button>
+                <button class="btn btn-accent" id="schedule-btn" style="font-size:12px;" onclick="savePost('scheduled')">Schedule Post</button>
+                <div id="compose-warn" style="font-size:11px;color:var(--red);flex:1;text-align:right;display:none;"></div>
             </div>
         </div>
     </div>
@@ -2844,7 +3566,8 @@
             downloads: 'Downloads',
             clips: 'Clips & Content',
             schedule: 'Content Scheduler',
-            analytics: 'Analytics'
+            analytics: 'Analytics',
+            connections: 'Platform Connections'
         };
 
         // ── AUTH ──
@@ -3087,7 +3810,7 @@
 
         function toggleTheme() {
             const isLight = document.body.classList.toggle('light');
-            document.getElementById('theme-toggle').textContent = isLight ? '🌑' : '🌙';
+            document.getElementById('theme-toggle').textContent = isLight ? '☀️' : '🌙';
         }
 
         function toggleSidebar() {
@@ -3098,6 +3821,593 @@
         function closeSidebar() {
             document.getElementById('sidebar').classList.remove('open');
             document.getElementById('sidebar-overlay').classList.remove('open');
+        }
+
+        // ── NOTIFICATIONS ──
+        let allNotifications = [];
+        let currentNotifFilter = 'all';
+
+        async function loadNotifications() {
+            if (!currentPortalId) return;
+            const { data } = await _supabase
+                .from('notifications')
+                .select('*')
+                .eq('portal_id', currentPortalId)
+                .order('created_at', { ascending: false })
+                .limit(50);
+            allNotifications = data || [];
+            renderNotifications();
+            updateNotifBadge();
+        }
+
+        function updateNotifBadge() {
+            const unread = allNotifications.filter(n => !n.is_read).length;
+            const el = document.getElementById('notif-count');
+            if (el) {
+                el.textContent = unread > 9 ? '9+' : unread;
+                el.classList.toggle('visible', unread > 0);
+            }
+        }
+
+        function renderNotifications() {
+            const filtered = currentNotifFilter === 'all'
+                ? allNotifications
+                : allNotifications.filter(n => n.type === currentNotifFilter);
+            const el = document.getElementById('notif-list');
+            if (!el) return;
+            if (filtered.length === 0) {
+                el.innerHTML = '<div class="notif-empty"><div class="notif-empty-icon">✓</div>You\'re all caught up</div>';
+                return;
+            }
+            const typeIcon = { status_update: '📡', comment: '💬', file_ready: '📁', review_request: '👁' };
+            const typeClass = { status_update: 'status', comment: 'comment', file_ready: 'file', review_request: 'status' };
+            el.innerHTML = filtered.map(n => `
+                <div class="notif-item${n.is_read ? '' : ' unread'}" onclick="markNotifRead('${n.id}', this)">
+                    <div class="notif-icon ${typeClass[n.type] || 'status'}">${typeIcon[n.type] || '🔔'}</div>
+                    <div class="notif-body">
+                        <div class="notif-item-title">${n.title}</div>
+                        <div class="notif-item-body">${n.body}</div>
+                        <div class="notif-time">${timeAgo(n.created_at)}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function filterNotifs(type, tabEl) {
+            currentNotifFilter = type;
+            document.querySelectorAll('.notif-filter-tab').forEach(t => t.classList.remove('active'));
+            tabEl.classList.add('active');
+            renderNotifications();
+        }
+
+        async function markNotifRead(id, el) {
+            el.classList.remove('unread');
+            await _supabase.from('notifications').update({ is_read: true }).eq('id', id);
+            const n = allNotifications.find(x => x.id === id);
+            if (n) n.is_read = true;
+            updateNotifBadge();
+        }
+
+        async function markAllNotificationsRead() {
+            if (!currentPortalId) return;
+            await _supabase.from('notifications').update({ is_read: true })
+                .eq('portal_id', currentPortalId).eq('is_read', false);
+            allNotifications.forEach(n => n.is_read = true);
+            renderNotifications();
+            updateNotifBadge();
+        }
+
+        function toggleNotifDrawer() {
+            const drawer = document.getElementById('notif-drawer');
+            const overlay = document.getElementById('notif-overlay');
+            const isOpen = drawer.classList.toggle('open');
+            overlay.classList.toggle('open', isOpen);
+            if (isOpen) loadNotifications();
+        }
+
+        // ── PORTAL ID LOOKUP ──
+        let currentPortalId = null;
+
+        async function loadPortalId(clientId) {
+            const { data } = await _supabase
+                .from('portals')
+                .select('id')
+                .eq('name', currentClient?.name)
+                .single();
+            if (data) currentPortalId = data.id;
+        }
+
+        // ── SCHEDULER ──
+        let currentWeekStart = getMonday(new Date());
+        let schedPosts = [];
+
+        function getMonday(d) {
+            const dt = new Date(d);
+            const day = dt.getDay();
+            const diff = dt.getDate() - day + (day === 0 ? -6 : 1);
+            dt.setDate(diff);
+            dt.setHours(0, 0, 0, 0);
+            return dt;
+        }
+
+        function formatWeekLabel(monday) {
+            const sunday = new Date(monday);
+            sunday.setDate(monday.getDate() + 6);
+            const opts = { month: 'short', day: 'numeric' };
+            return monday.toLocaleDateString('en-GB', opts) + ' – ' + sunday.toLocaleDateString('en-GB', { ...opts, year: 'numeric' });
+        }
+
+        function changeWeek(dir) {
+            currentWeekStart.setDate(currentWeekStart.getDate() + dir * 7);
+            renderScheduleCalendar();
+        }
+
+        function goToCurrentWeek() {
+            currentWeekStart = getMonday(new Date());
+            renderScheduleCalendar();
+        }
+
+        async function loadSchedulePosts() {
+            if (!currentPortalId) return;
+            const weekEnd = new Date(currentWeekStart);
+            weekEnd.setDate(weekEnd.getDate() + 7);
+            const { data } = await _supabase
+                .from('post_queue')
+                .select('*')
+                .eq('portal_id', currentPortalId)
+                .order('scheduled_for', { ascending: true });
+            schedPosts = data || [];
+            renderScheduleCalendar();
+            renderSchedQueue();
+            renderSchedPosted();
+        }
+
+        function renderScheduleCalendar() {
+            const labelEl = document.getElementById('week-label-display');
+            if (labelEl) labelEl.textContent = formatWeekLabel(currentWeekStart);
+
+            const grid = document.getElementById('sched-calendar-grid');
+            if (!grid) return;
+
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            const days = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
+            const platColor = { instagram: 'var(--orange)', tiktok: 'var(--blue)', youtube: 'var(--red)', linkedin: 'var(--purple)', twitter: 'var(--text2)' };
+            const platClass = { instagram: 'ig', tiktok: 'tt', youtube: 'yt', linkedin: 'li', twitter: '' };
+
+            grid.innerHTML = days.map((dayName, i) => {
+                const date = new Date(currentWeekStart);
+                date.setDate(date.getDate() + i);
+                const isToday = date.getTime() === today.getTime();
+                const dateStr = date.toISOString().slice(0, 10);
+                const dayPosts = schedPosts.filter(p => {
+                    if (!p.scheduled_for) return false;
+                    return p.scheduled_for.slice(0, 10) === dateStr && p.status === 'scheduled';
+                });
+                const postCards = dayPosts.map(p => {
+                    const t = p.scheduled_for ? new Date(p.scheduled_for).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }) : '';
+                    return `<div class="cal-event ${platClass[p.platform] || ''}">
+                        <div class="cal-plat">${p.platform.toUpperCase()}</div>
+                        <div class="cal-title">${p.caption ? p.caption.slice(0, 40) + (p.caption.length > 40 ? '…' : '') : 'No caption'}</div>
+                        ${t ? `<div class="cal-time">${t}</div>` : ''}
+                    </div>`;
+                }).join('');
+                return `<div class="cal-day">
+                    <div class="cal-day-header">
+                        <div class="cal-day-name">${dayName}</div>
+                        <div class="cal-day-num${isToday ? ' today' : ''}">${date.getDate()}</div>
+                    </div>
+                    ${postCards}
+                    <button class="cal-add" onclick="openComposeModal('${dateStr}')">+ Add post</button>
+                </div>`;
+            }).join('');
+        }
+
+        function renderSchedQueue() {
+            const el = document.getElementById('sched-queue-list');
+            if (!el) return;
+            const queue = schedPosts.filter(p => p.status === 'draft' || p.status === 'queued' || p.status === 'scheduled');
+            if (queue.length === 0) {
+                el.innerHTML = '<div style="text-align:center;color:var(--text3);padding:60px;font-size:13px;">No posts in queue — compose a post to get started.</div>';
+                return;
+            }
+            const platColor = { instagram: 'var(--orange)', tiktok: 'var(--blue)', youtube: 'var(--red)', linkedin: 'var(--purple)', twitter: 'var(--text2)' };
+            el.innerHTML = queue.map(p => `
+                <div class="queue-item">
+                    <div class="queue-plat-dot" style="background:${platColor[p.platform] || 'var(--text3)'}"></div>
+                    <div class="queue-info">
+                        <div class="queue-caption">${p.caption || '(No caption)'}</div>
+                        <div class="queue-meta">${p.platform.toUpperCase()} · ${p.scheduled_for ? new Date(p.scheduled_for).toLocaleDateString('en-GB', { day:'numeric', month:'short', hour:'2-digit', minute:'2-digit' }) : 'Draft'} · <span style="text-transform:capitalize;">${p.status}</span></div>
+                    </div>
+                    <button class="btn btn-ghost" style="font-size:11px;padding:5px 10px;" onclick="deletePost('${p.id}')">✕</button>
+                </div>
+            `).join('');
+        }
+
+        function renderSchedPosted() {
+            const el = document.getElementById('sched-posted-list');
+            if (!el) return;
+            const posted = schedPosts.filter(p => p.status === 'posted' || p.status === 'failed');
+            if (posted.length === 0) {
+                el.innerHTML = '<div style="text-align:center;color:var(--text3);padding:60px;font-size:13px;">No posted content yet.</div>';
+                return;
+            }
+            const platColor = { instagram: 'var(--orange)', tiktok: 'var(--blue)', youtube: 'var(--red)', linkedin: 'var(--purple)', twitter: 'var(--text2)' };
+            el.innerHTML = posted.map(p => `
+                <div class="queue-item">
+                    <div class="queue-plat-dot" style="background:${platColor[p.platform] || 'var(--text3)'}"></div>
+                    <div class="queue-info">
+                        <div class="queue-caption">${p.caption || '(No caption)'}</div>
+                        <div class="queue-meta">${p.platform.toUpperCase()} · ${p.posted_at ? timeAgo(p.posted_at) : ''} · <span style="color:${p.status === 'failed' ? 'var(--red)' : 'var(--green)'};">${p.status === 'failed' ? '✗ Failed' : '✓ Posted'}</span></div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function switchSchedTab(tab, el) {
+            document.querySelectorAll('.sched-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.sched-panel').forEach(p => p.classList.remove('active'));
+            el.classList.add('active');
+            document.getElementById('sched-panel-' + tab).classList.add('active');
+        }
+
+        // ── COMPOSE MODAL ──
+        let selectedClipId = null;
+        let selectedPlatforms = new Set();
+        let composeClips = [];
+
+        function openComposeModal(prefillDate) {
+            document.getElementById('compose-modal').classList.add('open');
+            const dateInput = document.getElementById('compose-date');
+            if (dateInput) {
+                const today = prefillDate || new Date().toISOString().slice(0, 10);
+                dateInput.value = today;
+            }
+            selectedClipId = null;
+            selectedPlatforms = new Set();
+            document.querySelectorAll('.plat-toggle').forEach(b => b.classList.remove('active'));
+            document.getElementById('compose-caption').value = '';
+            document.getElementById('compose-hashtags').value = '';
+            document.getElementById('compose-warn').style.display = 'none';
+            loadClipsForCompose();
+        }
+
+        function closeComposeModal() {
+            document.getElementById('compose-modal').classList.remove('open');
+        }
+
+        async function loadClipsForCompose() {
+            const grid = document.getElementById('compose-clip-grid');
+            if (!currentPortalId) {
+                grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:var(--text3);font-size:12px;padding:20px;">Connect your portal to load clips.</div>';
+                return;
+            }
+            const { data } = await _supabase
+                .from('clips')
+                .select('id, title, duration_seconds, status')
+                .eq('portal_id', currentPortalId)
+                .eq('status', 'ready')
+                .order('created_at', { ascending: false });
+            composeClips = data || [];
+            renderComposeClips(composeClips);
+        }
+
+        function renderComposeClips(clips) {
+            const grid = document.getElementById('compose-clip-grid');
+            if (!grid) return;
+            if (clips.length === 0) {
+                grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:var(--text3);font-size:12px;padding:20px;">No ready clips yet.</div>';
+                return;
+            }
+            grid.innerHTML = clips.map(c => {
+                const dur = c.duration_seconds ? Math.floor(c.duration_seconds / 60) + ':' + String(c.duration_seconds % 60).padStart(2, '0') : '';
+                return `<div class="compose-clip-item${selectedClipId === c.id ? ' selected' : ''}" onclick="selectClip('${c.id}', this)">
+                    <div class="compose-clip-thumb">🎬</div>
+                    <div class="compose-clip-title">${c.title}</div>
+                    ${dur ? `<div class="compose-clip-duration">${dur}</div>` : ''}
+                </div>`;
+            }).join('');
+        }
+
+        function filterClipSelector(query) {
+            const q = query.toLowerCase();
+            renderComposeClips(composeClips.filter(c => c.title.toLowerCase().includes(q)));
+        }
+
+        function selectClip(id, el) {
+            selectedClipId = id;
+            document.querySelectorAll('.compose-clip-item').forEach(c => c.classList.remove('selected'));
+            el.classList.add('selected');
+        }
+
+        function togglePlatform(btn) {
+            const plat = btn.dataset.platform;
+            if (selectedPlatforms.has(plat)) {
+                selectedPlatforms.delete(plat);
+                btn.classList.remove('active');
+            } else {
+                selectedPlatforms.add(plat);
+                btn.classList.add('active');
+            }
+            updateCharCount(document.getElementById('compose-caption'));
+        }
+
+        const CHAR_LIMITS = { instagram: 2200, tiktok: 2200, youtube: 5000, linkedin: 3000, twitter: 280 };
+
+        function updateCharCount(textarea) {
+            const len = textarea.value.length;
+            const el = document.getElementById('char-count');
+            if (!el) return;
+            if (selectedPlatforms.size === 0) { el.textContent = ''; return; }
+            const minLimit = Math.min(...[...selectedPlatforms].map(p => CHAR_LIMITS[p] || 2200));
+            el.textContent = len + ' / ' + minLimit;
+            el.classList.toggle('over', len > minLimit);
+        }
+
+        async function savePost(status) {
+            const warn = document.getElementById('compose-warn');
+            warn.style.display = 'none';
+
+            if (selectedPlatforms.size === 0) {
+                warn.textContent = 'Select at least one platform.';
+                warn.style.display = 'block';
+                return;
+            }
+            if (!currentPortalId) {
+                warn.textContent = 'Portal not loaded yet. Try again in a moment.';
+                warn.style.display = 'block';
+                return;
+            }
+
+            const caption = document.getElementById('compose-caption').value.trim();
+            const hashtags = document.getElementById('compose-hashtags').value.trim()
+                .split(/\s+/).filter(h => h.startsWith('#'));
+            const dateVal = document.getElementById('compose-date').value;
+            const timeVal = document.getElementById('compose-time').value || '09:00';
+            const scheduledFor = status === 'scheduled' && dateVal
+                ? new Date(dateVal + 'T' + timeVal).toISOString()
+                : null;
+
+            const btn = document.getElementById('schedule-btn');
+            btn.disabled = true;
+            btn.textContent = 'Saving…';
+
+            const inserts = [...selectedPlatforms].map(platform => ({
+                portal_id: currentPortalId,
+                clip_id: selectedClipId || null,
+                platform,
+                caption,
+                hashtags,
+                status,
+                scheduled_for: scheduledFor
+            }));
+
+            const { error } = await _supabase.from('post_queue').insert(inserts);
+
+            btn.disabled = false;
+            btn.textContent = 'Schedule Post';
+
+            if (error) {
+                warn.textContent = 'Error: ' + error.message;
+                warn.style.display = 'block';
+                return;
+            }
+
+            closeComposeModal();
+            await loadSchedulePosts();
+        }
+
+        async function deletePost(id) {
+            if (!confirm('Delete this post?')) return;
+            await _supabase.from('post_queue').delete().eq('id', id);
+            schedPosts = schedPosts.filter(p => p.id !== id);
+            renderSchedQueue();
+            renderSchedPosted();
+            renderScheduleCalendar();
+        }
+
+        // ── ANALYTICS ──
+        const PLACEHOLDER_ANALYTICS = {
+            totalStreams: 12400,
+            totalViews: 48200,
+            clipsPosted: 24,
+            followerGrowth: 1840,
+            episodes: ['Ep.37', 'Ep.38', 'Ep.39', 'Ep.40', 'Ep.41', 'Ep.42'],
+            viewsByPlatform: {
+                instagram: [18200, 20400, 14800, 29000, 45200, 23100],
+                tiktok:    [13100, 16400, 12500, 23700, 28100, 19100],
+                youtube:   [9200,  11500, 10500, 15800, 19700, 13200],
+                linkedin:  [4900,  5900,  6600,  7200,  12400, 7900]
+            },
+            topClips: [
+                { title: 'Why most startups fail in year two', views: 24100, platform: 'TikTok', engagement: 8.4 },
+                { title: 'The funding mistake everyone makes', views: 18600, platform: 'Instagram', engagement: 6.2 },
+                { title: 'What VCs actually look for', views: 14200, platform: 'YouTube', engagement: 5.8 },
+                { title: 'Building in public — our story', views: 9800, platform: 'TikTok', engagement: 7.1 }
+            ]
+        };
+
+        let currentDateRange = '30d';
+
+        function setDateRange(range, btn) {
+            currentDateRange = range;
+            document.querySelectorAll('.date-range-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            renderAnalytics();
+        }
+
+        function renderAnalytics() {
+            const d = PLACEHOLDER_ANALYTICS;
+            const fmt = n => n >= 1000 ? (n / 1000).toFixed(1).replace(/\.0$/, '') + 'K' : n;
+            const platColor = { instagram: 'var(--orange)', tiktok: 'var(--blue)', youtube: 'var(--red)', linkedin: 'var(--purple)' };
+
+            const streamEl = document.getElementById('an-streams');
+            const viewsEl = document.getElementById('an-views');
+            const clipsEl = document.getElementById('an-clips');
+            const followEl = document.getElementById('an-followers');
+            if (streamEl) streamEl.textContent = fmt(d.totalStreams);
+            if (viewsEl) viewsEl.textContent = fmt(d.totalViews);
+            if (clipsEl) clipsEl.textContent = d.clipsPosted;
+            if (followEl) followEl.textContent = fmt(d.followerGrowth);
+
+            // Bar chart
+            const barChart = document.getElementById('an-bar-chart');
+            const barLabels = document.getElementById('an-bar-labels');
+            if (barChart) {
+                const allVals = Object.values(d.viewsByPlatform).flat();
+                const maxVal = Math.max(...allVals);
+                barChart.innerHTML = d.episodes.map((ep, i) => `
+                    <div class="bar-group">
+                        ${Object.entries(d.viewsByPlatform).map(([plat, vals]) => `
+                            <div class="bar" style="height:${Math.round(vals[i] / maxVal * 100)}%;background:${platColor[plat]};">
+                                <div class="bar-tooltip">${plat.slice(0,2).toUpperCase()}: ${fmt(vals[i])}</div>
+                            </div>`).join('')}
+                    </div>`).join('');
+            }
+            if (barLabels) {
+                barLabels.innerHTML = d.episodes.map(ep => `<div class="bar-label">${ep}</div>`).join('');
+            }
+
+            // Platform stats
+            const platRow = document.getElementById('an-plat-row');
+            if (platRow) {
+                const platDefs = [
+                    { key: 'instagram', label: 'Instagram Views', abbr: 'IG', color: 'var(--orange)', bg: 'rgba(255,107,53,0.12)', val: 128000, pct: '+24%' },
+                    { key: 'tiktok',    label: 'TikTok Views',    abbr: 'TT', color: 'var(--blue)',   bg: 'rgba(71,184,255,0.1)', val: 92000,  pct: '+31%' },
+                    { key: 'youtube',   label: 'YouTube Views',   abbr: 'YT', color: 'var(--red)',    bg: 'rgba(255,77,106,0.12)', val: 48000, pct: '+15%' },
+                    { key: 'linkedin',  label: 'LinkedIn Views',  abbr: 'LI', color: 'var(--purple)', bg: 'rgba(139,109,250,0.12)', val: 16000, pct: '+8%' }
+                ];
+                platRow.innerHTML = platDefs.map(p => `
+                    <div class="platform-stat">
+                        <div class="platform-icon" style="background:${p.bg};color:${p.color};">${p.abbr}</div>
+                        <div class="plat-stat-val">${fmt(p.val)}</div>
+                        <div class="plat-stat-label">${p.label}</div>
+                        <div class="plat-stat-change up" style="color:var(--green);"><span class="up-arrow"></span> ${p.pct}</div>
+                    </div>`).join('');
+            }
+
+            // Top clips
+            const tbody = document.getElementById('an-top-clips');
+            if (tbody) {
+                tbody.innerHTML = d.topClips.map((c, i) => `
+                    <tr>
+                        <td><span class="clip-rank">#${i + 1}</span></td>
+                        <td>${c.title}</td>
+                        <td><span style="font-size:11px;font-weight:600;color:var(--text3);">${c.platform.toUpperCase()}</span></td>
+                        <td><strong>${fmt(c.views)}</strong></td>
+                        <td><span class="clip-engagement">${c.engagement}%</span></td>
+                    </tr>`).join('');
+            }
+        }
+
+        // ── CONNECTIONS ──
+        const PLATFORM_DEFS = [
+            { key: 'instagram', name: 'Instagram',  abbr: 'IG', color: 'var(--orange)', bg: 'rgba(255,107,53,0.12)' },
+            { key: 'tiktok',    name: 'TikTok',     abbr: 'TT', color: 'var(--blue)',   bg: 'rgba(71,184,255,0.1)' },
+            { key: 'youtube',   name: 'YouTube',    abbr: 'YT', color: 'var(--red)',    bg: 'rgba(255,77,106,0.12)' },
+            { key: 'linkedin',  name: 'LinkedIn',   abbr: 'LI', color: 'var(--purple)', bg: 'rgba(139,109,250,0.12)' },
+            { key: 'twitter',   name: 'Twitter / X', abbr: 'TW', color: 'var(--text2)', bg: 'var(--surface3)' }
+        ];
+
+        let socialConnections = {};
+
+        async function loadConnections() {
+            if (!currentPortalId) return;
+            const { data } = await _supabase
+                .from('social_connections')
+                .select('*')
+                .eq('portal_id', currentPortalId);
+            socialConnections = {};
+            (data || []).forEach(c => socialConnections[c.platform] = c);
+            renderConnections();
+            loadPodcastIds();
+        }
+
+        function renderConnections() {
+            const grid = document.getElementById('connections-grid');
+            if (!grid) return;
+            grid.innerHTML = PLATFORM_DEFS.map(p => {
+                const conn = socialConnections[p.key];
+                const isConnected = conn && conn.is_active;
+                return `<div class="conn-card${isConnected ? ' connected' : ''}">
+                    <div class="conn-card-head">
+                        <div class="conn-plat-icon" style="background:${p.bg};color:${p.color};">${p.abbr}</div>
+                        <div>
+                            <div class="conn-plat-name">${p.name}</div>
+                            <div class="conn-plat-sub">${isConnected ? (conn.platform_username || 'Connected') : 'Not connected'}</div>
+                        </div>
+                        <span class="conn-badge ${isConnected ? 'connected' : 'not-connected'}">${isConnected ? 'Connected' : 'Not connected'}</span>
+                    </div>
+                    ${isConnected && conn.connected_at ? `<div class="conn-last-sync">Connected ${timeAgo(conn.connected_at)}</div>` : ''}
+                    <button class="conn-btn ${isConnected ? 'disconnect' : 'connect'}" onclick="${isConnected ? `disconnectPlatform('${p.key}')` : `connectPlatform('${p.key}')`}">
+                        ${isConnected ? 'Disconnect' : 'Connect ' + p.name}
+                    </button>
+                </div>`;
+            }).join('');
+        }
+
+        function connectPlatform(platform) {
+            alert('OAuth connection for ' + platform + ' coming soon.\n\nYour Upper Floor team will connect this for you — reach out to get it set up.');
+        }
+
+        async function disconnectPlatform(platform) {
+            if (!confirm('Disconnect ' + platform + '? This will stop any scheduled posts to this platform.')) return;
+            await _supabase.from('social_connections').delete()
+                .eq('portal_id', currentPortalId).eq('platform', platform);
+            delete socialConnections[platform];
+            renderConnections();
+        }
+
+        async function loadPodcastIds() {
+            if (!currentPortalId) return;
+            const { data } = await _supabase
+                .from('portals')
+                .select('spotify_show_id, apple_podcasts_id')
+                .eq('id', currentPortalId)
+                .single();
+            if (data) {
+                const sp = document.getElementById('spotify-show-id');
+                const ap = document.getElementById('apple-podcasts-id');
+                if (sp) sp.value = data.spotify_show_id || '';
+                if (ap) ap.value = data.apple_podcasts_id || '';
+            }
+        }
+
+        let podcastSaveTimer;
+        async function savePodcastIds() {
+            clearTimeout(podcastSaveTimer);
+            podcastSaveTimer = setTimeout(async () => {
+                if (!currentPortalId) return;
+                await _supabase.from('portals').update({
+                    spotify_show_id: document.getElementById('spotify-show-id')?.value || null,
+                    apple_podcasts_id: document.getElementById('apple-podcasts-id')?.value || null
+                }).eq('id', currentPortalId);
+            }, 1000);
+        }
+
+        // ── SECTION LOAD HOOKS ──
+        const _origShowSection = showSection;
+        function showSection(id, navEl) {
+            _origShowSection(id, navEl);
+            if (id === 'schedule') {
+                renderScheduleCalendar();
+                loadSchedulePosts();
+            }
+            if (id === 'analytics') {
+                renderAnalytics();
+            }
+            if (id === 'connections') {
+                loadConnections();
+            }
+        }
+
+        // ── EXTENDED loadPortalData ──
+        const _origLoadPortalData = loadPortalData;
+        async function loadPortalData() {
+            await _origLoadPortalData();
+            if (currentClient) await loadPortalId(currentClient.id);
+            renderScheduleCalendar();
+            renderAnalytics();
         }
     </script>
 </body>
