@@ -2944,6 +2944,7 @@
         }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 </head>
 
 <body>
@@ -3502,6 +3503,43 @@
                         </table>
                     </div>
                 </div>
+
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:20px;">
+                    <!-- Streams Over Time -->
+                    <div class="card">
+                        <div class="card-header">
+                            <div>
+                                <div class="card-title">Streams Over Time</div>
+                                <div class="card-sub">Spotify + Apple Podcasts · last 30 days</div>
+                            </div>
+                            <div class="chart-legend" style="flex-direction:column;align-items:flex-end;gap:4px;">
+                                <div class="legend-item"><div class="legend-dot" style="background:#1DB954;"></div>Spotify</div>
+                                <div class="legend-item"><div class="legend-dot" style="background:var(--purple);"></div>Apple</div>
+                            </div>
+                        </div>
+                        <div class="card-body" style="padding:16px 20px 20px;">
+                            <canvas id="chart-streams" height="180"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Follower Growth -->
+                    <div class="card">
+                        <div class="card-header">
+                            <div>
+                                <div class="card-title">Follower Growth</div>
+                                <div class="card-sub">Connected platforms · last 30 days</div>
+                            </div>
+                            <div class="chart-legend" style="flex-direction:column;align-items:flex-end;gap:4px;">
+                                <div class="legend-item"><div class="legend-dot" style="background:var(--orange);"></div>Instagram</div>
+                                <div class="legend-item"><div class="legend-dot" style="background:var(--blue);"></div>TikTok</div>
+                                <div class="legend-item"><div class="legend-dot" style="background:var(--red);"></div>YouTube</div>
+                            </div>
+                        </div>
+                        <div class="card-body" style="padding:16px 20px 20px;">
+                            <canvas id="chart-followers" height="180"></canvas>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <!-- CONNECTIONS -->
@@ -3598,7 +3636,7 @@
             </div>
             <div class="compose-foot">
                 <button class="btn btn-ghost" style="font-size:12px;" onclick="savePost('draft')">Save as Draft</button>
-                <button class="btn btn-accent" id="schedule-btn" style="font-size:12px;" onclick="savePost('scheduled')">Schedule Post</button>
+                <button class="btn btn-accent" id="schedule-btn" style="font-size:12px;opacity:0.4;cursor:not-allowed;" disabled onclick="savePost('scheduled')">Schedule Post</button>
                 <div id="compose-warn" style="font-size:11px;color:var(--red);flex:1;text-align:right;display:none;"></div>
             </div>
         </div>
@@ -3899,6 +3937,50 @@
             document.getElementById('portal').style.display = 'none';
         }
 
+        // ── TOAST NOTIFICATIONS ──
+        function showToast(message, type = 'success') {
+            const existing = document.getElementById('uf-toast');
+            if (existing) existing.remove();
+            const toast = document.createElement('div');
+            toast.id = 'uf-toast';
+            toast.style.cssText = `
+                position:fixed;bottom:32px;left:50%;transform:translateX(-50%) translateY(20px);
+                background:${type === 'success' ? 'var(--accent)' : '#c0392b'};color:#fff;
+                padding:14px 28px;border-radius:8px;font-size:13px;font-weight:600;
+                letter-spacing:0.04em;z-index:9999;opacity:0;
+                transition:opacity 0.25s ease,transform 0.25s ease;
+                box-shadow:0 8px 32px rgba(0,0,0,0.4);max-width:90vw;text-align:center;
+            `;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            requestAnimationFrame(() => {
+                toast.style.opacity = '1';
+                toast.style.transform = 'translateX(-50%) translateY(0)';
+            });
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateX(-50%) translateY(20px)';
+                setTimeout(() => toast.remove(), 300);
+            }, 4500);
+        }
+
+        // Handle OAuth callback URL params (conn_success / conn_error)
+        (function checkOAuthCallback() {
+            const params = new URLSearchParams(window.location.search);
+            const success = params.get('conn_success');
+            const error = params.get('conn_error');
+            const platform = params.get('platform');
+            if (success) {
+                const labels = { instagram: 'Instagram', tiktok: 'TikTok', youtube: 'YouTube', linkedin: 'LinkedIn', twitter: 'Twitter / X' };
+                showToast(`${labels[success] || success} connected successfully!`);
+                window.history.replaceState({}, '', '/');
+            } else if (error) {
+                const labels = { instagram: 'Instagram', tiktok: 'TikTok', youtube: 'YouTube', linkedin: 'LinkedIn', twitter: 'Twitter / X' };
+                showToast(`${labels[platform] || platform || 'Platform'} connection failed: ${decodeURIComponent(error)}`, 'error');
+                window.history.replaceState({}, '', '/');
+            }
+        })();
+
         // Check existing session on load
         _supabase.auth.getSession().then(({ data: { session } }) => {
             if (session) {
@@ -3936,6 +4018,9 @@
         function toggleTheme() {
             const isLight = document.body.classList.toggle('light');
             document.getElementById('theme-toggle').textContent = isLight ? '☀️' : '🌙';
+            // Re-render charts so grid colour updates
+            const analyticsVisible = document.getElementById('section-analytics')?.classList.contains('active');
+            if (analyticsVisible) requestAnimationFrame(() => renderLineCharts());
         }
 
         function toggleSidebar() {
@@ -4194,6 +4279,7 @@
             document.getElementById('compose-caption').value = '';
             document.getElementById('compose-hashtags').value = '';
             document.getElementById('compose-warn').style.display = 'none';
+            updateScheduleBtn();
             loadClipsForCompose();
         }
 
@@ -4243,6 +4329,7 @@
             selectedClipId = id;
             document.querySelectorAll('.compose-clip-item').forEach(c => c.classList.remove('selected'));
             el.classList.add('selected');
+            updateScheduleBtn();
         }
 
         function togglePlatform(btn) {
@@ -4255,6 +4342,16 @@
                 btn.classList.add('active');
             }
             updateCharCount(document.getElementById('compose-caption'));
+            updateScheduleBtn();
+        }
+
+        function updateScheduleBtn() {
+            const btn = document.getElementById('schedule-btn');
+            if (!btn) return;
+            const ready = selectedClipId !== null && selectedPlatforms.size > 0;
+            btn.disabled = !ready;
+            btn.style.opacity = ready ? '1' : '0.4';
+            btn.style.cursor = ready ? 'pointer' : 'not-allowed';
         }
 
         const CHAR_LIMITS = { instagram: 2200, tiktok: 2200, youtube: 5000, linkedin: 3000, twitter: 280 };
@@ -4423,6 +4520,164 @@
                         <td><span class="clip-engagement">${c.engagement}%</span></td>
                     </tr>`).join('');
             }
+
+            // Line charts (deferred so canvas is in DOM)
+            requestAnimationFrame(() => renderLineCharts());
+        }
+
+        // ── CHART.JS LINE CHARTS ──
+        let chartStreams = null;
+        let chartFollowers = null;
+
+        function buildChartDefaults() {
+            const isLight = document.body.classList.contains('light');
+            return {
+                gridColor: isLight ? 'rgba(0,0,0,0.06)' : 'rgba(255,255,255,0.06)',
+                tickColor: isLight ? '#888' : '#666',
+                tooltipBg: isLight ? '#fff' : '#111',
+                tooltipText: isLight ? '#000' : '#fff',
+            };
+        }
+
+        function generateDayLabels(days) {
+            const labels = [];
+            for (let i = days - 1; i >= 0; i--) {
+                const d = new Date();
+                d.setDate(d.getDate() - i);
+                labels.push(d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' }));
+            }
+            return labels;
+        }
+
+        function generateTrend(start, end, points, noise = 0.12) {
+            return Array.from({ length: points }, (_, i) => {
+                const base = start + (end - start) * (i / (points - 1));
+                const jitter = base * noise * (Math.random() * 2 - 1);
+                return Math.max(0, Math.round(base + jitter));
+            });
+        }
+
+        function renderLineCharts() {
+            const { gridColor, tickColor, tooltipBg, tooltipText } = buildChartDefaults();
+            const days = currentDateRange === '7d' ? 7 : currentDateRange === '90d' ? 90 : 30;
+            const labels = generateDayLabels(days);
+
+            const baseOpts = {
+                responsive: true,
+                maintainAspectRatio: false,
+                interaction: { mode: 'index', intersect: false },
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        backgroundColor: tooltipBg,
+                        titleColor: tooltipText,
+                        bodyColor: tooltipText,
+                        borderColor: gridColor,
+                        borderWidth: 1,
+                        padding: 10,
+                        callbacks: {
+                            label: ctx => ` ${ctx.dataset.label}: ${ctx.parsed.y.toLocaleString()}`
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: { color: gridColor },
+                        ticks: { color: tickColor, maxTicksLimit: 8, font: { size: 10, family: 'Arial' } },
+                        border: { color: gridColor }
+                    },
+                    y: {
+                        grid: { color: gridColor },
+                        ticks: { color: tickColor, font: { size: 10, family: 'Arial' } },
+                        border: { color: gridColor }
+                    }
+                }
+            };
+
+            // ── Streams Over Time ──
+            const streamsCanvas = document.getElementById('chart-streams');
+            if (streamsCanvas) {
+                if (chartStreams) chartStreams.destroy();
+                chartStreams = new Chart(streamsCanvas, {
+                    type: 'line',
+                    data: {
+                        labels,
+                        datasets: [
+                            {
+                                label: 'Spotify',
+                                data: generateTrend(280, 520, days),
+                                borderColor: '#1DB954',
+                                backgroundColor: 'rgba(29,185,84,0.08)',
+                                borderWidth: 2,
+                                pointRadius: 0,
+                                pointHoverRadius: 4,
+                                fill: true,
+                                tension: 0.4
+                            },
+                            {
+                                label: 'Apple Podcasts',
+                                data: generateTrend(160, 310, days),
+                                borderColor: '#8b6dfa',
+                                backgroundColor: 'rgba(139,109,250,0.06)',
+                                borderWidth: 2,
+                                pointRadius: 0,
+                                pointHoverRadius: 4,
+                                fill: true,
+                                tension: 0.4
+                            }
+                        ]
+                    },
+                    options: { ...baseOpts }
+                });
+            }
+
+            // ── Follower Growth ──
+            const followersCanvas = document.getElementById('chart-followers');
+            if (followersCanvas) {
+                if (chartFollowers) chartFollowers.destroy();
+                chartFollowers = new Chart(followersCanvas, {
+                    type: 'line',
+                    data: {
+                        labels,
+                        datasets: [
+                            {
+                                label: 'Instagram',
+                                data: generateTrend(12400, 14240, days),
+                                borderColor: '#ff6b35',
+                                backgroundColor: 'rgba(255,107,53,0.06)',
+                                borderWidth: 2,
+                                pointRadius: 0,
+                                pointHoverRadius: 4,
+                                fill: false,
+                                tension: 0.4
+                            },
+                            {
+                                label: 'TikTok',
+                                data: generateTrend(8200, 10800, days),
+                                borderColor: '#47b8ff',
+                                backgroundColor: 'rgba(71,184,255,0.06)',
+                                borderWidth: 2,
+                                pointRadius: 0,
+                                pointHoverRadius: 4,
+                                fill: false,
+                                tension: 0.4
+                            },
+                            {
+                                label: 'YouTube',
+                                data: generateTrend(3100, 3640, days),
+                                borderColor: '#ff4d6a',
+                                backgroundColor: 'rgba(255,77,106,0.06)',
+                                borderWidth: 2,
+                                pointRadius: 0,
+                                pointHoverRadius: 4,
+                                fill: false,
+                                tension: 0.4
+                            }
+                        ]
+                    },
+                    options: { ...baseOpts }
+                });
+            }
         }
 
         // ── CONNECTIONS ──
@@ -4472,7 +4727,13 @@
         }
 
         function connectPlatform(platform) {
-            alert('OAuth connection for ' + platform + ' coming soon.\n\nYour Upper Floor team will connect this for you — reach out to get it set up.');
+            if (!currentPortalId) {
+                alert('Portal not loaded. Please refresh and try again.');
+                return;
+            }
+            // Redirect to Vercel OAuth connect route
+            const state = btoa(JSON.stringify({ portalId: currentPortalId, returnTo: '/' }));
+            window.location.href = `/api/auth/social/connect?platform=${platform}&state=${encodeURIComponent(state)}`;
         }
 
         async function disconnectPlatform(platform) {

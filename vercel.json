@@ -2,5 +2,10 @@
   "rewrites": [
     { "source": "/admin", "destination": "/hatch-admin.html" },
     { "source": "/", "destination": "/hatch-client-portal.html" }
-  ]
+  ],
+  "functions": {
+    "api/**/*.js": {
+      "runtime": "nodejs20.x"
+    }
+  }
 }
